@@ -37,13 +37,15 @@ export function initGsapAnimations() {
       .from('.table-stage__intro h2', { y: 22, opacity: 0, duration: 0.5 }, '<0.08')
       .from('.table-stage__hint', { y: 12, opacity: 0, duration: 0.4 }, '<0.12');
 
-    gsap.from('.hero__content > *', {
-      y: 28,
-      opacity: 0,
+    gsap.fromTo('.hero__content > *', {
+      y: 24
+    }, {
+      y: 0,
+      opacity: 1,
       stagger: 0.08,
       duration: 0.7,
       ease: 'power3.out',
-      scrollTrigger: { trigger: '#story', start: 'top 78%' }
+      scrollTrigger: { trigger: '#story', start: 'top 92%', toggleActions: 'play none none none' }
     });
 
     gsap.to('.scroll-hint span', {
@@ -65,22 +67,20 @@ export function initGsapAnimations() {
     });
 
     gsap.utils.toArray('.section-title').forEach((el) => {
-      const split = SplitText.create(el, { type: 'words' });
-      gsap.from(split.words, {
+      gsap.from(el, {
         y: 20,
         opacity: 0,
-        stagger: 0.04,
-        duration: 0.5,
+        duration: 0.55,
         ease: 'power2.out',
         scrollTrigger: { trigger: el, start: 'top 90%' }
       });
     });
 
     gsap.from('.about-media', {
-      x: -36,
-      opacity: 0,
+      x: -28,
       duration: 0.7,
-      scrollTrigger: { trigger: '#about', start: 'top 75%' }
+      ease: 'power2.out',
+      scrollTrigger: { trigger: '#about', start: 'top 80%' }
     });
 
     gsap.from('.reserve-form', {

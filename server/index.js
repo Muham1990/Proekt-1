@@ -68,6 +68,7 @@ async function main() {
 
   app.use('/vendor/three', express.static(path.join(ROOT, 'node_modules/three')));
   app.use('/vendor/gsap', express.static(path.join(ROOT, 'node_modules/gsap')));
+  app.use('/vendor/postprocessing', express.static(path.join(ROOT, 'node_modules/postprocessing')));
 
   app.use('/api', rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -103,6 +104,10 @@ async function main() {
       ok: true,
       name: 'PLOV TG API',
       db: store.driver,
+      email: {
+        resend: Boolean(process.env.RESEND_API_KEY),
+        supabase: Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY)
+      },
       time: new Date().toISOString()
     });
   });
@@ -129,13 +134,14 @@ async function main() {
     }
     try {
       const existing = await store.findGuest(email);
-      if (existing) {
-        res.json({ guest: existing, returning: true, emailSent: false });
-        return;
-      }
-      const guest = await store.createGuest(name, email);
+      const guest = existing || await store.createGuest(name, email);
       const mail = await sendWelcomeEmail(name, email);
-      res.status(201).json({ guest, returning: false, emailSent: mail.sent, emailVia: mail.via });
+      res.status(existing ? 200 : 201).json({
+        guest,
+        returning: Boolean(existing),
+        emailSent: mail.sent,
+        emailVia: mail.via
+      });
     } catch {
       res.status(500).json({ error: 'Не удалось сохранить гостя' });
     }
@@ -209,17 +215,22 @@ async function main() {
       });
     }
 
-    const orderNumber = await store.nextOrderNumber();
-    const orderId = await store.createOrder({
-      orderNumber, name, phone, email, address, date, time, comment: comment || null, total
-    }, prepared);
-    res.status(201).json({
-      id: orderId,
-      orderNumber,
-      total,
-      status: 'new',
-      message: 'Заказ принят и передан на кухню.'
-    });
+    try {
+      const orderNumber = await store.nextOrderNumber();
+      const orderId = await store.createOrder({
+        orderNumber, name, phone, email, address, date, time, comment: comment || null, total
+      }, prepared);
+      res.status(201).json({
+        id: orderId,
+        orderNumber,
+        total,
+        status: 'new',
+        message: 'Заказ принят и передан на кухню.'
+      });
+    } catch (err) {
+      console.warn('Order create:', err.message || err);
+      res.status(500).json({ error: 'Не удалось сохранить заказ. Попробуйте ещё раз.' });
+    }
   });
 
   app.get('/api/reviews', async (_req, res) => {
@@ -358,9 +369,18 @@ async function main() {
     res.json(updated);
   });
 
+  app.get('/favicon.ico', (_req, res) => {
+    res.redirect(301, '/favicon.svg');
+  });
+
   app.use(express.static(ROOT, {
     index: 'index.html',
-    extensions: ['html']
+    extensions: ['html'],
+    setHeaders(res, filePath) {
+      if (/\.(js|css)$/i.test(filePath)) {
+        res.setHeader('Cache-Control', 'no-cache');
+      }
+    }
   }));
 
   app.use((err, _req, res, _next) => {

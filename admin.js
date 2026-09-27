@@ -20,11 +20,29 @@ function esc(value) {
   }[ch]));
 }
 
+let pollTimer = null;
+
+function startPolling() {
+  stopPolling();
+  pollTimer = setInterval(() => {
+    if (dashView.classList.contains('hidden')) return;
+    loadAll().catch(() => {});
+  }, 12000);
+}
+
+function stopPolling() {
+  if (pollTimer) {
+    clearInterval(pollTimer);
+    pollTimer = null;
+  }
+}
+
 async function boot() {
   try {
     await apiGet('/api/admin/me');
     showDash();
     await loadAll();
+    startPolling();
   } catch {
     showLogin();
   }
@@ -40,6 +58,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     });
     showDash();
     await loadAll();
+    startPolling();
   } catch (err) {
     loginError.textContent = err.message;
   }
@@ -47,6 +66,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   try { await apiPost('/api/admin/logout', {}); } catch { /* ignore */ }
+  stopPolling();
   showLogin();
 });
 

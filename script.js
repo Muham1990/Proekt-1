@@ -149,7 +149,7 @@ const I18N = {
     hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик',
     c_years:'лет традиций', c_dishes:'блюд в меню', c_guests:'гостей в год', c_chefs:'поваров',
     table_eyebrow:'Наш дастархан', table_title:'Стол, за которым собирается вся Таджикская кухня',
-    table_hint:'Двигайте курсором и прокручивайте страницу — стол медленно поворачивается, открывая новые блюда',
+    table_hint:'Нажмите клош, чтобы открыть или закрыть. Затем нажмите на блюдо.',
     menu_eyebrow:'Меню ресторана', menu_title:'Настоящая таджикская кухня', search_ph:'Поиск блюд… (плов, манты, курутоб)',
     sort_default:'Сортировка', sort_price_asc:'Цена: по возрастанию', sort_price_desc:'Цена: по убыванию', sort_name:'По названию',
     cat_all:'Все', cat_main:'Основные', cat_soup:'Супы', cat_grill:'Гриль', cat_bakery:'Выпечка', cat_dessert:'Десерты', cat_drink:'Напитки',
@@ -164,7 +164,7 @@ const I18N = {
     chefs_eyebrow:'Наша команда', chefs_title:'Шеф-повара',
     chef1_role:'Главный шеф-повар · 22 года стажа', chef2_role:'Шеф-повар тандыра и гриля', chef3_role:'Кондитер · выпечка и десерты',
     gallery_eyebrow:'Атмосфера', gallery_title:'Фотогалерея ресторана',
-    g1:'Резной потолок ручной работы', g2:'Традиционный дастархан', g3:'Праздничный зал Навруз', g4:'Чайхана и VIP-зал',
+    g1:'Резной потолок ручной работы', g2:'Традиционный дастархан', g3:'Праздничный зал Навруз', g4:'Чайхана и VIP-зал', g5:'Главный зал',
     promo_eyebrow:'Акции', promo_title:'Специальные предложения',
     promo1_t:'Семейный дастархан', promo1_d:'Скидка 15% на плов и курутоб при заказе от 4 персон, каждое воскресенье.',
     promo2_badge:'Подарок', promo2_t:'Чакка в подарок', promo2_d:'При заказе шашлыка на мангале — чакка и фатир к столу бесплатно.',
@@ -204,7 +204,7 @@ const I18N = {
     hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table',
     c_years:'years of tradition', c_dishes:'dishes on the menu', c_guests:'guests a year', c_chefs:'chefs',
     table_eyebrow:'Our dastarkhan', table_title:'The table where all of Tajik cuisine gathers',
-    table_hint:'Move your cursor and scroll — the table slowly turns, revealing new dishes',
+    table_hint:'Tap the cloche to open or close it. Then tap the dish.',
     menu_eyebrow:'Restaurant menu', menu_title:'Authentic Tajik cuisine', search_ph:'Search dishes… (plov, manti, qurutob)',
     sort_default:'Sort', sort_price_asc:'Price: low to high', sort_price_desc:'Price: high to low', sort_name:'By name',
     cat_all:'All', cat_main:'Mains', cat_soup:'Soups', cat_grill:'Grill', cat_bakery:'Bakery', cat_dessert:'Desserts', cat_drink:'Drinks',
@@ -219,7 +219,7 @@ const I18N = {
     chefs_eyebrow:'Our team', chefs_title:'Head chefs',
     chef1_role:'Head chef · 22 years of experience', chef2_role:'Tandoor & grill chef', chef3_role:'Pastry chef · bakery and desserts',
     gallery_eyebrow:'Atmosphere', gallery_title:'Restaurant photo gallery',
-    g1:'Hand-carved ceiling', g2:'Traditional dastarkhan', g3:'Navruz festive hall', g4:'Teahouse and VIP hall',
+    g1:'Hand-carved ceiling', g2:'Traditional dastarkhan', g3:'Navruz festive hall', g4:'Teahouse and VIP hall', g5:'Main hall',
     promo_eyebrow:'Offers', promo_title:'Special offers',
     promo1_t:'Family dastarkhan', promo1_d:'15% off plov and qurutob for groups of 4+, every Sunday.',
     promo2_badge:'Gift', promo2_t:'Free chakka', promo2_d:'Order grilled shashlik and get chakka and fatir on the house.',
@@ -259,7 +259,7 @@ const I18N = {
     hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан',
     c_years:'соли анъана', c_dishes:'таом дар меню', c_guests:'меҳмон дар сол', c_chefs:'ошпаз',
     table_eyebrow:'Дастархони мо', table_title:'Дастархоне, ки тамоми таомҳои тоҷикӣ дар он ҷамъ мешаванд',
-    table_hint:'Курсорро ҳаракат диҳед ва саҳифаро ғеҷонед — дастархон оҳиста мегардад ва таомҳои нав пайдо мешаванд',
+    table_hint:'Клошро пахш кунед — боз ё пӯшида мешавад. Баъд таомро пахш кунед.',
     menu_eyebrow:'Менюи тарабхона', menu_title:'Таомҳои асили тоҷикӣ', search_ph:'Ҷустуҷӯи таом… (палов, манту, қурутоб)',
     sort_default:'Мураттабсозӣ', sort_price_asc:'Нарх: аз кам ба зиёд', sort_price_desc:'Нарх: аз зиёд ба кам', sort_name:'Аз рӯи ном',
     cat_all:'Ҳама', cat_main:'Асосӣ', cat_soup:'Шӯрбо', cat_grill:'Гриль', cat_bakery:'Нонворӣ', cat_dessert:'Ширинӣ', cat_drink:'Нӯшокӣ',
@@ -274,7 +274,7 @@ const I18N = {
     chefs_eyebrow:'Дастаи мо', chefs_title:'Ошпазони бузург',
     chef1_role:'Ошпази бузург · 22 соли таҷриба', chef2_role:'Ошпази танӯр ва гриль', chef3_role:'Қаннод · нонворӣ ва ширинӣ',
     gallery_eyebrow:'Фазо', gallery_title:'Галереяи расмҳои тарабхона',
-    g1:'Шифти кандакории дастӣ', g2:'Дастархони анъанавӣ', g3:'Толори ҷашнии Наврӯз', g4:'Чойхона ва толори VIP',
+    g1:'Шифти кандакории дастӣ', g2:'Дастархони анъанавӣ', g3:'Толори ҷашнии Наврӯз', g4:'Чойхона ва толори VIP', g5:'Толори асосӣ',
     promo_eyebrow:'Аксия', promo_title:'Пешниҳодҳои махсус',
     promo1_t:'Дастархони оилавӣ', promo1_d:'15% тахфиф ба палов ва қурутоб барои 4 нафар ва зиёд, ҳар якшанбе.',
     promo2_badge:'Тӯҳфа', promo2_t:'Чакка ҳамчун тӯҳфа', promo2_d:'Ҳангоми фармоиши шашлик — чакка ва фатир ройгон.',
@@ -350,18 +350,36 @@ function showWelcome(){
   }, 1000);
 }
 
-function openRegistrationOrGreet(){
-  const saved = localStorage.getItem('plovtg_user');
-  if(saved){
-    // returning guest — no need to register again
-    return;
-  }
-  document.getElementById('regModal').classList.add('open');
+function openRegModal(){
+  const modal = document.getElementById('regModal');
+  if(!modal) return;
+  modal.classList.add('open');
   document.body.classList.add('no-scroll');
 }
 
+function closeRegModal(){
+  const modal = document.getElementById('regModal');
+  if(!modal) return;
+  modal.classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
+
+function openRegistrationOrGreet(){
+  const saved = localStorage.getItem('plovtg_user');
+  if(saved){
+    return;
+  }
+  openRegModal();
+}
+
 function initRegistration(){
+  document.getElementById('regBtn')?.addEventListener('click', openRegModal);
+  document.getElementById('regClose')?.addEventListener('click', closeRegModal);
+  document.getElementById('regModal')?.addEventListener('click', (e)=>{
+    if(e.target.id === 'regModal') closeRegModal();
+  });
   const form = document.getElementById('regForm');
+  if(!form) return;
   form.addEventListener('submit', async e=>{
     e.preventDefault();
     const nameField = form.querySelector('#regName').closest('.field');
@@ -381,9 +399,12 @@ function initRegistration(){
         err.textContent = 'Письмо отправлено на почту. Проверьте inbox.';
         err.classList.add('show', 'form-ok');
         await new Promise((resolve) => setTimeout(resolve, 900));
+      } else {
+        err.textContent = 'Регистрация прошла. Письмо не отправилось — нужен RESEND_API_KEY.';
+        err.classList.add('show');
+        await new Promise((resolve) => setTimeout(resolve, 1200));
       }
-      document.getElementById('regModal').classList.remove('open');
-      document.body.classList.remove('no-scroll');
+      closeRegModal();
     }catch(ex){
       err.textContent = ex.message;
       err.classList.add('show');
@@ -874,6 +895,7 @@ const isName = v => v.length >= 2;
 const isPhone = v => /^[+\d][\d\s\-()]{6,}$/.test(v);
 const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const notEmpty = v => v.length > 0;
+const isAddress = v => v.length >= 4;
 const isFutureDate = v => { if(!v) return false; const d = new Date(v+'T00:00:00'); const today = new Date(); today.setHours(0,0,0,0); return d >= today; };
 const isGuests = v => { const n = Number(v); return n>=1 && n<=50; };
 
@@ -965,7 +987,7 @@ function initOrderForm(){
     const okName = validateField(document.getElementById('orderName'), isName);
     const okPhone = validateField(document.getElementById('orderPhone'), isPhone);
     const okEmail = validateField(document.getElementById('orderEmail'), isEmail);
-    const okAddress = validateField(document.getElementById('orderAddress'), notEmpty);
+    const okAddress = validateField(document.getElementById('orderAddress'), isAddress);
     const okDate = validateField(document.getElementById('orderDate'), isFutureDate);
     const okTime = validateField(document.getElementById('orderTime'), notEmpty);
     if(!(okName && okPhone && okEmail && okAddress && okDate && okTime)) return;
@@ -1020,6 +1042,7 @@ function initTheme(){
   btn.addEventListener('click', ()=>{
     document.documentElement.classList.toggle('theme-light');
     localStorage.setItem('plovtg_theme', document.documentElement.classList.contains('theme-light') ? 'light' : 'dark');
+    window.dispatchEvent(new Event('plovtg-theme'));
   });
 }
 
@@ -1116,7 +1139,7 @@ function initCounters(){
       requestAnimationFrame(tick);
       io.unobserve(el);
     });
-  }, { threshold:.5 });
+  }, { threshold: 0.12, rootMargin: '80px 0px' });
   counters.forEach(c=> io.observe(c));
 }
 
@@ -1175,7 +1198,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   initMagnetic();
   applyI18n();
   try {
-    const tableMod = await import('./table3d.js');
+    const tableMod = await import('./table3d.js?v=cloche3');
     await tableMod.initDastarkhan();
     const animMod = await import('./animations.js');
     animMod.initGsapAnimations();
