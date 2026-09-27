@@ -364,10 +364,36 @@ export async function initDastarkhan() {
     });
   });
 
+  const ACCIDENTAL_MS = 5000;
+  const AFTER_LOOK_MS = 7500;
+  let hovered = null;
+
+  function clearCloseTimer(group) {
+    if (group.userData.closeTimer) {
+      clearTimeout(group.userData.closeTimer);
+      group.userData.closeTimer = 0;
+    }
+  }
+
+  function scheduleClose(group, delay) {
+    clearCloseTimer(group);
+    if (!group.userData.opened || group.userData.viewingInfo) return;
+    group.userData.closeTimer = setTimeout(() => {
+      group.userData.closeTimer = 0;
+      if (!group.userData.opened || group.userData.viewingInfo || hovered === group) return;
+      setClocheOpen(group, false);
+    }, delay);
+  }
+
   function setClocheOpen(group, open) {
     const cloche = group.userData.cloche;
     if (!cloche) return;
     group.userData.opened = open;
+    if (!open) {
+      clearCloseTimer(group);
+      group.userData.viewingInfo = false;
+      group.userData.seen = false;
+    }
     const mat = cloche.userData.glassMat;
     gsap.to(cloche.position, {
       y: open ? 0.62 : 0.02,
@@ -406,6 +432,11 @@ export async function initDastarkhan() {
       liner.visible = !open;
       liner.raycast = open ? () => {} : THREE.Mesh.prototype.raycast;
     }
+    if (open) {
+      group.userData.seen = false;
+      group.userData.viewingInfo = false;
+      scheduleClose(group, ACCIDENTAL_MS);
+    }
   }
 
   function hitIsCloche(obj) {
@@ -440,7 +471,6 @@ export async function initDastarkhan() {
 
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
-  let hovered = null;
   let autoRot = 0;
   let dragRot = 0;
   let dragging = false;
@@ -473,34 +503,25 @@ export async function initDastarkhan() {
     return data.name?.[lang] || data.name?.ru || '';
   }
 
-  wrap.addEventListener('pointerdown', (event) => {
-    dragging = true;
-    dragDelta = 0;
-    lastX = event.clientX;
-    wrap.setPointerCapture(event.pointerId);
-  });
-  wrap.addEventListener('pointerup', () => { dragging = false; });
-  wrap.addEventListener('pointercancel', () => { dragging = false; });
+  let pressX = 0;
+  let pressY = 0;
 
-  wrap.addEventListener('pointermove', (event) => {
-    if (dragging) {
-      const dx = event.clientX - lastX;
-      dragRot += dx * 0.005;
-      dragDelta += Math.abs(dx);
-      lastX = event.clientX;
-      return;
-    }
-    setPointer(event);
-    raycaster.setFromCamera(pointer, camera);
-    const hit = raycaster.intersectObjects(dishPick, true)[0];
-    const next = findDishGroup(hit?.object);
+  function setHover(next) {
     if (hovered === next) return;
     if (hovered) {
       gsap.to(hovered.position, { y: hovered.userData.baseY, duration: 0.4, ease: 'power3.out' });
+      if (hovered.userData.opened && !hovered.userData.viewingInfo) {
+        scheduleClose(hovered, hovered.userData.seen ? AFTER_LOOK_MS : ACCIDENTAL_MS);
+      }
     }
     hovered = next;
+    canvas.style.cursor = hovered ? 'pointer' : 'grab';
     if (hovered) {
       gsap.to(hovered.position, { y: hovered.userData.baseY + 0.12, duration: 0.4, ease: 'power3.out' });
+      if (hovered.userData.opened) {
+        hovered.userData.seen = true;
+        clearCloseTimer(hovered);
+      }
       if (caption) {
         caption.textContent = dishName(hovered.userData);
         caption.classList.add('show');
@@ -508,21 +529,33 @@ export async function initDastarkhan() {
     } else if (caption) {
       caption.classList.remove('show');
     }
-  });
+  }
 
-  wrap.addEventListener('pointerleave', () => {
-    dragging = false;
-    if (hovered) gsap.to(hovered.position, { y: hovered.userData.baseY, duration: 0.4, ease: 'power3.out' });
-    hovered = null;
-    caption?.classList.remove('show');
-  });
-
-  wrap.addEventListener('click', (event) => {
-    if (dragDelta > 22) return;
+  function pickFromEvent(event) {
     setPointer(event);
     raycaster.setFromCamera(pointer, camera);
     const hits = raycaster.intersectObjects(dishPick, true);
-    const group = findDishGroup(hits[0]?.object);
+    let group = findDishGroup(hits[0]?.object);
+    if (group) return { group, hits };
+    const rect = canvas.getBoundingClientRect();
+    let best = null;
+    let bestD = 72;
+    dishPick.forEach((item) => {
+      const world = item.getWorldPosition(new THREE.Vector3());
+      world.project(camera);
+      const sx = (world.x * 0.5 + 0.5) * rect.width + rect.left;
+      const sy = (-world.y * 0.5 + 0.5) * rect.height + rect.top;
+      const dist = Math.hypot(event.clientX - sx, event.clientY - sy);
+      if (dist < bestD) {
+        bestD = dist;
+        best = item;
+      }
+    });
+    return { group: best, hits };
+  }
+
+  function handleTap(event) {
+    const { group, hits } = pickFromEvent(event);
     if (!group) return;
     if (!group.userData.opened) {
       setClocheOpen(group, true);
@@ -532,14 +565,69 @@ export async function initDastarkhan() {
       const owner = findDishGroup(item.object);
       return owner === group && !hitIsCloche(item.object);
     });
-    if (foodHit && typeof window.openDishHistoryModal === 'function') {
+    const clocheHit = hits.some((item) => findDishGroup(item.object) === group && hitIsCloche(item.object));
+    if ((foodHit || !clocheHit) && typeof window.openDishHistoryModal === 'function') {
+      group.userData.seen = true;
+      group.userData.viewingInfo = true;
+      clearCloseTimer(group);
       window.openDishHistoryModal(group.userData.id);
       return;
     }
-    if (hits.some((item) => findDishGroup(item.object) === group && hitIsCloche(item.object))) {
-      setClocheOpen(group, false);
-    }
+    setClocheOpen(group, false);
+  }
+
+  wrap.addEventListener('pointerdown', (event) => {
+    dragging = false;
+    dragDelta = 0;
+    pressX = lastX = event.clientX;
+    pressY = event.clientY;
   });
+  wrap.addEventListener('pointerup', (event) => {
+    const moved = Math.hypot(event.clientX - pressX, event.clientY - pressY);
+    if (!dragging && moved <= 18) handleTap(event);
+    dragging = false;
+  });
+  wrap.addEventListener('pointercancel', () => { dragging = false; });
+
+  wrap.addEventListener('pointermove', (event) => {
+    const pressed = event.buttons > 0 || event.pointerType === 'touch';
+    if (pressed) {
+      const moved = Math.hypot(event.clientX - pressX, event.clientY - pressY);
+      if (moved > 12) {
+        if (!dragging) {
+          dragging = true;
+          wrap.setPointerCapture(event.pointerId);
+        }
+        dragRot += (event.clientX - lastX) * 0.005;
+        lastX = event.clientX;
+        dragDelta = moved;
+      }
+      return;
+    }
+    setPointer(event);
+    raycaster.setFromCamera(pointer, camera);
+    setHover(findDishGroup(raycaster.intersectObjects(dishPick, true)[0]?.object));
+  });
+
+  wrap.addEventListener('pointerleave', () => {
+    dragging = false;
+    setHover(null);
+  });
+
+  const dishModal = document.getElementById('dishModal');
+  if (dishModal) {
+    const watchModal = new MutationObserver(() => {
+      if (dishModal.classList.contains('open')) return;
+      dishPick.forEach((group) => {
+        if (!group.userData.viewingInfo) return;
+        group.userData.viewingInfo = false;
+        if (group.userData.opened && hovered !== group) {
+          scheduleClose(group, AFTER_LOOK_MS);
+        }
+      });
+    });
+    watchModal.observe(dishModal, { attributes: true, attributeFilter: ['class'] });
+  }
 
   const scrollRoot = document.getElementById('tableScroll');
   function scrollSpin() {

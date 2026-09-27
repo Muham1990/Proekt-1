@@ -150,7 +150,7 @@ const I18N = {
     hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик',
     c_years:'лет традиций', c_dishes:'блюд в меню', c_guests:'гостей в год', c_chefs:'поваров',
     table_eyebrow:'Наш дастархан', table_title:'Стол, за которым собирается вся Таджикская кухня',
-    table_hint:'Нажмите клош, чтобы открыть или закрыть. Затем нажмите на блюдо.',
+    table_hint:'Нажмите клош, чтобы открыть или закрыть. Если отойдёте — крышка закроется сама. Нажмите на блюдо, чтобы увидеть историю.',
     menu_eyebrow:'Меню ресторана', menu_title:'Настоящая таджикская кухня', search_ph:'Поиск блюд… (плов, манты, курутоб)',
     sort_default:'Сортировка', sort_price_asc:'Цена: по возрастанию', sort_price_desc:'Цена: по убыванию', sort_name:'По названию',
     cat_all:'Все', cat_main:'Основные', cat_soup:'Супы', cat_grill:'Гриль', cat_bakery:'Выпечка', cat_dessert:'Десерты', cat_drink:'Напитки',
@@ -206,7 +206,7 @@ const I18N = {
     hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table',
     c_years:'years of tradition', c_dishes:'dishes on the menu', c_guests:'guests a year', c_chefs:'chefs',
     table_eyebrow:'Our dastarkhan', table_title:'The table where all of Tajik cuisine gathers',
-    table_hint:'Tap the cloche to open or close it. Then tap the dish.',
+    table_hint:'Tap the cloche to open or close it. It closes by itself if you look away. Tap the dish for its story.',
     menu_eyebrow:'Restaurant menu', menu_title:'Authentic Tajik cuisine', search_ph:'Search dishes… (plov, manti, qurutob)',
     sort_default:'Sort', sort_price_asc:'Price: low to high', sort_price_desc:'Price: high to low', sort_name:'By name',
     cat_all:'All', cat_main:'Mains', cat_soup:'Soups', cat_grill:'Grill', cat_bakery:'Bakery', cat_dessert:'Desserts', cat_drink:'Drinks',
@@ -262,7 +262,7 @@ const I18N = {
     hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан',
     c_years:'соли анъана', c_dishes:'таом дар меню', c_guests:'меҳмон дар сол', c_chefs:'ошпаз',
     table_eyebrow:'Дастархони мо', table_title:'Дастархоне, ки тамоми таомҳои тоҷикӣ дар он ҷамъ мешаванд',
-    table_hint:'Клошро пахш кунед — боз ё пӯшида мешавад. Баъд таомро пахш кунед.',
+    table_hint:'Клошро пахш кунед — боз ё пӯшида мешавад. Агар наравед, худ пӯшида мешавад. Таомро пахш кунед — ҳикоя мебарояд.',
     menu_eyebrow:'Менюи тарабхона', menu_title:'Таомҳои асили тоҷикӣ', search_ph:'Ҷустуҷӯи таом… (палов, манту, қурутоб)',
     sort_default:'Мураттабсозӣ', sort_price_asc:'Нарх: аз кам ба зиёд', sort_price_desc:'Нарх: аз зиёд ба кам', sort_name:'Аз рӯи ном',
     cat_all:'Ҳама', cat_main:'Асосӣ', cat_soup:'Шӯрбо', cat_grill:'Гриль', cat_bakery:'Нонворӣ', cat_dessert:'Ширинӣ', cat_drink:'Нӯшокӣ',
@@ -1201,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   initMagnetic();
   applyI18n();
   try {
-    const tableMod = await import('./table3d.js?v=suzani2');
+    const tableMod = await import('./table3d.js?v=tapfix');
     await tableMod.initDastarkhan();
     const animMod = await import('./animations.js');
     animMod.initGsapAnimations();
