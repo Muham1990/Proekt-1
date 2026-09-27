@@ -114,7 +114,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 ============================================================ */
 .loader{
   position:fixed; inset:0; z-index:9999; background:radial-gradient(circle at 50% 40%, #14100a 0%, #060402 75%);
-  display:flex; align-items:center; justify-content:center; transition:opacity .9s var(--ease), visibility .9s;
+  display:flex; align-items:center; justify-content:center; transition:opacity .28s var(--ease), visibility .28s;
 }
 .loader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
 .loader__canvas{ position:absolute; inset:0; width:100%; height:100%; }
@@ -123,9 +123,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   animation:smokeShift 6s ease-in-out infinite alternate;
 }
 @keyframes smokeShift{ from{ transform:translateY(0) scale(1);} to{ transform:translateY(-20px) scale(1.06);} }
-.loader__content{ position:relative; text-align:center; animation:logoRise 1.8s var(--ease) both; }
+.loader__content{ position:relative; text-align:center; animation:logoRise .4s var(--ease) both; }
 @keyframes logoRise{ from{ opacity:0; transform:translateY(24px) scale(.92); filter:blur(6px);} to{ opacity:1; transform:none; filter:blur(0);} }
-.loader__ring{ stroke-dasharray:580; stroke-dashoffset:580; animation:ringDraw 2.4s var(--ease) forwards; filter:drop-shadow(0 0 8px rgba(217,181,106,.5)); }
+.loader__ring{ stroke-dasharray:580; stroke-dashoffset:580; animation:ringDraw .45s var(--ease) forwards; filter:drop-shadow(0 0 8px rgba(217,181,106,.5)); }
 @keyframes ringDraw{ to{ stroke-dashoffset:0; } }
 .loader__logo-text{ font-family:var(--font-display); font-size:34px; fill:var(--gold-light); letter-spacing:.12em; }
 .loader__logo-text--sm{ font-size:20px; fill:var(--gold); }
@@ -138,7 +138,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 ============================================================ */
 .welcome{
   position:fixed; inset:0; z-index:9998; display:flex; align-items:center; justify-content:center;
-  background:#050302; opacity:0; visibility:hidden; transition:opacity 1s var(--ease), visibility 1s;
+  background:#050302; opacity:0; visibility:hidden; transition:opacity .25s var(--ease), visibility .25s;
   text-align:center; padding:0 20px;
 }
 .welcome.show{ opacity:1; visibility:visible; }
@@ -149,7 +149,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   -webkit-background-clip:text; background-clip:text; color:transparent;
   opacity:0; transform:translateY(30px) scale(.94); filter:blur(10px);
 }
-.welcome.show .welcome__title{ animation:cineIn 2.4s var(--ease) forwards; }
+.welcome.show .welcome__title{ animation:cineIn .7s var(--ease) forwards; }
 @keyframes cineIn{ 40%{ opacity:1; transform:translateY(0) scale(1); filter:blur(0);} 100%{ opacity:1; transform:translateY(0) scale(1); filter:blur(0);} }
 .welcome__title span{ font-family:var(--font-italic); font-style:italic; }
 
@@ -273,7 +273,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    HERO
 ============================================================ */
 .hero{ position:relative; min-height:100vh; display:flex; align-items:center; padding-top:120px; overflow:hidden; }
-.hero__canvas{ position:absolute; inset:0; width:100%; height:100%; opacity:.85; }
+.hero__photo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(1.05) brightness(.55); }
+.hero__canvas{ position:absolute; inset:0; width:100%; height:100%; opacity:.45; }
 .hero__vignette{
   position:absolute; inset:0;
   background:radial-gradient(ellipse at 50% 30%, transparent 0%, rgba(6,4,2,.4) 55%, var(--black) 100%),
@@ -301,23 +302,25 @@ html.gsap-on [data-reveal]{ opacity:1; transform:none; filter:none; }
 /* ============================================================
    TABLE SHOWCASE — REDESIGNED (fixed positioning, larger dishes)
 ============================================================ */
-.table-section{ position:relative; background:linear-gradient(180deg, var(--black), var(--black-2) 40%, var(--black)); }
-.table-scroll{ height:280vh; position:relative; }
+.table-section{ position:relative; background:transparent; }
+.table-scroll{ height:140vh; position:relative; }
 .table-stage{
-  position:sticky; top:0; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  overflow:hidden; padding-top:40px;
+  position:sticky; top:0; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  overflow:hidden; padding:0;
 }
-.table-stage__intro{ text-align:center; max-width:640px; margin-bottom:16px; z-index:3; position:relative; }
-.table-stage__intro h2{ font-size:clamp(1.6rem,3.2vw,2.4rem); }
+.table-stage__intro{
+  text-align:center; max-width:720px; z-index:3; position:absolute; top:88px; left:50%; transform:translateX(-50%);
+  pointer-events:none; padding:0 16px;
+}
+.table-stage__intro h2{ font-size:clamp(1.6rem,3.2vw,2.6rem); }
+.table-stage__hint{ position:absolute; bottom:28px; z-index:3; pointer-events:none; margin-top:0; }
 
 .table-perspective{
-  position:relative; width:min(980px,94vw); height:min(78vh,820px); min-height:560px; margin-top:10px;
-  border-radius:28px; overflow:hidden;
-  background:
-    radial-gradient(ellipse at 50% 40%, rgba(217,181,106,.12), transparent 55%),
-    linear-gradient(180deg, #14100a, #070503);
-  border:1px solid var(--line);
-  box-shadow:0 40px 80px rgba(0,0,0,.45);
+  position:absolute; inset:0; width:100%; height:100vh; min-height:100%; margin:0;
+  border-radius:0; overflow:hidden;
+  background:transparent;
+  border:none;
+  box-shadow:none;
 }
 #dastarkhanCanvas{ width:100%; height:100%; display:block; cursor:grab; }
 #dastarkhanCanvas:active{ cursor:grabbing; }
@@ -484,8 +487,8 @@ html.gsap-on [data-reveal]{ opacity:1; transform:none; filter:none; }
 }
 
 @media (max-width:760px){
-  .table-scroll{ height:240vh; }
-  .table-perspective{ height:50vh; }
+  .table-scroll{ height:130vh; }
+  .table-perspective{ height:100vh; }
   .dish-node__inner{ width:22%; }
   .dish-label{ font-size:.65rem; padding:4px 10px; bottom:-24px; }
 }

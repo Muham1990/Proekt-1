@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PLOV TG — Элитный ресторан таджикской кухни</title>
 <meta name="description" content="PLOV TG — ресторан таджикской кухни премиум-класса в Душанбе. Плов, манты, курутоб, шашлык и другие блюда национальной кухни.">
-<link rel="preconnect" href="https://commons.wikimedia.org">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -71,7 +70,7 @@
     </a>
     <nav class="main-nav" id="mainNav">
       <a href="#home" data-i18n="nav_home">Главная</a>
-      <a href="#table" data-i18n="nav_table">Дастархан</a>
+      <a href="#home" data-i18n="nav_table">Дастархан</a>
       <a href="#menu" data-i18n="nav_menu">Меню</a>
       <a href="#about" data-i18n="nav_about">О нас</a>
       <a href="#chefs" data-i18n="nav_chefs">Повара</a>
@@ -104,8 +103,26 @@
   </div>
 </header>
 
+<!-- ================= 3D TABLE FIRST ================= -->
+<section class="table-section" id="home">
+  <div class="table-scroll" id="tableScroll">
+    <div class="table-stage" id="tableStage">
+      <div class="table-stage__intro" data-reveal>
+        <p class="eyebrow" data-i18n="table_eyebrow">Наш дастархан</p>
+        <h2 data-i18n="table_title">Стол, за которым собирается вся Таджикская кухня</h2>
+      </div>
+      <div class="table-perspective" id="tablePerspective">
+        <canvas id="dastarkhanCanvas"></canvas>
+        <div class="table-caption" id="tableCaption"></div>
+      </div>
+      <p class="table-stage__hint" data-i18n="table_hint">Крутите стол скроллом и нажимайте на блюдо — откроется его история.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ================= HERO ================= -->
-<section class="hero" id="home">
+<section class="hero" id="story">
+  <img class="hero__photo" src="/images/resto-interior.jpg" alt="Чайхана PLOV TG">
   <canvas id="heroCanvas" class="hero__canvas"></canvas>
   <div class="hero__vignette"></div>
   <div class="hero__content container">
@@ -128,24 +145,6 @@
     </div>
   </div>
   <div class="scroll-hint"><span></span></div>
-</section>
-
-<!-- ================= 3D ROTATING TABLE (SIGNATURE) ================= -->
-<!-- ================= 3D ROTATING TABLE (SIGNATURE) ================= -->
-<section class="table-section" id="table">
-  <div class="table-scroll" id="tableScroll">
-    <div class="table-stage" id="tableStage">
-      <div class="table-stage__intro" data-reveal>
-        <p class="eyebrow" data-i18n="table_eyebrow">Наш дастархан</p>
-        <h2 data-i18n="table_title">Стол, за которым собирается вся Таджикская кухня</h2>
-      </div>
-      <div class="table-perspective" id="tablePerspective">
-        <canvas id="dastarkhanCanvas"></canvas>
-        <div class="table-caption" id="tableCaption"></div>
-      </div>
-      <p class="table-stage__hint" data-i18n="table_hint">Крутите стол скроллом и нажимайте на блюдо — откроется его история.</p>
-    </div>
-  </div>
 </section>
 
 <!-- ================= MENU ================= -->
@@ -186,7 +185,7 @@
 <section class="about-section" id="about">
   <div class="container about-grid">
     <div class="about-media" data-reveal>
-      <img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Essen%20in%20der%20Tadshikischen%20Teestube%20im%20Kunsthof.jpg?width=900" alt="Традиционная таджикская чайхана">
+      <img loading="lazy" src="/images/resto-interior.jpg" alt="Традиционная таджикская чайхана">
       <div class="about-media__frame"></div>
     </div>
     <div class="about-text">
@@ -246,10 +245,10 @@
     <p class="eyebrow center" data-i18n="gallery_eyebrow">Атмосфера</p>
     <h2 class="section-title center" data-i18n="gallery_title">Фотогалерея ресторана</h2>
     <div class="gallery-grid">
-      <div class="gallery-item span2" data-reveal><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Boulder%20Dushanbe%20teahouse%20ceiling.jpg?width=1000" alt="Резной расписной потолок в таджикском стиле"><span data-i18n="g1">Резной потолок ручной работы</span></div>
-      <div class="gallery-item" data-reveal><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tajik%20dastarkhan%20meal.jpg?width=800" alt="Традиционный таджикский дастархан"><span data-i18n="g2">Традиционный дастархан</span></div>
-      <div class="gallery-item" data-reveal><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Navruz%20table%20in%20Tajikistan.JPG?width=800" alt="Праздничный стол Навруз"><span data-i18n="g3">Праздничный зал Навруз</span></div>
-      <div class="gallery-item span2" data-reveal><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Essen%20in%20der%20Tadshikischen%20Teestube%20im%20Kunsthof.jpg?width=1000" alt="Чайхана в таджикском стиле"><span data-i18n="g4">Чайхана и VIP-зал</span></div>
+      <div class="gallery-item span2" data-reveal><img loading="lazy" src="/images/resto-ceiling.jpg" alt="Резной расписной потолок в таджикском стиле"><span data-i18n="g1">Резной потолок ручной работы</span></div>
+      <div class="gallery-item" data-reveal><img loading="lazy" src="/images/resto-dastarkhan.jpg" alt="Традиционный таджикский дастархан"><span data-i18n="g2">Традиционный дастархан</span></div>
+      <div class="gallery-item" data-reveal><img loading="lazy" src="/images/resto-navruz.jpg" alt="Праздничный стол Навруз"><span data-i18n="g3">Праздничный зал Навруз</span></div>
+      <div class="gallery-item span2" data-reveal><img loading="lazy" src="/images/resto-vip.jpg" alt="Чайхана в таджикском стиле"><span data-i18n="g4">Чайхана и VIP-зал</span></div>
     </div>
   </div>
 </section>
@@ -390,7 +389,7 @@
         <p data-i18n="news2_d">Приглашаем на мастер-класс от шеф-повара Усмона Алиева — научитесь готовить настоящий таджикский плов.</p>
       </div>
       <div class="news-card" data-reveal>
-        <img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Boulder%20Dushanbe%20teahouse%20ceiling.jpg?width=700" alt="Расширение VIP-зала">
+        <img loading="lazy" src="/images/resto-vip.jpg" alt="Расширение VIP-зала">
         <span class="news-card__date">5 января 2026</span>
         <h3 data-i18n="news3_t">Расширение VIP-зала</h3>
         <p data-i18n="news3_d">Открыли новый VIP-зал с резными колоннами для торжеств и переговоров.</p>
@@ -518,7 +517,9 @@
     "three": "/vendor/three/build/three.module.js",
     "three/addons/": "/vendor/three/examples/jsm/",
     "gsap": "/vendor/gsap/index.js",
-    "gsap/ScrollTrigger": "/vendor/gsap/ScrollTrigger.js"
+    "gsap/ScrollTrigger": "/vendor/gsap/ScrollTrigger.js",
+    "gsap/ScrollToPlugin": "/vendor/gsap/ScrollToPlugin.js",
+    "gsap/SplitText": "/vendor/gsap/SplitText.js"
   }
 }
 </script>

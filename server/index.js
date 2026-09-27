@@ -6,6 +6,7 @@ const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { createStore } = require('./store');
+const { sendWelcomeEmail } = require('./email');
 const {
   verifyPassword,
   createToken,
@@ -90,6 +91,13 @@ async function main() {
     res.status(403).json({ error: 'Forbidden' });
   });
 
+  app.get('/api/config', (_req, res) => {
+    res.json({
+      supabaseUrl: process.env.SUPABASE_URL || '',
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY || ''
+    });
+  });
+
   app.get('/api/health', (_req, res) => {
     res.json({
       ok: true,
@@ -122,11 +130,12 @@ async function main() {
     try {
       const existing = await store.findGuest(email);
       if (existing) {
-        res.json({ guest: existing, returning: true });
+        res.json({ guest: existing, returning: true, emailSent: false });
         return;
       }
       const guest = await store.createGuest(name, email);
-      res.status(201).json({ guest, returning: false });
+      const mail = await sendWelcomeEmail(name, email);
+      res.status(201).json({ guest, returning: false, emailSent: mail.sent, emailVia: mail.via });
     } catch {
       res.status(500).json({ error: 'Не удалось сохранить гостя' });
     }

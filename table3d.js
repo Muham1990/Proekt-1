@@ -1,7 +1,16 @@
 import * as THREE from 'three';
 import { gsap } from 'gsap';
+import { buildDishModel } from './dishes3d.js';
 
 const WOOD_URL = 'https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=1600&q=80';
+
+function findDishGroup(obj) {
+  while (obj) {
+    if (obj.userData?.id) return obj;
+    obj = obj.parent;
+  }
+  return null;
+}
 
 function loadTexture(url) {
   return new Promise((resolve) => {
@@ -27,11 +36,10 @@ export async function initDastarkhan() {
   if (!canvas || !wrap || !window.DISHES?.length) return;
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x0a0806, 14, 32);
 
-  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 80);
-  camera.position.set(0, 4.35, 8.4);
-  camera.lookAt(0, 0.72, 0);
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 80);
+  camera.position.set(0, 5.1, 7.6);
+  camera.lookAt(0, 0.35, 0);
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -115,73 +123,26 @@ export async function initDastarkhan() {
   const count = window.DISHES.length;
   const radius = 2.55;
 
-  await Promise.all(window.DISHES.map(async (dish, i) => {
+  window.DISHES.forEach((dish, i) => {
     const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
     const group = new THREE.Group();
-    group.position.set(Math.cos(angle) * radius, 0.28, Math.sin(angle) * radius);
-    group.userData = { id: dish.id, baseY: 0.28, name: dish.name };
+    group.position.set(Math.cos(angle) * radius, 0.2, Math.sin(angle) * radius);
+    group.userData = { id: dish.id, baseY: 0.2, name: dish.name };
 
-    const plate = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.74, 0.82, 0.08, 40),
-      new THREE.MeshStandardMaterial({ color: 0xf3ead9, roughness: 0.35, metalness: 0.15 })
-    );
-    plate.castShadow = true;
-    group.add(plate);
-
-    const goldEdge = new THREE.Mesh(
-      new THREE.TorusGeometry(0.78, 0.028, 10, 40),
-      new THREE.MeshStandardMaterial({ color: 0xd9b56a, metalness: 0.8, roughness: 0.25 })
-    );
-    goldEdge.rotation.x = Math.PI / 2;
-    goldEdge.position.y = 0.045;
-    group.add(goldEdge);
-
-    const foodTex = dish.img ? await loadTexture(dish.img) : null;
-    const foodMat = new THREE.MeshStandardMaterial({
-      color: foodTex ? 0xffffff : 0x8a5a2c,
-      map: foodTex,
-      roughness: 0.48,
-      metalness: 0.04
-    });
-
-    const cat = dish.cat;
-    let food;
-    if (cat === 'drink') {
-      food = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.26, 0.82, 28), foodMat);
-      food.position.y = 0.5;
-    } else if (cat === 'grill') {
-      food = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.68, 10, 20), foodMat);
-      food.rotation.z = Math.PI / 2;
-      food.position.y = 0.32;
-    } else if (cat === 'bakery') {
-      food = new THREE.Mesh(
-        new THREE.SphereGeometry(0.48, 40, 24, 0, Math.PI * 2, 0, Math.PI / 1.65),
-        foodMat
-      );
-      food.position.y = 0.06;
-      food.scale.set(1, 1.28, 1);
-    } else {
-      food = new THREE.Mesh(
-        new THREE.SphereGeometry(0.56, 48, 28, 0, Math.PI * 2, 0, Math.PI / 1.68),
-        foodMat
-      );
-      food.position.y = 0.06;
-      food.scale.set(1, 1.62, 1);
-    }
-    food.castShadow = true;
+    const food = buildDishModel(dish.id);
+    food.userData = group.userData;
     group.add(food);
 
     tableGroup.add(group);
-    dishPick.push(plate, food, goldEdge);
-    plate.userData = food.userData = goldEdge.userData = group.userData;
+    dishPick.push(group);
     group.scale.set(0.01, 0.01, 0.01);
     gsap.to(group.scale, {
       x: 1, y: 1, z: 1,
-      delay: 0.12 * i,
-      duration: 0.8,
-      ease: 'back.out(1.6)'
+      delay: 0.05 * i,
+      duration: 0.7,
+      ease: 'back.out(1.7)'
     });
-  }));
+  });
 
   const emberGeo = new THREE.BufferGeometry();
   const emberCount = 80;
@@ -228,8 +189,8 @@ export async function initDastarkhan() {
   wrap.addEventListener('pointermove', (event) => {
     setPointer(event);
     raycaster.setFromCamera(pointer, camera);
-    const hit = raycaster.intersectObjects(dishPick, false)[0];
-    const next = hit ? hit.object.parent : null;
+    const hit = raycaster.intersectObjects(dishPick, true)[0];
+    const next = findDishGroup(hit?.object);
     if (hovered === next) return;
     if (hovered) gsap.to(hovered.position, { y: hovered.userData.baseY, duration: 0.35, ease: 'power2.out' });
     hovered = next;
@@ -253,9 +214,10 @@ export async function initDastarkhan() {
   wrap.addEventListener('click', (event) => {
     setPointer(event);
     raycaster.setFromCamera(pointer, camera);
-    const hit = raycaster.intersectObjects(dishPick, false)[0];
-    if (hit?.object?.userData?.id && typeof window.openDishHistoryModal === 'function') {
-      window.openDishHistoryModal(hit.object.userData.id);
+    const hit = raycaster.intersectObjects(dishPick, true)[0];
+    const group = findDishGroup(hit?.object);
+    if (group?.userData?.id && typeof window.openDishHistoryModal === 'function') {
+      window.openDishHistoryModal(group.userData.id);
     }
   });
 

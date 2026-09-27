@@ -327,48 +327,15 @@ function applyI18n(){
    3. LOADER + WELCOME + REGISTRATION
 --------------------------------------------------------- */
 function initLoader(){
-  const canvas = document.getElementById('loaderCanvas');
-  const ctx = canvas.getContext('2d');
-  let w,h, particles = [];
-  function resize(){ w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-  resize(); addEventListener('resize', resize);
-  for(let i=0;i<90;i++){
-    particles.push({ x: Math.random()*w, y: h*0.4 + Math.random()*h*0.6, r: Math.random()*1.8+.4,
-      vy: -(Math.random()*.6+.15), vx:(Math.random()-.5)*.25, a: Math.random()*.6+.2 });
-  }
-  let raf;
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    particles.forEach(p=>{
-      p.y += p.vy; p.x += p.vx;
-      if(p.y < -10){ p.y = h+10; p.x = Math.random()*w; }
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(233,195,120,${p.a})`;
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-    });
-    raf = requestAnimationFrame(draw);
-  }
-  draw();
-
   const loader = document.getElementById('loader');
   const fill = document.getElementById('loaderFill');
   const pct = document.getElementById('loaderPct');
-  let progress = 0;
-  const timer = setInterval(()=>{
-    progress += Math.random()*14 + 6;
-    if(progress >= 100){
-      progress = 100; clearInterval(timer);
-      fill.style.width = '100%'; pct.textContent = '100%';
-      setTimeout(()=>{
-        loader.classList.add('hide');
-        cancelAnimationFrame(raf);
-        showWelcome();
-      }, 500);
-      return;
-    }
-    fill.style.width = progress + '%';
-    pct.textContent = Math.floor(progress) + '%';
-  }, 220);
+  if (fill) fill.style.width = '100%';
+  if (pct) pct.textContent = '100%';
+  setTimeout(() => {
+    loader?.classList.add('hide');
+    showWelcome();
+  }, 180);
 }
 
 function showWelcome(){
@@ -380,7 +347,7 @@ function showWelcome(){
     welcome.classList.add('hide');
     document.body.classList.remove('no-scroll');
     openRegistrationOrGreet();
-  }, 3200);
+  }, 1000);
 }
 
 function openRegistrationOrGreet(){
@@ -402,14 +369,19 @@ function initRegistration(){
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const err = document.getElementById('regError');
-    err.classList.remove('show');
+    err.classList.remove('show', 'form-ok');
     let ok = true;
     if(name.length < 2){ nameField.classList.add('invalid'); ok = false; } else nameField.classList.remove('invalid');
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ emailField.classList.add('invalid'); ok = false; } else emailField.classList.remove('invalid');
     if(!ok) return;
     try{
-      await apiPost('/api/guests', { name, email });
+      const result = await apiPost('/api/guests', { name, email });
       localStorage.setItem('plovtg_user', JSON.stringify({ name, email }));
+      if (result?.emailSent) {
+        err.textContent = 'Письмо отправлено на почту. Проверьте inbox.';
+        err.classList.add('show', 'form-ok');
+        await new Promise((resolve) => setTimeout(resolve, 900));
+      }
       document.getElementById('regModal').classList.remove('open');
       document.body.classList.remove('no-scroll');
     }catch(ex){
