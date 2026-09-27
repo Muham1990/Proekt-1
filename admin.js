@@ -7,11 +7,13 @@ const loginError = document.getElementById('loginError');
 function showDash() {
   loginView.classList.add('hidden');
   dashView.classList.remove('hidden');
+  document.title = 'PLOV TG — Админ-панель';
 }
 
 function showLogin() {
   dashView.classList.add('hidden');
   loginView.classList.remove('hidden');
+  document.title = 'PLOV TG — Вход';
 }
 
 function esc(value) {
@@ -60,7 +62,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     await loadAll();
     startPolling();
   } catch (err) {
-    loginError.textContent = err.message;
+    loginError.textContent = err.message || 'Неверный логин или пароль. Проверьте данные и попробуйте снова.';
   }
 });
 

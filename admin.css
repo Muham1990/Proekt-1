@@ -4,8 +4,8 @@
   --gold: #d9b56a;
   --gold-light: #f3d99c;
   --ink: #f3ead9;
-  --muted: rgba(243, 234, 217, .55);
-  --line: rgba(217, 181, 106, .2);
+  --muted: rgba(243, 234, 217, .82);
+  --line: rgba(217, 181, 106, .55);
 }
 * { box-sizing: border-box; }
 body {
@@ -39,11 +39,19 @@ body {
   margin: 0 0 8px;
 }
 h1, h2 { font-family: Marcellus, serif; font-weight: 400; margin: 0 0 10px; }
-.hint, .error { color: var(--muted); font-size: .88rem; }
-.error { color: #ff8a7a; min-height: 1.2em; }
+.hint { color: var(--gold-light); font-size: .88rem; }
+.error { color: #ffc4bc; min-height: 0; }
+.error:not(:empty) {
+  display: block;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(180, 40, 32, .28);
+  border: 1px solid #ff8a7a;
+  border-radius: 8px;
+}
 label {
   display: block;
-  margin: 14px 0;
+  margin: 14px 0 6px;
   font-size: .82rem;
   color: var(--gold-light);
 }
@@ -55,8 +63,8 @@ input, select {
   margin-top: 6px;
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.04);
+  border: 1.5px solid #c9a45a;
+  background: rgba(255,255,255,.07);
   color: var(--ink);
 }
 button {

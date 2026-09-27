@@ -143,7 +143,8 @@ const I18N = {
     reg_name:'Ваше имя', reg_email:'Email', reg_btn:'Начать путешествие',
     err_name:'Введите имя (мин. 2 символа)', err_email:'Введите корректный email', err_phone:'Введите корректный номер телефона',
     err_guests:'От 1 до 50 гостей', err_date:'Выберите дату не в прошлом', err_time:'Укажите время', err_address:'Укажите адрес доставки',
-    nav_home:'Главная', nav_table:'Дастархан', nav_menu:'Меню', nav_about:'О нас', nav_chefs:'Повара', nav_gallery:'Галерея', nav_reviews:'Отзывы', nav_news:'Новости', nav_contacts:'Контакты',
+    nav_home:'Главная', nav_menu:'Меню', nav_about:'О нас', nav_chefs:'Повара', nav_gallery:'Галерея', nav_reviews:'Отзывы', nav_news:'Новости', nav_contacts:'Контакты',
+    skip_menu:'Перейти к меню', table_cta:'Смотреть меню', hero_place:'Душанбе, проспект Рудаки, 25', search_label:'Поиск по меню',
     hero_eyebrow:'Ресторан таджикской кухни · Душанбе', hero_title1:'Вкус,', hero_title2:'достойный дастархана',
     hero_desc:'Плов, манты и курутоб, приготовленные так, как их готовили в домах Самарканда и Душанбе поколениями — в атмосфере тёплого золотого света и настоящего дерева.',
     hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик',
@@ -198,7 +199,8 @@ const I18N = {
     reg_name:'Your name', reg_email:'Email', reg_btn:'Start the journey',
     err_name:'Enter a name (min. 2 characters)', err_email:'Enter a valid email', err_phone:'Enter a valid phone number',
     err_guests:'From 1 to 50 guests', err_date:'Choose a date not in the past', err_time:'Choose a time', err_address:'Enter a delivery address',
-    nav_home:'Home', nav_table:'The Table', nav_menu:'Menu', nav_about:'About', nav_chefs:'Chefs', nav_gallery:'Gallery', nav_reviews:'Reviews', nav_news:'News', nav_contacts:'Contacts',
+    nav_home:'Home', nav_menu:'Menu', nav_about:'About', nav_chefs:'Chefs', nav_gallery:'Gallery', nav_reviews:'Reviews', nav_news:'News', nav_contacts:'Contacts',
+    skip_menu:'Skip to menu', table_cta:'View menu', hero_place:'25 Rudaki Avenue, Dushanbe', search_label:'Search the menu',
     hero_eyebrow:'Tajik cuisine restaurant · Dushanbe', hero_title1:'A taste', hero_title2:'worthy of the dastarkhan',
     hero_desc:'Plov, manti and qurutob, prepared the way they were made in the homes of Samarkand and Dushanbe for generations — in an atmosphere of warm golden light and real wood.',
     hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table',
@@ -253,7 +255,8 @@ const I18N = {
     reg_name:'Номи шумо', reg_email:'Почтаи электронӣ', reg_btn:'Сафарро оғоз кунед',
     err_name:'Номро ворид кунед (ҳадди ақал 2 ҳарф)', err_email:'Почтаи электронии дурустро ворид кунед', err_phone:'Рақами телефони дурустро ворид кунед',
     err_guests:'Аз 1 то 50 меҳмон', err_date:'Санаи гузаштаро интихоб накунед', err_time:'Вақтро нишон диҳед', err_address:'Суроғаи расониданро ворид кунед',
-    nav_home:'Асосӣ', nav_table:'Дастархон', nav_menu:'Меню', nav_about:'Дар бораи мо', nav_chefs:'Ошпазон', nav_gallery:'Галерея', nav_reviews:'Тақризҳо', nav_news:'Ахбор', nav_contacts:'Тамос',
+    nav_home:'Асосӣ', nav_menu:'Меню', nav_about:'Дар бораи мо', nav_chefs:'Ошпазон', nav_gallery:'Галерея', nav_reviews:'Тақризҳо', nav_news:'Ахбор', nav_contacts:'Тамос',
+    skip_menu:'Ба меню гузаред', table_cta:'Дидани меню', hero_place:'ш. Душанбе, хиёбони Рӯдакӣ, 25', search_label:'Ҷустуҷӯи меню',
     hero_eyebrow:'Тарабхонаи таомҳои тоҷикӣ · Душанбе', hero_title1:'Таъме,', hero_title2:'сазовори дастархон',
     hero_desc:'Оши палов, манту ва қурутоб — тавре ки дар хонаҳои Самарқанду Душанбе наслҳо пухта мешуданд, дар фазои нури тиллоӣ ва чӯби асил.',
     hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан',
@@ -1198,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   initMagnetic();
   applyI18n();
   try {
-    const tableMod = await import('./table3d.js?v=cloche3');
+    const tableMod = await import('./table3d.js?v=suzani2');
     await tableMod.initDastarkhan();
     const animMod = await import('./animations.js');
     animMod.initGsapAnimations();

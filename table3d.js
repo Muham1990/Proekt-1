@@ -35,90 +35,178 @@ function makeSuzaniTexture() {
   const c = document.createElement('canvas');
   c.width = c.height = size;
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#5c1a16';
-  ctx.fillRect(0, 0, size, size);
-  const bg = ctx.createRadialGradient(512, 512, 30, 512, 512, 520);
-  bg.addColorStop(0, '#8a2a1c');
-  bg.addColorStop(0.4, '#5c1a16');
-  bg.addColorStop(1, '#2a0e0c');
-  ctx.fillStyle = bg;
+  const cx = 512;
+  const cy = 512;
+  const wine = ctx.createRadialGradient(cx, cy, 20, cx, cy, 520);
+  wine.addColorStop(0, '#8b2218');
+  wine.addColorStop(0.45, '#6a1410');
+  wine.addColorStop(1, '#2c0908');
+  ctx.fillStyle = wine;
   ctx.fillRect(0, 0, size, size);
 
-  function star(x, y, r, color) {
+  function shamsi(x, y, r, petals, fill, stroke) {
     ctx.save();
     ctx.translate(x, y);
-    ctx.fillStyle = color;
     ctx.beginPath();
+    for (let i = 0; i < petals * 2; i++) {
+      const a = (i / (petals * 2)) * Math.PI * 2 - Math.PI / 2;
+      const rr = i % 2 ? r * 0.55 : r;
+      if (i === 0) ctx.moveTo(Math.cos(a) * rr, Math.sin(a) * rr);
+      else ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+    }
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function anorgul(x, y, s) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.fillStyle = '#c42820';
+    ctx.beginPath();
+    ctx.ellipse(0, 6, s * 0.92, s * 1.05, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#e8c56a';
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+    ctx.fillStyle = '#7a1a12';
+    ctx.beginPath();
+    ctx.moveTo(-s * 0.28, -s * 0.55);
+    ctx.quadraticCurveTo(0, -s * 1.25, s * 0.28, -s * 0.55);
+    ctx.fill();
+    ctx.fillStyle = '#f3d99c';
     for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * Math.PI * 2 - Math.PI / 8;
-      const rr = i % 2 ? r * 0.42 : r;
-      ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+      const a = (i / 8) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.arc(Math.cos(a) * s * 0.38, 7 + Math.sin(a) * s * 0.38, s * 0.11, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function bodom(x, y, s, rot) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.beginPath();
+    ctx.moveTo(0, -s);
+    ctx.bezierCurveTo(s * 0.85, -s * 0.4, s * 0.7, s * 0.55, 0, s);
+    ctx.bezierCurveTo(-s * 0.35, s * 0.2, -s * 0.15, -s * 0.35, 0, -s);
+    ctx.fillStyle = '#1a3a5c';
+    ctx.fill();
+    ctx.strokeStyle = '#e8c56a';
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(s * 0.08, -s * 0.15, s * 0.18, s * 0.38, 0.2, 0, Math.PI * 2);
+    ctx.fillStyle = '#d9b56a';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function kalamfur(x, y, s, rot) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.beginPath();
+    ctx.moveTo(0, -s);
+    ctx.quadraticCurveTo(s * 0.7, -s * 0.1, s * 0.15, s);
+    ctx.quadraticCurveTo(-s * 0.2, 0, 0, -s);
+    ctx.fillStyle = '#1f5c32';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function lola(x, y, s, rot) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.fillStyle = '#c9a227';
+    ctx.beginPath();
+    ctx.moveTo(0, s * 0.4);
+    ctx.quadraticCurveTo(-s * 0.55, -s * 0.1, -s * 0.2, -s);
+    ctx.quadraticCurveTo(0, -s * 0.45, s * 0.2, -s);
+    ctx.quadraticCurveTo(s * 0.55, -s * 0.1, 0, s * 0.4);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function mohuSitora(x, y, s) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.fillStyle = '#f3d99c';
+    ctx.beginPath();
+    ctx.arc(0, 0, s, 0.55, Math.PI * 2 - 0.55);
+    ctx.arc(s * 0.38, -s * 0.05, s * 0.72, Math.PI * 2 - 0.85, 0.85, true);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#e8c56a';
+    ctx.beginPath();
+    for (let i = 0; i < 10; i++) {
+      const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
+      const rr = i % 2 ? s * 0.22 : s * 0.48;
+      const px = s * 0.95 + Math.cos(a) * rr;
+      const py = -s * 0.55 + Math.sin(a) * rr;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
     }
     ctx.closePath();
     ctx.fill();
     ctx.restore();
   }
 
-  function pomegranate(x, y, s) {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.fillStyle = '#c43b2a';
+  function waveRing(r) {
     ctx.beginPath();
-    ctx.arc(0, 4, s, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#7a1c18';
-    ctx.beginPath();
-    ctx.moveTo(-s * 0.35, -s * 0.7);
-    ctx.lineTo(0, -s * 1.15);
-    ctx.lineTo(s * 0.35, -s * 0.7);
-    ctx.fill();
-    ctx.fillStyle = '#f3d99c';
-    for (let i = 0; i < 7; i++) {
-      const a = (i / 7) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.arc(Math.cos(a) * s * 0.35, 4 + Math.sin(a) * s * 0.35, s * 0.1, 0, Math.PI * 2);
-      ctx.fill();
+    for (let i = 0; i <= 72; i++) {
+      const a = (i / 72) * Math.PI * 2;
+      const wobble = Math.sin(a * 18) * 7;
+      const x = cx + Math.cos(a) * (r + wobble);
+      const y = cy + Math.sin(a) * (r + wobble);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
     }
-    ctx.restore();
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(232,197,106,.7)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
   }
 
-  function paisley(x, y, s, rot) {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(rot);
-    ctx.fillStyle = '#1e3a5f';
+  [140, 250, 365, 455].forEach((r, idx) => {
+    ctx.strokeStyle = idx % 2 ? 'rgba(232,197,106,.75)' : 'rgba(26,58,92,.55)';
+    ctx.lineWidth = idx === 0 ? 7 : 3.5;
     ctx.beginPath();
-    ctx.ellipse(0, 0, s * 0.55, s, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#d9b56a';
-    ctx.beginPath();
-    ctx.ellipse(0, -s * 0.15, s * 0.22, s * 0.4, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-
-  [150, 260, 370, 470].forEach((r, idx) => {
-    ctx.strokeStyle = idx % 2 ? 'rgba(217,181,106,.55)' : 'rgba(30,70,90,.45)';
-    ctx.lineWidth = idx === 0 ? 8 : 4;
-    ctx.beginPath();
-    ctx.arc(512, 512, r, 0, Math.PI * 2);
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.stroke();
   });
+  waveRing(300);
 
-  for (let i = 0; i < 12; i++) {
-    const a = (i / 12) * Math.PI * 2;
-    pomegranate(512 + Math.cos(a) * 200, 512 + Math.sin(a) * 200, 28);
-    paisley(512 + Math.cos(a + 0.26) * 318, 512 + Math.sin(a + 0.26) * 318, 34, a);
-    star(512 + Math.cos(a) * 430, 512 + Math.sin(a) * 430, 22, i % 2 ? '#d9b56a' : '#2d6a3a');
-    pomegranate(512 + Math.cos(a + 0.12) * 390, 512 + Math.sin(a + 0.12) * 390, 16);
-  }
-
-  star(512, 512, 70, '#d9b56a');
-  ctx.fillStyle = '#7a1c18';
+  shamsi(cx, cy, 86, 16, '#e8c56a', '#8a5a2c');
+  shamsi(cx, cy, 52, 12, '#c42820', '#f3d99c');
+  ctx.fillStyle = '#6a1410';
   ctx.beginPath();
-  ctx.arc(512, 512, 28, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 22, 0, Math.PI * 2);
   ctx.fill();
-  pomegranate(512, 508, 14);
+  anorgul(cx, cy + 2, 12);
+
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    anorgul(cx + Math.cos(a) * 195, cy + Math.sin(a) * 195, 26);
+    lola(cx + Math.cos(a + 0.31) * 195, cy + Math.sin(a + 0.31) * 195, 16, a);
+  }
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2 + 0.12;
+    bodom(cx + Math.cos(a) * 318, cy + Math.sin(a) * 318, 32, a + Math.PI / 2);
+    kalamfur(cx + Math.cos(a + 0.26) * 318, cy + Math.sin(a + 0.26) * 318, 18, a);
+  }
+  for (let i = 0; i < 16; i++) {
+    if (i === 15) continue;
+    const a = (i / 16) * Math.PI * 2;
+    mohuSitora(cx + Math.cos(a) * 430, cy + Math.sin(a) * 430, 14);
+  }
 
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
