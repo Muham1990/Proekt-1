@@ -143,19 +143,22 @@ const I18N = {
     reg_name:'Ваше имя', reg_email:'Email', reg_btn:'Начать путешествие',
     err_name:'Введите имя (мин. 2 символа)', err_email:'Введите корректный email', err_phone:'Введите корректный номер телефона',
     err_guests:'От 1 до 50 гостей', err_date:'Выберите дату не в прошлом', err_time:'Укажите время', err_address:'Укажите адрес доставки',
-    nav_home:'Главная', nav_menu:'Меню', nav_about:'О нас', nav_chefs:'Повара', nav_gallery:'Галерея', nav_reviews:'Отзывы', nav_news:'Новости', nav_contacts:'Контакты',
-    skip_menu:'Перейти к меню', table_cta:'Смотреть меню', hero_place:'Душанбе, проспект Рудаки, 25', search_label:'Поиск по меню',
+    nav_home:'Главная', nav_dastarkhan:'Дастархан', nav_menu:'Меню', nav_about:'О нас', nav_chefs:'Повара', nav_gallery:'Галерея', nav_reviews:'Отзывы', nav_news:'Новости', nav_contacts:'Контакты',
+    skip_menu:'Перейти к меню', skip_content:'Перейти к основному содержимому', table_cta:'Смотреть меню', hero_place:'Душанбе, проспект Рудаки, 25', search_label:'Поиск по меню',
+    icon_lang:'Язык', icon_profile:'Профиль', icon_theme:'Тема', icon_music:'Музыка', icon_cart:'Корзина',
     hero_eyebrow:'Ресторан таджикской кухни · Душанбе', hero_title1:'Вкус,', hero_title2:'достойный дастархана',
+    hero_usp:'Ресторан в Душанбе — бронирование столов и доставка',
     hero_desc:'Плов, манты и курутоб, приготовленные так, как их готовили в домах Самарканда и Душанбе поколениями — в атмосфере тёплого золотого света и настоящего дерева.',
     hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик',
     c_years:'лет традиций', c_dishes:'блюд в меню', c_guests:'гостей в год', c_chefs:'поваров',
     table_eyebrow:'Наш дастархан', table_title:'Стол, за которым собирается вся Таджикская кухня',
-    table_hint:'Нажмите клош, чтобы открыть или закрыть. Если отойдёте — крышка закроется сама. Нажмите на блюдо, чтобы увидеть историю.',
+    table_hint:'Нажмите на крышку блюда, чтобы открыть его. Если отойдёте — крышка закроется сама. Нажмите на блюдо, чтобы увидеть историю.',
     menu_eyebrow:'Меню ресторана', menu_title:'Настоящая таджикская кухня', search_ph:'Поиск блюд… (плов, манты, курутоб)',
     sort_default:'Сортировка', sort_price_asc:'Цена: по возрастанию', sort_price_desc:'Цена: по убыванию', sort_name:'По названию',
     cat_all:'Все', cat_main:'Основные', cat_soup:'Супы', cat_grill:'Гриль', cat_bakery:'Выпечка', cat_dessert:'Десерты', cat_drink:'Напитки',
     menu_empty:'Ничего не найдено. Попробуйте другой запрос.',
-    order_btn:'Заказать', details_btn:'Подробнее', add_cart:'В корзину',
+    order_btn:'Заказать', details_btn:'Подробнее', details_about:'Подробнее о', add_cart:'В корзину',
+    reserve_rating:'4.9 · 128 отзывов',
     about_eyebrow:'История ресторана', about_title:'14 лет вкуса, унаследованного от предков',
     about_p1:'PLOV TG родился из семейного рецепта плова, который передавался в нашей семье четыре поколения. Мы открылись в Душанбе с одной целью — сохранить подлинный вкус таджикской кухни и подать его в атмосфере, достойной этих рецептов.',
     about_p2:'Каждое блюдо готовится в казане на открытом огне, тесто для мантов и самбусы раскатывается вручную, а специи привозятся с рынков Пенджикента и Хорога.',
@@ -199,19 +202,22 @@ const I18N = {
     reg_name:'Your name', reg_email:'Email', reg_btn:'Start the journey',
     err_name:'Enter a name (min. 2 characters)', err_email:'Enter a valid email', err_phone:'Enter a valid phone number',
     err_guests:'From 1 to 50 guests', err_date:'Choose a date not in the past', err_time:'Choose a time', err_address:'Enter a delivery address',
-    nav_home:'Home', nav_menu:'Menu', nav_about:'About', nav_chefs:'Chefs', nav_gallery:'Gallery', nav_reviews:'Reviews', nav_news:'News', nav_contacts:'Contacts',
-    skip_menu:'Skip to menu', table_cta:'View menu', hero_place:'25 Rudaki Avenue, Dushanbe', search_label:'Search the menu',
+    nav_home:'Home', nav_dastarkhan:'Dastarkhan', nav_menu:'Menu', nav_about:'About', nav_chefs:'Chefs', nav_gallery:'Gallery', nav_reviews:'Reviews', nav_news:'News', nav_contacts:'Contacts',
+    skip_menu:'Skip to menu', skip_content:'Skip to main content', table_cta:'View menu', hero_place:'25 Rudaki Avenue, Dushanbe', search_label:'Search the menu',
+    icon_lang:'Language', icon_profile:'Profile', icon_theme:'Theme', icon_music:'Music', icon_cart:'Cart',
     hero_eyebrow:'Tajik cuisine restaurant · Dushanbe', hero_title1:'A taste', hero_title2:'worthy of the dastarkhan',
+    hero_usp:'Restaurant in Dushanbe — table booking and delivery',
     hero_desc:'Plov, manti and qurutob, prepared the way they were made in the homes of Samarkand and Dushanbe for generations — in an atmosphere of warm golden light and real wood.',
     hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table',
     c_years:'years of tradition', c_dishes:'dishes on the menu', c_guests:'guests a year', c_chefs:'chefs',
     table_eyebrow:'Our dastarkhan', table_title:'The table where all of Tajik cuisine gathers',
-    table_hint:'Tap the cloche to open or close it. It closes by itself if you look away. Tap the dish for its story.',
+    table_hint:'Tap the dish cover to open it. It closes by itself if you look away. Tap the dish for its story.',
     menu_eyebrow:'Restaurant menu', menu_title:'Authentic Tajik cuisine', search_ph:'Search dishes… (plov, manti, qurutob)',
     sort_default:'Sort', sort_price_asc:'Price: low to high', sort_price_desc:'Price: high to low', sort_name:'By name',
     cat_all:'All', cat_main:'Mains', cat_soup:'Soups', cat_grill:'Grill', cat_bakery:'Bakery', cat_dessert:'Desserts', cat_drink:'Drinks',
     menu_empty:'Nothing found. Try another search.',
-    order_btn:'Order', details_btn:'Details', add_cart:'Add to cart',
+    order_btn:'Order', details_btn:'Details', details_about:'More about', add_cart:'Add to cart',
+    reserve_rating:'4.9 · 128 reviews',
     about_eyebrow:'Our history', about_title:'14 years of taste inherited from our ancestors',
     about_p1:'PLOV TG was born from a family plov recipe passed down for four generations. We opened in Dushanbe with one goal — to preserve the authentic taste of Tajik cuisine and serve it in an atmosphere worthy of these recipes.',
     about_p2:'Every dish is cooked in a kazan over an open flame, the dough for manti and sambusa is rolled by hand, and spices are brought from the markets of Panjakent and Khorog.',
@@ -255,19 +261,22 @@ const I18N = {
     reg_name:'Номи шумо', reg_email:'Почтаи электронӣ', reg_btn:'Сафарро оғоз кунед',
     err_name:'Номро ворид кунед (ҳадди ақал 2 ҳарф)', err_email:'Почтаи электронии дурустро ворид кунед', err_phone:'Рақами телефони дурустро ворид кунед',
     err_guests:'Аз 1 то 50 меҳмон', err_date:'Санаи гузаштаро интихоб накунед', err_time:'Вақтро нишон диҳед', err_address:'Суроғаи расониданро ворид кунед',
-    nav_home:'Асосӣ', nav_menu:'Меню', nav_about:'Дар бораи мо', nav_chefs:'Ошпазон', nav_gallery:'Галерея', nav_reviews:'Тақризҳо', nav_news:'Ахбор', nav_contacts:'Тамос',
-    skip_menu:'Ба меню гузаред', table_cta:'Дидани меню', hero_place:'ш. Душанбе, хиёбони Рӯдакӣ, 25', search_label:'Ҷустуҷӯи меню',
+    nav_home:'Асосӣ', nav_dastarkhan:'Дастархон', nav_menu:'Меню', nav_about:'Дар бораи мо', nav_chefs:'Ошпазон', nav_gallery:'Галерея', nav_reviews:'Тақризҳо', nav_news:'Ахбор', nav_contacts:'Тамос',
+    skip_menu:'Ба меню гузаред', skip_content:'Ба қисми асосӣ гузаред', table_cta:'Дидани меню', hero_place:'ш. Душанбе, хиёбони Рӯдакӣ, 25', search_label:'Ҷустуҷӯи меню',
+    icon_lang:'Забон', icon_profile:'Профил', icon_theme:'Мавзуъ', icon_music:'Мусиқӣ', icon_cart:'Сабад',
     hero_eyebrow:'Тарабхонаи таомҳои тоҷикӣ · Душанбе', hero_title1:'Таъме,', hero_title2:'сазовори дастархон',
+    hero_usp:'Тарабхона дар Душанбе — брон кардани ҷой ва расонидан',
     hero_desc:'Оши палов, манту ва қурутоб — тавре ки дар хонаҳои Самарқанду Душанбе наслҳо пухта мешуданд, дар фазои нури тиллоӣ ва чӯби асил.',
     hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан',
     c_years:'соли анъана', c_dishes:'таом дар меню', c_guests:'меҳмон дар сол', c_chefs:'ошпаз',
     table_eyebrow:'Дастархони мо', table_title:'Дастархоне, ки тамоми таомҳои тоҷикӣ дар он ҷамъ мешаванд',
-    table_hint:'Клошро пахш кунед — боз ё пӯшида мешавад. Агар наравед, худ пӯшида мешавад. Таомро пахш кунед — ҳикоя мебарояд.',
+    table_hint:'Сарпӯши таомро пахш кунед, то он кушода шавад. Агар наравед, худ пӯшида мешавад. Таомро пахш кунед — ҳикоя мебарояд.',
     menu_eyebrow:'Менюи тарабхона', menu_title:'Таомҳои асили тоҷикӣ', search_ph:'Ҷустуҷӯи таом… (палов, манту, қурутоб)',
     sort_default:'Мураттабсозӣ', sort_price_asc:'Нарх: аз кам ба зиёд', sort_price_desc:'Нарх: аз зиёд ба кам', sort_name:'Аз рӯи ном',
     cat_all:'Ҳама', cat_main:'Асосӣ', cat_soup:'Шӯрбо', cat_grill:'Гриль', cat_bakery:'Нонворӣ', cat_dessert:'Ширинӣ', cat_drink:'Нӯшокӣ',
     menu_empty:'Чизе ёфт нашуд. Дигар калимаро санҷед.',
-    order_btn:'Фармоиш', details_btn:'Тафсилот', add_cart:'Ба сабад',
+    order_btn:'Фармоиш', details_btn:'Тафсилот', details_about:'Муфассал дар бораи', add_cart:'Ба сабад',
+    reserve_rating:'4.9 · 128 тақриз',
     about_eyebrow:'Таърихи тарабхона', about_title:'14 соли таъми аз ниёгон боқимонда',
     about_p1:'PLOV TG аз рецепти хонаводагии палов, ки чор насл интиқол ёфтааст, ба вуҷуд омад. Мо дар Душанбе бо як ҳадаф кушода шудем — нигоҳ доштани таъми асили таомҳои тоҷикӣ.',
     about_p2:'Ҳар таом дар дег бар оташи кушод пухта мешавад, хамири манту ва самбӯса бо даст омода мешавад.',
@@ -318,6 +327,13 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
     const key = el.getAttribute('data-i18n-ph');
     if(dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-aria');
+    if(dict[key] === undefined) return;
+    el.setAttribute('aria-label', dict[key]);
+    el.setAttribute('title', dict[key]);
+    el.setAttribute('data-tip', dict[key]);
   });
   document.getElementById('langLabel').textContent = currentLang.toUpperCase();
   window.currentLang = currentLang;
@@ -742,7 +758,7 @@ function renderMenu(){
         <div class="dish-card__meta"><span>🔥 ${d.cal} ${currentLang==='en'?'kcal':'ккал'}</span></div>
         <div class="dish-card__actions">
           <button class="btn btn--gold" data-add="${d.id}">${dict.add_cart}</button>
-          <button class="btn btn--ghost" data-details="${d.id}">${dict.details_btn}</button>
+          <button class="btn btn--ghost" data-details="${d.id}" aria-label="${dict.details_about} ${d.name[currentLang]||d.name.ru}">${dict.details_about} ${d.name[currentLang]||d.name.ru}</button>
         </div>
       </div>
     </article>`;
@@ -1114,6 +1130,32 @@ function initHeaderAndNav(){
   const toTop = document.getElementById('toTopBtn');
   addEventListener('scroll', ()=> toTop.classList.toggle('show', scrollY > 700), { passive:true });
   toTop.addEventListener('click', ()=> scrollTo({ top:0, behavior:'smooth' }));
+
+  const links = [...nav.querySelectorAll('a[href^="#"]')];
+  const sections = links
+    .map((link) => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+  const setActive = (id) => {
+    links.forEach((link) => {
+      const on = link.getAttribute('href') === '#' + id;
+      link.classList.toggle('is-active', on);
+      if (on) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  if (sections.length) {
+    const updateSpy = () => {
+      const marker = scrollY + 130;
+      let current = sections[0];
+      sections.forEach((section) => {
+        const top = section.getBoundingClientRect().top + scrollY;
+        if (top <= marker) current = section;
+      });
+      setActive(current.id);
+    };
+    addEventListener('scroll', updateSpy, { passive: true });
+    updateSpy();
+  }
 }
 
 /* ---------------------------------------------------------

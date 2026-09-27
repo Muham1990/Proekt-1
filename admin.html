@@ -15,10 +15,13 @@
       <h1>Панель персонала</h1>
       <p class="hint">Заказы, брони, отзывы и меню</p>
       <label for="loginUser">Логин</label>
-      <input type="text" id="loginUser" name="username" autocomplete="username" required>
+      <input type="text" id="loginUser" name="username" autocomplete="username" required placeholder="Имя пользователя / email">
       <label for="loginPass">Пароль</label>
-      <input type="password" id="loginPass" name="password" autocomplete="current-password" required>
-      <button type="submit">Войти</button>
+      <input type="password" id="loginPass" name="password" autocomplete="current-password" required placeholder="Пароль">
+      <button type="submit" id="loginSubmit" class="login-submit">
+        <span class="login-btn-text">Войти</span>
+        <span class="login-spinner" hidden aria-hidden="true"></span>
+      </button>
       <p id="loginError" class="error" role="alert" aria-live="polite"></p>
     </form>
   </div>

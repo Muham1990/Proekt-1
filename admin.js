@@ -53,6 +53,14 @@ async function boot() {
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   loginError.textContent = '';
+  const submitBtn = document.getElementById('loginSubmit');
+  const spinner = submitBtn?.querySelector('.login-spinner');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.classList.add('is-loading');
+    submitBtn.setAttribute('aria-busy', 'true');
+  }
+  if (spinner) spinner.hidden = false;
   try {
     await apiPost('/api/admin/login', {
       username: document.getElementById('loginUser').value.trim(),
@@ -63,6 +71,13 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     startPolling();
   } catch (err) {
     loginError.textContent = err.message || 'Неверный логин или пароль. Проверьте данные и попробуйте снова.';
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('is-loading');
+      submitBtn.removeAttribute('aria-busy');
+    }
+    if (spinner) spinner.hidden = true;
   }
 });
 

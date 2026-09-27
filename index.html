@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<a class="skip-link" href="#menu" data-i18n="skip_menu">Перейти к меню</a>
+<a class="skip-link" href="#main" data-i18n="skip_content">Перейти к основному содержимому</a>
 
 <!-- ================= LOADING SCREEN ================= -->
 <div id="loader" class="loader">
@@ -71,8 +71,9 @@
     <a href="#home" class="logo">
       <span class="logo__main">PLOV</span><span class="logo__sub">TG</span>
     </a>
-    <nav class="main-nav" id="mainNav">
-      <a href="#home" data-i18n="nav_home">Главная</a>
+    <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
+      <a href="#story" data-i18n="nav_home">Главная</a>
+      <a href="#home" data-i18n="nav_dastarkhan">Дастархан</a>
       <a href="#menu" data-i18n="nav_menu">Меню</a>
       <a href="#about" data-i18n="nav_about">О нас</a>
       <a href="#chefs" data-i18n="nav_chefs">Повара</a>
@@ -82,29 +83,30 @@
       <a href="#contacts" data-i18n="nav_contacts">Контакты</a>
     </nav>
     <div class="header-actions">
-      <button class="icon-btn" id="langBtn" data-tip="Язык" title="Язык" aria-label="Язык">
+      <button class="icon-btn" id="langBtn" data-i18n-aria="icon_lang" data-tip="Язык" title="Язык" aria-label="Язык">
         <span id="langLabel">RU</span>
+        <span class="icon-btn__text" data-i18n="icon_lang">Язык</span>
       </button>
       <div class="lang-menu" id="langMenu">
         <button data-lang="ru">Русский</button>
         <button data-lang="en">English</button>
         <button data-lang="tj">Тоҷикӣ</button>
       </div>
-      <button class="icon-btn" id="regBtn" data-tip="Регистрация" title="Регистрация" aria-label="Регистрация">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><title>Регистрация</title><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 12a4 4 0 100-8 4 4 0 000 8z"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M4 20c1.6-3 4.4-4.5 8-4.5S18.4 17 20 20"/></svg>
-        <span class="sr-only">Регистрация</span>
+      <button class="icon-btn" id="regBtn" data-i18n-aria="icon_profile" data-tip="Профиль" title="Профиль" aria-label="Профиль">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><title>Профиль</title><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 12a4 4 0 100-8 4 4 0 000 8z"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M4 20c1.6-3 4.4-4.5 8-4.5S18.4 17 20 20"/></svg>
+        <span class="icon-btn__text" data-i18n="icon_profile">Профиль</span>
       </button>
-      <button class="icon-btn" id="themeBtn" data-tip="Тема" title="Тема" aria-label="Сменить тему">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><title>Тема</title><path fill="currentColor" d="M12 18a6 6 0 100-12 6 6 0 000 12zm0 2a8 8 0 110-16 8 8 0 010 16z"/></svg>
-        <span class="sr-only">Сменить тему</span>
+      <button class="icon-btn" id="themeBtn" data-i18n-aria="icon_theme" data-tip="Тема" title="Тема" aria-label="Тема">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><title>Тема</title><path fill="currentColor" d="M12 18a6 6 0 100-12 6 6 0 000 12zm0 2a8 8 0 110-16 8 8 0 010 16z"/></svg>
+        <span class="icon-btn__text" data-i18n="icon_theme">Тема</span>
       </button>
-      <button class="icon-btn" id="musicBtn" data-tip="Музыка" title="Музыка" aria-label="Включить музыку">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><title>Музыка</title><path fill="currentColor" d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-        <span class="sr-only">Музыка</span>
+      <button class="icon-btn" id="musicBtn" data-i18n-aria="icon_music" data-tip="Музыка" title="Музыка" aria-label="Музыка">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><title>Музыка</title><path fill="currentColor" d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="icon-btn__text" data-i18n="icon_music">Музыка</span>
       </button>
-      <button class="icon-btn cart-btn" id="cartBtn" data-tip="Корзина" title="Корзина" aria-label="Корзина">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><title>Корзина</title><path fill="currentColor" d="M6 6h15l-1.5 9h-12z" opacity=".18"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M3 4h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.6L21 8H6"/><circle cx="9.5" cy="20.5" r="1.3" fill="currentColor"/><circle cx="17.5" cy="20.5" r="1.3" fill="currentColor"/></svg>
-        <span class="sr-only">Корзина</span>
+      <button class="icon-btn cart-btn" id="cartBtn" data-i18n-aria="icon_cart" data-tip="Корзина" title="Корзина" aria-label="Корзина">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><title>Корзина</title><path fill="currentColor" d="M6 6h15l-1.5 9h-12z" opacity=".18"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M3 4h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.6L21 8H6"/><circle cx="9.5" cy="20.5" r="1.3" fill="currentColor"/><circle cx="17.5" cy="20.5" r="1.3" fill="currentColor"/></svg>
+        <span class="icon-btn__text" data-i18n="icon_cart">Корзина</span>
         <span class="cart-count" id="cartCount">0</span>
       </button>
       <button class="hamburger" id="hamburgerBtn" aria-label="Открыть меню"><span></span><span></span><span></span><span class="sr-only">Открыть меню</span></button>
@@ -112,6 +114,7 @@
   </div>
 </header>
 
+<main id="main" tabindex="-1">
 <!-- ================= 3D TABLE FIRST ================= -->
 <section class="table-section" id="home">
   <div class="table-scroll" id="tableScroll">
@@ -127,7 +130,7 @@
       <div class="table-stage__actions">
         <a href="#menu" class="btn btn--gold" data-i18n="table_cta">Смотреть меню</a>
       </div>
-      <p class="table-stage__hint" data-i18n="table_hint">Нажмите клош, чтобы открыть или закрыть. Если отойдёте — крышка закроется сама. Нажмите на блюдо, чтобы увидеть историю.</p>
+      <p class="table-stage__hint" data-i18n="table_hint">Нажмите на крышку блюда, чтобы открыть его. Если отойдёте — крышка закроется сама. Нажмите на блюдо, чтобы увидеть историю.</p>
     </div>
   </div>
 </section>
@@ -143,11 +146,13 @@
       <span data-i18n="hero_title1">Вкус,</span>
       <span class="gold-text" data-i18n="hero_title2">достойный дастархана</span>
     </h1>
+    <p class="hero__usp" data-reveal data-i18n="hero_usp">Ресторан в Душанбе — бронирование столов и доставка</p>
     <p class="hero__desc" data-reveal data-i18n="hero_desc">Плов, манты и курутоб, приготовленные так, как их готовили в домах Самарканда и Душанбе поколениями — в атмосфере тёплого золотого света и настоящего дерева.</p>
     <p class="hero__place" data-reveal data-i18n="hero_place">Душанбе, проспект Рудаки, 25</p>
     <div class="hero__actions" data-reveal>
-      <a href="#menu" class="btn btn--gold magnetic" data-i18n="hero_btn_menu">Посмотреть меню</a>
-      <a href="#reserve" class="btn btn--ghost magnetic" data-i18n="hero_btn_book">Забронировать столик</a>
+      <a href="#reserve" class="btn btn--gold magnetic" data-i18n="hero_btn_book">Забронировать столик</a>
+      <a href="#menu" class="btn btn--ghost magnetic" data-i18n="hero_btn_menu">Посмотреть меню</a>
+      <a href="#menu" class="btn btn--text" data-i18n="hero_btn_order">Заказать</a>
     </div>
     <div class="hero__counters" data-reveal>
       <div class="counter"><span class="counter__num" data-count="14">0</span><span class="counter__label" data-i18n="c_years">лет традиций</span></div>
@@ -305,10 +310,20 @@
       <p class="eyebrow" data-i18n="reserve_eyebrow">Бронирование</p>
       <h2 class="section-title" data-i18n="reserve_title">Забронировать столик</h2>
       <p data-i18n="reserve_desc">Оставьте заявку — и мы подтвердим бронь в течение 15 минут. Для больших групп рекомендуем бронировать за 2 дня.</p>
-      <blockquote class="reserve-quote">
-        <p data-i18n="rev1">«Плов точно такой, каким его готовила бабушка в Худжанде. Давно не пробовал ничего настолько настоящего.»</p>
-        <cite>— Далер, Душанбе</cite>
-      </blockquote>
+      <div class="reserve-proof">
+        <div class="reserve-rating" aria-label="Рейтинг 4.9 из 5">
+          <span class="reserve-stars" aria-hidden="true">★★★★★</span>
+          <span data-i18n="reserve_rating">4.9 · 128 отзывов</span>
+        </div>
+        <blockquote class="reserve-quote">
+          <p data-i18n="rev1">«Плов точно такой, каким его готовила бабушка в Худжанде. Давно не пробовал ничего настолько настоящего.»</p>
+          <cite>— Далер, Душанбе</cite>
+        </blockquote>
+        <blockquote class="reserve-quote">
+          <p data-i18n="rev2">«Курутоб — это праздник, а зал с резьбой по дереву будто чайхана на Рудаки.»</p>
+          <cite>— Малика, Худжанд</cite>
+        </blockquote>
+      </div>
     </div>
     <form class="glass reserve-form" id="reserveForm" novalidate>
       <div class="field">
@@ -456,6 +471,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- ================= ORDER FORM MODAL ================= -->
 <div class="modal-overlay" id="orderModal">

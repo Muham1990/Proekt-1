@@ -39,16 +39,34 @@ body {
   margin: 0 0 8px;
 }
 h1, h2 { font-family: Marcellus, serif; font-weight: 400; margin: 0 0 10px; }
-.hint { color: var(--gold-light); font-size: .88rem; }
-.error { color: #ffc4bc; min-height: 0; }
+.hint { color: #f0e2c4; font-size: .88rem; }
+.error { color: #ffd2cb; min-height: 0; font-weight: 600; }
 .error:not(:empty) {
   display: block;
   margin-top: 12px;
-  padding: 10px 12px;
-  background: rgba(180, 40, 32, .28);
-  border: 1px solid #ff8a7a;
+  padding: 12px 14px;
+  background: rgba(160, 28, 22, .42);
+  border: 1px solid #ff9a8a;
   border-radius: 8px;
+  color: #ffe8e4;
 }
+.login-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+}
+.login-submit.is-loading { pointer-events: none; opacity: .88; }
+.login-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(36, 22, 8, .28);
+  border-top-color: #241608;
+  border-radius: 50%;
+  animation: login-spin .7s linear infinite;
+}
+@keyframes login-spin { to { transform: rotate(360deg); } }
 label {
   display: block;
   margin: 14px 0 6px;
