@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLOV TG — Админ-панель</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div id="loginView" class="login-wrap">
+    <form id="loginForm" class="login-card">
+      <p class="eyebrow">PLOV TG</p>
+      <h1>Панель персонала</h1>
+      <p class="hint">Заказы, брони, отзывы и меню</p>
+      <label>Логин<input type="text" id="loginUser" autocomplete="username" required></label>
+      <label>Пароль<input type="password" id="loginPass" autocomplete="current-password" required></label>
+      <button type="submit">Войти</button>
+      <p id="loginError" class="error"></p>
+    </form>
+  </div>
+
+  <div id="dashView" class="dash hidden">
+    <header class="dash-head">
+      <a href="/" class="logo">PLOV <span>TG</span></a>
+      <nav class="tabs" id="tabs">
+        <button data-tab="overview" class="active">Обзор</button>
+        <button data-tab="orders">Заказы</button>
+        <button data-tab="reservations">Брони</button>
+        <button data-tab="reviews">Отзывы</button>
+        <button data-tab="menu">Меню</button>
+        <button data-tab="guests">Гости</button>
+      </nav>
+      <button id="logoutBtn" class="ghost">Выйти</button>
+    </header>
+
+    <main class="dash-main">
+      <section data-panel="overview" class="panel active">
+        <h2>Сводка</h2>
+        <div class="stats" id="stats"></div>
+      </section>
+      <section data-panel="orders" class="panel">
+        <h2>Заказы</h2>
+        <div id="ordersTable"></div>
+      </section>
+      <section data-panel="reservations" class="panel">
+        <h2>Бронирования</h2>
+        <div id="reservationsTable"></div>
+      </section>
+      <section data-panel="reviews" class="panel">
+        <h2>Отзывы</h2>
+        <div id="reviewsTable"></div>
+      </section>
+      <section data-panel="menu" class="panel">
+        <h2>Меню</h2>
+        <div id="menuTable"></div>
+      </section>
+      <section data-panel="guests" class="panel">
+        <h2>Гости</h2>
+        <div id="guestsTable"></div>
+      </section>
+    </main>
+  </div>
+  <script src="api.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
