@@ -11,6 +11,16 @@
 --------------------------------------------------------- */
 const IMG = (file) => `/images/${file}`;
 
+const SITE = {
+  url: (typeof location !== 'undefined' && location.origin && location.origin !== 'null')
+    ? location.origin
+    : 'https://web-production-d58c8.up.railway.app',
+  phone: '+992301155445',
+  email: 'info@plovtg.tj',
+  demo: true,
+  stats: { years: 14, dishes: 12, guests: 48000, chefs: 6 }
+};
+
 const DISHES = [
   {
     id: 'plov', cat: 'main', angle: -160,
@@ -151,13 +161,17 @@ const I18N = {
     hero_desc:'Плов, манты и курутоб, приготовленные так, как их готовили в домах Самарканда и Душанбе поколениями — в атмосфере тёплого золотого света и настоящего дерева.',
     hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик',
     c_years:'лет традиций', c_dishes:'блюд в меню', c_guests:'гостей в год', c_chefs:'поваров',
-    table_eyebrow:'Наш дастархан', table_title:'Стол, за которым собирается вся Таджикская кухня',
-    table_hint:'Нажмите на крышку блюда, чтобы открыть его. Если отойдёте — крышка закроется сама. Нажмите на блюдо, чтобы увидеть историю.',
+    table_eyebrow:'Наш дастархан', table_title:'3D блюда таджикской кухни',
+    table_hint:'Стрелки переключают блюда. Потяните мышью, чтобы повернуть.',
+    dish_prev:'Предыдущее блюдо', dish_next:'Следующее блюдо', table_fallback:'3D недоступно в этом браузере.',
     menu_eyebrow:'Меню ресторана', menu_title:'Настоящая таджикская кухня', search_ph:'Поиск блюд… (плов, манты, курутоб)',
     sort_default:'Сортировка', sort_price_asc:'Цена: по возрастанию', sort_price_desc:'Цена: по убыванию', sort_name:'По названию',
     cat_all:'Все', cat_main:'Основные', cat_soup:'Супы', cat_grill:'Гриль', cat_bakery:'Выпечка', cat_dessert:'Десерты', cat_drink:'Напитки',
     menu_empty:'Ничего не найдено. Попробуйте другой запрос.',
-    order_btn:'Заказать', details_btn:'Подробнее', details_about:'Подробнее о', add_cart:'В корзину',
+    order_btn:'Заказать', details_btn:'Подробнее', details_about:'Подробнее о', add_cart:'В корзину', toast_added:'добавлен в корзину',
+    cart_clear:'Очистить', privacy_note:'Отправляя форму, вы соглашаетесь на обработку указанных контактов для связи по заказу или брони.',
+    loader_status:'Загрузка дастархана…', table_hero_lead:'Таджикская кухня в Душанбе — плов, манты и дастархан.',
+    err_retry:'Не удалось выполнить действие. Попробуйте ещё раз.',
     reserve_rating:'4.9 · 128 отзывов',
     about_eyebrow:'История ресторана', about_title:'14 лет вкуса, унаследованного от предков',
     about_p1:'PLOV TG родился из семейного рецепта плова, который передавался в нашей семье четыре поколения. Мы открылись в Душанбе с одной целью — сохранить подлинный вкус таджикской кухни и подать его в атмосфере, достойной этих рецептов.',
@@ -167,6 +181,9 @@ const I18N = {
     why3_t:'Гостеприимство', why3_d:'Каждый гость — как член семьи. Настоящий дастархан начинается с чая.',
     chefs_eyebrow:'Наша команда', chefs_title:'Шеф-повара',
     chef1_role:'Главный шеф-повар · 22 года стажа', chef2_role:'Шеф-повар тандыра и гриля', chef3_role:'Кондитер · выпечка и десерты',
+    chef1_bio:'Отвечает за плов и казан. Демонстрационный профиль команды.',
+    chef2_bio:'Гриль, шашлык и выпечка из тандыра. Демонстрационный профиль.',
+    chef3_bio:'Халиса, фатир и сладкий стол. Демонстрационный профиль.',
     gallery_eyebrow:'Атмосфера', gallery_title:'Фотогалерея ресторана',
     g1:'Резной потолок ручной работы', g2:'Традиционный дастархан', g3:'Праздничный зал Навруз', g4:'Чайхана и VIP-зал', g5:'Главный зал',
     promo_eyebrow:'Акции', promo_title:'Специальные предложения',
@@ -185,14 +202,14 @@ const I18N = {
     news1_t:'Новое сезонное меню', news1_d:'Мы обновили меню, добавив фатир из тандыра и сезонные травы к курутобу.',
     news2_t:'Мастер-класс по плову', news2_d:'Приглашаем на мастер-класс от шеф-повара Усмона Алиева — научитесь готовить настоящий таджикский плов.',
     news3_t:'Расширение VIP-зала', news3_d:'Открыли новый VIP-зал с резными колоннами для торжеств и переговоров.',
-    social_title:'Мы в социальных сетях',
+    social_title:'Как с нами связаться',
     contacts_eyebrow:'Контакты', contacts_title:'Как нас найти',
     c_phone:'Телефон:', c_email:'Email:', c_address:'Адрес:', c_address_val:'г. Душанбе, проспект Рудаки, 25',
     c_hours:'Часы работы:', c_hours_val:'10:00 — 24:00, ежедневно',
     order_title:'Оформление заказа', order_submit:'Подтвердить заказ', order_success:'Спасибо! Заказ №<span id="orderNum"></span> принят и готовится.',
     cart_title:'Ваша корзина', cart_empty:'Корзина пуста. Добавьте блюда из меню.', cart_total:'Итого:', cart_checkout:'Оформить заказ',
-    footer_tag:'Элитный ресторан таджикской кухни в самом сердце Душанбе.', footer_contacts:'Контакты', footer_social:'Соцсети', footer_rights:'Все права защищены.',
-    footer_staff:'Для персонала', f_city:'Город', f_review:'Ваш отзыв', err_review:'Напишите отзыв (мин. 8 символов)',
+    footer_tag:'Элитный ресторан таджикской кухни в самом сердце Душанбе.', footer_contacts:'Контакты', footer_social:'Соцсети', footer_nav:'Навигация', footer_hours:'Часы работы', footer_rights:'Все права защищены.',
+    footer_staff:'Для персонала', f_city:'Город', f_review:'Ваш отзыв', err_review:'Напишите отзыв (мин. 8 символов)', err_city:'Укажите город',
     review_form_title:'Оставить отзыв', review_btn:'Отправить отзыв', review_success:'Спасибо! Отзыв отправлен на модерацию.',
     unit:'сомони'
   },
@@ -210,13 +227,17 @@ const I18N = {
     hero_desc:'Plov, manti and qurutob, prepared the way they were made in the homes of Samarkand and Dushanbe for generations — in an atmosphere of warm golden light and real wood.',
     hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table',
     c_years:'years of tradition', c_dishes:'dishes on the menu', c_guests:'guests a year', c_chefs:'chefs',
-    table_eyebrow:'Our dastarkhan', table_title:'The table where all of Tajik cuisine gathers',
-    table_hint:'Tap the dish cover to open it. It closes by itself if you look away. Tap the dish for its story.',
+    table_eyebrow:'Our dastarkhan', table_title:'3D dishes of Tajik cuisine',
+    table_hint:'Use the arrows to switch dishes. Drag to rotate.',
+    dish_prev:'Previous dish', dish_next:'Next dish', table_fallback:'3D is not available in this browser.',
     menu_eyebrow:'Restaurant menu', menu_title:'Authentic Tajik cuisine', search_ph:'Search dishes… (plov, manti, qurutob)',
     sort_default:'Sort', sort_price_asc:'Price: low to high', sort_price_desc:'Price: high to low', sort_name:'By name',
     cat_all:'All', cat_main:'Mains', cat_soup:'Soups', cat_grill:'Grill', cat_bakery:'Bakery', cat_dessert:'Desserts', cat_drink:'Drinks',
     menu_empty:'Nothing found. Try another search.',
-    order_btn:'Order', details_btn:'Details', details_about:'More about', add_cart:'Add to cart',
+    order_btn:'Order', details_btn:'Details', details_about:'More about', add_cart:'Add to cart', toast_added:'added to cart',
+    cart_clear:'Clear', privacy_note:'By sending this form you agree that we use these contacts to reach you about the order or reservation.',
+    loader_status:'Loading the dastarkhan…', table_hero_lead:'Tajik cuisine in Dushanbe — plov, manti and the dastarkhan.',
+    err_retry:'Something went wrong. Please try again.',
     reserve_rating:'4.9 · 128 reviews',
     about_eyebrow:'Our history', about_title:'14 years of taste inherited from our ancestors',
     about_p1:'PLOV TG was born from a family plov recipe passed down for four generations. We opened in Dushanbe with one goal — to preserve the authentic taste of Tajik cuisine and serve it in an atmosphere worthy of these recipes.',
@@ -226,6 +247,9 @@ const I18N = {
     why3_t:'Hospitality', why3_d:'Every guest is family. A real dastarkhan always starts with tea.',
     chefs_eyebrow:'Our team', chefs_title:'Head chefs',
     chef1_role:'Head chef · 22 years of experience', chef2_role:'Tandoor & grill chef', chef3_role:'Pastry chef · bakery and desserts',
+    chef1_bio:'Responsible for plov and the kazan. Demo team profile.',
+    chef2_bio:'Grill, shashlik and tandoor bread. Demo team profile.',
+    chef3_bio:'Halisa, fatir and the sweet table. Demo team profile.',
     gallery_eyebrow:'Atmosphere', gallery_title:'Restaurant photo gallery',
     g1:'Hand-carved ceiling', g2:'Traditional dastarkhan', g3:'Navruz festive hall', g4:'Teahouse and VIP hall', g5:'Main hall',
     promo_eyebrow:'Offers', promo_title:'Special offers',
@@ -244,14 +268,14 @@ const I18N = {
     news1_t:'New seasonal menu', news1_d:'We updated the menu with tandoor fatir and seasonal herbs for qurutob.',
     news2_t:'Plov masterclass', news2_d:'Join a masterclass with head chef Usmon Aliev and learn to cook real Tajik plov.',
     news3_t:'VIP hall expansion', news3_d:'We opened a new VIP hall with carved columns for events and meetings.',
-    social_title:'Follow us',
+    social_title:'How to reach us',
     contacts_eyebrow:'Contacts', contacts_title:'Find us',
     c_phone:'Phone:', c_email:'Email:', c_address:'Address:', c_address_val:'25 Rudaki Avenue, Dushanbe',
     c_hours:'Hours:', c_hours_val:'10:00 AM — midnight, daily',
     order_title:'Checkout', order_submit:'Confirm order', order_success:'Thank you! Order #<span id="orderNum"></span> is confirmed and being prepared.',
     cart_title:'Your cart', cart_empty:'Your cart is empty. Add dishes from the menu.', cart_total:'Total:', cart_checkout:'Checkout',
-    footer_tag:'An elite Tajik restaurant in the heart of Dushanbe.', footer_contacts:'Contacts', footer_social:'Social', footer_rights:'All rights reserved.',
-    footer_staff:'Staff login', f_city:'City', f_review:'Your review', err_review:'Write a review (min. 8 characters)',
+    footer_tag:'An elite Tajik restaurant in the heart of Dushanbe.', footer_contacts:'Contacts', footer_social:'Social', footer_nav:'Navigation', footer_hours:'Hours', footer_rights:'All rights reserved.',
+    footer_staff:'Staff login', f_city:'City', f_review:'Your review', err_review:'Write a review (min. 8 characters)', err_city:'Enter a city',
     review_form_title:'Leave a review', review_btn:'Send review', review_success:'Thank you! Your review is awaiting moderation.',
     unit:'TJS'
   },
@@ -269,13 +293,17 @@ const I18N = {
     hero_desc:'Оши палов, манту ва қурутоб — тавре ки дар хонаҳои Самарқанду Душанбе наслҳо пухта мешуданд, дар фазои нури тиллоӣ ва чӯби асил.',
     hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан',
     c_years:'соли анъана', c_dishes:'таом дар меню', c_guests:'меҳмон дар сол', c_chefs:'ошпаз',
-    table_eyebrow:'Дастархони мо', table_title:'Дастархоне, ки тамоми таомҳои тоҷикӣ дар он ҷамъ мешаванд',
-    table_hint:'Сарпӯши таомро пахш кунед, то он кушода шавад. Агар наравед, худ пӯшида мешавад. Таомро пахш кунед — ҳикоя мебарояд.',
+    table_eyebrow:'Дастархони мо', table_title:'Таомҳои 3D-и тоҷикӣ',
+    table_hint:'Тирчаҳо таомро иваз мекунанд. Бо муш гардонед.',
+    dish_prev:'Таоми қаблӣ', dish_next:'Таоми навбатӣ', table_fallback:'3D дар ин браузер дастрас нест.',
     menu_eyebrow:'Менюи тарабхона', menu_title:'Таомҳои асили тоҷикӣ', search_ph:'Ҷустуҷӯи таом… (палов, манту, қурутоб)',
     sort_default:'Мураттабсозӣ', sort_price_asc:'Нарх: аз кам ба зиёд', sort_price_desc:'Нарх: аз зиёд ба кам', sort_name:'Аз рӯи ном',
     cat_all:'Ҳама', cat_main:'Асосӣ', cat_soup:'Шӯрбо', cat_grill:'Гриль', cat_bakery:'Нонворӣ', cat_dessert:'Ширинӣ', cat_drink:'Нӯшокӣ',
     menu_empty:'Чизе ёфт нашуд. Дигар калимаро санҷед.',
-    order_btn:'Фармоиш', details_btn:'Тафсилот', details_about:'Муфассал дар бораи', add_cart:'Ба сабад',
+    order_btn:'Фармоиш', details_btn:'Тафсилот', details_about:'Муфассал дар бораи', add_cart:'Ба сабад', toast_added:'ба сабад илова шуд',
+    cart_clear:'Тоза кардан', privacy_note:'Бо фиристодани форма шумо розӣ ҳастед, ки бо ин тамосҳо оид ба фармоиш ё брон пайванд шавем.',
+    loader_status:'Боркунии дастархон…', table_hero_lead:'Таомҳои тоҷикӣ дар Душанбе — палов, манту ва дастархон.',
+    err_retry:'Амал иҷро нашуд. Бори дигар кӯшиш кунед.',
     reserve_rating:'4.9 · 128 тақриз',
     about_eyebrow:'Таърихи тарабхона', about_title:'14 соли таъми аз ниёгон боқимонда',
     about_p1:'PLOV TG аз рецепти хонаводагии палов, ки чор насл интиқол ёфтааст, ба вуҷуд омад. Мо дар Душанбе бо як ҳадаф кушода шудем — нигоҳ доштани таъми асили таомҳои тоҷикӣ.',
@@ -285,6 +313,9 @@ const I18N = {
     why3_t:'Меҳмоннавозӣ', why3_d:'Ҳар меҳмон — узви оила. Дастархони асил аз чой оғоз мешавад.',
     chefs_eyebrow:'Дастаи мо', chefs_title:'Ошпазони бузург',
     chef1_role:'Ошпази бузург · 22 соли таҷриба', chef2_role:'Ошпази танӯр ва гриль', chef3_role:'Қаннод · нонворӣ ва ширинӣ',
+    chef1_bio:'Барои палов ва дег масъул. Профили намоишӣ.',
+    chef2_bio:'Гриль, шашлик ва нони танӯрӣ. Профили намоишӣ.',
+    chef3_bio:'Ҳалиса, фатир ва мизи ширин. Профили намоишӣ.',
     gallery_eyebrow:'Фазо', gallery_title:'Галереяи расмҳои тарабхона',
     g1:'Шифти кандакории дастӣ', g2:'Дастархони анъанавӣ', g3:'Толори ҷашнии Наврӯз', g4:'Чойхона ва толори VIP', g5:'Толори асосӣ',
     promo_eyebrow:'Аксия', promo_title:'Пешниҳодҳои махсус',
@@ -303,23 +334,27 @@ const I18N = {
     news1_t:'Менюи нави мавсимӣ', news1_d:'Мо менюро бо фатири танӯрӣ ва сабзавоти мавсимӣ барои қурутоб нав кардем.',
     news2_t:'Мастер-класси палов', news2_d:'Ба мастер-класси ошпази бузург Усмон Алиев даъват мекунем.',
     news3_t:'Васеъшавии толори VIP', news3_d:'Толори нави VIP бо сутунҳои кандакорӣ кушода шуд.',
-    social_title:'Мо дар шабакаҳои иҷтимоӣ',
+    social_title:'Чӣ тавр бо мо пайванд шавед',
     contacts_eyebrow:'Тамос', contacts_title:'Моро чӣ тавр пайдо кунед',
     c_phone:'Телефон:', c_email:'Почта:', c_address:'Суроға:', c_address_val:'ш. Душанбе, хиёбони Рӯдакӣ, 25',
     c_hours:'Соатҳои корӣ:', c_hours_val:'10:00 — 24:00, ҳар рӯз',
     order_title:'Расмиёти фармоиш', order_submit:'Тасдиқи фармоиш', order_success:'Ташаккур! Фармоиши №<span id="orderNum"></span> қабул шуд.',
     cart_title:'Сабади шумо', cart_empty:'Сабад холист. Таом аз меню илова кунед.', cart_total:'Ҳамагӣ:', cart_checkout:'Расмият додани фармоиш',
-    footer_tag:'Тарабхонаи баланди таомҳои тоҷикӣ дар маркази Душанбе.', footer_contacts:'Тамос', footer_social:'Шабакаҳо', footer_rights:'Ҳама ҳуқуқҳо ҳифз шудаанд.',
-    footer_staff:'Барои кормандон', f_city:'Шаҳр', f_review:'Тақризи шумо', err_review:'Тақриз нависед (ҳадди ақал 8 аломат)',
+    footer_tag:'Тарабхонаи баланди таомҳои тоҷикӣ дар маркази Душанбе.', footer_contacts:'Тамос', footer_social:'Шабакаҳо', footer_nav:'Навигатсия', footer_hours:'Соатҳои корӣ', footer_rights:'Ҳама ҳуқуқҳо ҳифз шудаанд.',
+    footer_staff:'Барои кормандон', f_city:'Шаҳр', f_review:'Тақризи шумо', err_review:'Тақриз нависед (ҳадди ақал 8 аломат)', err_city:'Шаҳрро ворид кунед',
     review_form_title:'Тақриз гузоштан', review_btn:'Фиристодани тақриз', review_success:'Ташаккур! Тақриз ба санҷиш фиристода шуд.',
     unit:'сомонӣ'
   }
 };
+I18N.tg = I18N.tj;
 let currentLang = localStorage.getItem('plovtg_lang') || 'ru';
+if(currentLang === 'tg') currentLang = 'tj';
 
 function applyI18n(){
-  const dict = I18N[currentLang];
-  document.documentElement.lang = currentLang;
+  if(currentLang === 'tg') currentLang = 'tj';
+  const dict = I18N[currentLang] || I18N.ru;
+  currentLang = I18N[currentLang] ? currentLang : 'ru';
+  document.documentElement.lang = currentLang === 'tj' ? 'tg' : currentLang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const key = el.getAttribute('data-i18n');
     if(dict[key] !== undefined) el.innerHTML = dict[key];
@@ -335,7 +370,7 @@ function applyI18n(){
     el.setAttribute('title', dict[key]);
     el.setAttribute('data-tip', dict[key]);
   });
-  document.getElementById('langLabel').textContent = currentLang.toUpperCase();
+  document.getElementById('langLabel') && (document.getElementById('langLabel').textContent = currentLang.toUpperCase());
   window.currentLang = currentLang;
   renderMenu();
   updateCartUI();
@@ -349,12 +384,36 @@ function initLoader(){
   const loader = document.getElementById('loader');
   const fill = document.getElementById('loaderFill');
   const pct = document.getElementById('loaderPct');
-  if (fill) fill.style.width = '100%';
-  if (pct) pct.textContent = '100%';
-  setTimeout(() => {
-    loader?.classList.add('hide');
-    showWelcome();
-  }, 180);
+  let progress = 8;
+  const setProgress = (n) => {
+    progress = Math.max(progress, Math.min(100, n));
+    if (fill) fill.style.width = progress + '%';
+    if (pct) pct.textContent = Math.round(progress) + '%';
+  };
+  let closed = false;
+  const hide = () => {
+    if (closed) return;
+    closed = true;
+    setProgress(100);
+    setTimeout(() => {
+      loader?.classList.add('hide');
+      showWelcome();
+    }, 220);
+  };
+  window.setDastarkhanProgress = setProgress;
+  const tick = setInterval(() => setProgress(progress + 4), 180);
+  const hideAndStop = () => {
+    clearInterval(tick);
+    hide();
+  };
+  const heroPhoto = document.querySelector('.home-hero__photo');
+  if (heroPhoto) {
+    if (heroPhoto.complete) setProgress(70);
+    else heroPhoto.addEventListener('load', () => setProgress(78), { once: true });
+  }
+  window.addEventListener('plovtg-table-ready', hideAndStop, { once: true });
+  window.addEventListener('plovtg-table-error', hideAndStop, { once: true });
+  setTimeout(hideAndStop, 1800);
 }
 
 function showWelcome(){
@@ -595,6 +654,7 @@ function buildDishRing(){
 function openDishHistoryModal(id) {
   const d = DISHES.find(x => x.id === id);
   if(!d) return;
+  window.plovTrack?.('dish_view', { id });
   
   const dict = I18N[currentLang];
   const history = DISH_HISTORY[id];
@@ -728,47 +788,64 @@ let activeCat = 'all';
 let searchTerm = '';
 let sortMode = 'default';
 
+function langText(value, lang = currentLang){
+  if(value == null) return '';
+  if(typeof value === 'string') return value;
+  return value[lang] || value.ru || value.en || value.tj || '';
+}
+
 function matchesSearch(dish, term){
   if(!term) return true;
-  const hay = [dish.name.ru, dish.name.en, dish.name.tj, dish.id].join(' ').toLowerCase();
-  return hay.includes(term.toLowerCase());
+  const hay = [langText(dish.name, 'ru'), langText(dish.name, 'en'), langText(dish.name, 'tj'), dish.id, langText(dish.desc, 'ru')].join(' ').toLocaleLowerCase();
+  return hay.includes(term.toLocaleLowerCase());
 }
 
 function renderMenu(){
   const grid = document.getElementById('menuGrid');
   const empty = document.getElementById('menuEmpty');
   if(!grid) return;
-  let list = DISHES.filter(d => (activeCat === 'all' || d.cat === activeCat) && matchesSearch(d, searchTerm));
+  const dict = I18N[currentLang] || I18N.ru;
+  let list = DISHES.filter(d => d && (activeCat === 'all' || d.cat === activeCat) && matchesSearch(d, searchTerm));
   if(sortMode === 'price-asc') list = list.slice().sort((a,b)=>a.price-b.price);
   if(sortMode === 'price-desc') list = list.slice().sort((a,b)=>b.price-a.price);
-  if(sortMode === 'name') list = list.slice().sort((a,b)=> (a.name[currentLang]||a.name.ru).localeCompare(b.name[currentLang]||b.name.ru, 'ru'));
+  if(sortMode === 'name') list = list.slice().sort((a,b)=> langText(a.name).localeCompare(langText(b.name), 'ru'));
 
   grid.innerHTML = list.map((d,i)=>{
     const imgSrc = d.img || placeholderDataURI(d.icon);
-    const dict = I18N[currentLang];
+    const name = escapeHtml(langText(d.name));
+    const desc = escapeHtml(langText(d.desc));
+    const cat = CATEGORY_LABEL[d.cat] || CATEGORY_LABEL.main;
+    const details = `${dict.details_about} ${name}`;
     return `
     <article class="dish-card" style="animation-delay:${(i%6)*0.06}s">
       <div class="dish-card__img">
-        <span class="dish-card__cat">${CATEGORY_LABEL[d.cat][currentLang]}</span>
-        <img src="${imgSrc}" alt="${d.name[currentLang]||d.name.ru}" loading="lazy">
+        <span class="dish-card__cat">${cat[currentLang] || cat.ru}</span>
+        <img src="${imgSrc}" alt="${name}" width="400" height="280" loading="lazy" data-fallback="${placeholderDataURI(d.icon)}" onerror="this.onerror=null;this.src=this.dataset.fallback">
       </div>
       <div class="dish-card__body">
-        <div class="dish-card__head"><h3>${d.name[currentLang]||d.name.ru}</h3><span class="dish-card__price">${d.price} ${dict.unit}</span></div>
-        <p class="dish-card__desc">${d.desc[currentLang]||d.desc.ru}</p>
-        <div class="dish-card__meta"><span>🔥 ${d.cal} ${currentLang==='en'?'kcal':'ккал'}</span></div>
+        <div class="dish-card__head"><h3>${name}</h3><span class="dish-card__price">${d.price} ${dict.unit}</span></div>
+        <p class="dish-card__desc">${desc}</p>
+        <div class="dish-card__meta"><span>${d.cal} ${currentLang==='en'?'kcal':'ккал'}</span></div>
         <div class="dish-card__actions">
           <button class="btn btn--gold" data-add="${d.id}">${dict.add_cart}</button>
-          <button class="btn btn--ghost" data-details="${d.id}" aria-label="${dict.details_about} ${d.name[currentLang]||d.name.ru}">${dict.details_about} ${d.name[currentLang]||d.name.ru}</button>
+          <button class="btn btn--ghost" data-details="${d.id}" aria-label="${details}">${details}</button>
         </div>
       </div>
     </article>`;
   }).join('');
 
-  empty.classList.toggle('show', list.length === 0);
+  if(empty) empty.classList.toggle('show', DISHES.length > 0 && list.length === 0);
 }
 
 function initMenuControls(){
-  document.getElementById('menuTabs').addEventListener('click', e=>{
+  const tabs = document.getElementById('menuTabs');
+  const search = document.getElementById('menuSearch');
+  const sort = document.getElementById('menuSort');
+  tabs?.querySelectorAll('.menu-tab').forEach(b=> b.classList.toggle('active', b.dataset.cat === 'all'));
+  activeCat = 'all';
+  if(search){ search.value = ''; searchTerm = ''; }
+  if(sort){ sort.value = 'default'; sortMode = 'default'; }
+  tabs?.addEventListener('click', e=>{
     const btn = e.target.closest('.menu-tab');
     if(!btn) return;
     document.querySelectorAll('.menu-tab').forEach(b=>b.classList.remove('active'));
@@ -776,15 +853,15 @@ function initMenuControls(){
     activeCat = btn.dataset.cat;
     renderMenu();
   });
-  document.getElementById('menuSearch').addEventListener('input', e=>{
+  search?.addEventListener('input', e=>{
     searchTerm = e.target.value.trim();
     renderMenu();
   });
-  document.getElementById('menuSort').addEventListener('change', e=>{
+  sort?.addEventListener('change', e=>{
     sortMode = e.target.value;
     renderMenu();
   });
-  document.getElementById('menuGrid').addEventListener('click', e=>{
+  document.getElementById('menuGrid')?.addEventListener('click', e=>{
     const add = e.target.closest('[data-add]');
     const det = e.target.closest('[data-details]');
     if(add) addToCart(add.dataset.add);
@@ -798,6 +875,7 @@ function initMenuControls(){
 function openDishModal(id){
   const d = DISHES.find(x=>x.id===id);
   if(!d) return;
+  window.plovTrack?.('dish_view', { id });
   const dict = I18N[currentLang];
   const imgSrc = d.img || placeholderDataURI(d.icon);
   document.getElementById('dishModalBody').innerHTML = `
@@ -819,14 +897,38 @@ let cart = JSON.parse(localStorage.getItem('plovtg_cart') || '[]');
 
 function saveCart(){ localStorage.setItem('plovtg_cart', JSON.stringify(cart)); }
 
+function showToast(message){
+  let el = document.getElementById('siteToast');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'siteToast';
+    el.className = 'site-toast';
+    el.setAttribute('role', 'status');
+    document.body.appendChild(el);
+  }
+  el.textContent = message;
+  el.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> el.classList.remove('show'), 2400);
+}
+
+window.plovTrack = function(event, payload){
+  window.dispatchEvent(new CustomEvent('plovtg-analytics', { detail: { event, payload, t: Date.now() } }));
+};
+
 function addToCart(id){
   const existing = cart.find(c=>c.id===id);
   if(existing) existing.qty++;
   else cart.push({ id, qty:1 });
   saveCart(); updateCartUI();
   const btn = document.getElementById('cartBtn');
-  btn.animate([{ transform:'scale(1)' },{ transform:'scale(1.25)' },{ transform:'scale(1)' }], { duration:400, easing:'ease-out' });
+  btn?.animate([{ transform:'scale(1)' },{ transform:'scale(1.25)' },{ transform:'scale(1)' }], { duration:400, easing:'ease-out' });
+  const d = DISHES.find(x=>x.id===id);
+  const dict = I18N[currentLang] || I18N.ru;
+  if(d) showToast(`${langText(d.name)} — ${dict.toast_added || 'добавлен в корзину'}`);
+  window.plovTrack?.('add_to_cart', { id });
 }
+function clearCart(){ cart = []; saveCart(); updateCartUI(); }
 function changeQty(id, delta){
   const item = cart.find(c=>c.id===id);
   if(!item) return;
@@ -855,10 +957,11 @@ function updateCartUI(){
         <h4>${d.name[currentLang]||d.name.ru}</h4>
         <span class="cart-item__price">${d.price} ${dict.unit}</span>
         <div class="cart-item__qty">
-          <button data-dec="${d.id}">−</button><span>${c.qty}</span><button data-inc="${d.id}">+</button>
+          <button data-dec="${d.id}" aria-label="-">−</button><span>${c.qty}</span><button data-inc="${d.id}" aria-label="+">+</button>
         </div>
       </div>
-      <button class="cart-item__remove" data-remove="${d.id}">&times;</button>
+      <div class="cart-item__sum">${d.price * c.qty} ${dict.unit}</div>
+      <button class="cart-item__remove" data-remove="${d.id}" aria-label="Удалить">&times;</button>
     </div>`;
   }).join('');
   emptyEl.classList.toggle('show', cart.length===0);
@@ -883,10 +986,13 @@ function initCart(){
 
   document.getElementById('checkoutBtn').addEventListener('click', ()=>{
     if(cart.length===0) return;
+    window.plovTrack?.('checkout_start', { count: cart.length });
     closeCart();
     renderOrderSummary();
     document.getElementById('orderModal').classList.add('open');
   });
+  const clearBtn = document.getElementById('cartClearBtn');
+  if(clearBtn) clearBtn.addEventListener('click', clearCart);
   updateCartUI();
 }
 
@@ -926,8 +1032,9 @@ function initReviewForm(){
     const err = document.getElementById('reviewError');
     err.classList.remove('show');
     const okName = validateField(document.getElementById('revName'), isName);
+    const okCity = validateField(document.getElementById('revCity'), isName);
     const okText = validateField(document.getElementById('revText'), v => v.length >= 8);
-    if(!(okName && okText)) return;
+    if(!(okName && okCity && okText)) return;
     try{
       await apiPost('/api/reviews', {
         name: document.getElementById('revName').value.trim(),
@@ -965,8 +1072,9 @@ async function loadReviewsFromApi(){
 function initReserveForm(){
   const form = document.getElementById('reserveForm');
   const dateInput = document.getElementById('resDate');
-  dateInput.min = new Date().toISOString().split('T')[0];
-  form.addEventListener('submit', async e=>{
+  if(dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+  form?.addEventListener('focusin', ()=> window.plovTrack?.('reservation_start'), { once: true });
+  form?.addEventListener('submit', async e=>{
     e.preventDefault();
     const err = document.getElementById('reserveError');
     err.classList.remove('show');
@@ -976,6 +1084,9 @@ function initReserveForm(){
     const okDate = validateField(document.getElementById('resDate'), isFutureDate);
     const okTime = validateField(document.getElementById('resTime'), notEmpty);
     if(!(okName && okPhone && okGuests && okDate && okTime)) return;
+    const submit = form.querySelector('[type="submit"]');
+    if(submit){ submit.disabled = true; submit.classList.add('is-loading'); }
+    window.plovTrack?.('reservation_submit');
     try{
       await apiPost('/api/reservations', {
         name: document.getElementById('resName').value.trim(),
@@ -989,8 +1100,11 @@ function initReserveForm(){
       form.reset();
       setTimeout(()=> document.getElementById('reserveSuccess').classList.remove('show'), 6000);
     }catch(ex){
-      err.textContent = ex.message;
+      err.textContent = ex.message || (I18N[currentLang]||I18N.ru).err_retry;
       err.classList.add('show');
+    }finally{
+      const submit = form.querySelector('[type="submit"]');
+      if(submit){ submit.disabled = false; submit.classList.remove('is-loading'); }
     }
   });
 }
@@ -998,18 +1112,23 @@ function initReserveForm(){
 function initOrderForm(){
   const form = document.getElementById('orderForm');
   const dateInput = document.getElementById('orderDate');
-  dateInput.min = new Date().toISOString().split('T')[0];
+  if(dateInput) dateInput.min = new Date().toISOString().split('T')[0];
   form.addEventListener('submit', async e=>{
     e.preventDefault();
     const err = document.getElementById('orderError');
     err.classList.remove('show');
     const okName = validateField(document.getElementById('orderName'), isName);
     const okPhone = validateField(document.getElementById('orderPhone'), isPhone);
-    const okEmail = validateField(document.getElementById('orderEmail'), isEmail);
+    const emailVal = document.getElementById('orderEmail').value.trim();
+    const okEmail = !emailVal || isEmail(emailVal);
+    document.getElementById('orderEmail').closest('.field').classList.toggle('invalid', !okEmail);
     const okAddress = validateField(document.getElementById('orderAddress'), isAddress);
     const okDate = validateField(document.getElementById('orderDate'), isFutureDate);
     const okTime = validateField(document.getElementById('orderTime'), notEmpty);
     if(!(okName && okPhone && okEmail && okAddress && okDate && okTime)) return;
+    const submit = form.querySelector('[type="submit"]');
+    if(submit){ submit.disabled = true; submit.classList.add('is-loading'); }
+    window.plovTrack?.('order_submit');
     try{
       const created = await apiPost('/api/orders', {
         name: document.getElementById('orderName').value.trim(),
@@ -1030,8 +1149,11 @@ function initOrderForm(){
         form.reset();
       }, 3200);
     }catch(ex){
-      err.textContent = ex.message;
+      err.textContent = ex.message || (I18N[currentLang]||I18N.ru).err_retry;
       err.classList.add('show');
+    }finally{
+      const submit = form.querySelector('[type="submit"]');
+      if(submit){ submit.disabled = false; submit.classList.remove('is-loading'); }
     }
   });
 }
@@ -1042,12 +1164,83 @@ function initOrderForm(){
 function initModals(){
   document.querySelectorAll('.modal-close').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      const id = btn.dataset.close || btn.closest('.modal-overlay').id;
-      document.getElementById(id).classList.remove('open');
+      const id = btn.dataset.close || btn.closest('.modal-overlay')?.id;
+      if(id) document.getElementById(id)?.classList.remove('open');
     });
   });
   document.querySelectorAll('.modal-overlay').forEach(ov=>{
     ov.addEventListener('click', e=>{ if(e.target === ov) ov.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key !== 'Escape') return;
+    document.querySelector('.modal-overlay.open')?.classList.remove('open');
+    document.getElementById('lightbox')?.classList.remove('open');
+    document.getElementById('cartDrawer')?.classList.remove('open');
+    document.getElementById('cartOverlay')?.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key !== 'Tab') return;
+    const overlay = document.querySelector('.modal-overlay.open, .lightbox.open');
+    if(!overlay) return;
+    const nodes = [...overlay.querySelectorAll('a,button,input,textarea,select,[tabindex]:not([tabindex="-1"])')]
+      .filter(el => !el.disabled && el.offsetParent !== null);
+    if(!nodes.length) return;
+    const first = nodes[0], last = nodes[nodes.length-1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  });
+}
+
+function initGallery(){
+  const items = [...document.querySelectorAll('.gallery-item')];
+  if(!items.length) return;
+  let box = document.getElementById('lightbox');
+  if(!box){
+    box = document.createElement('div');
+    box.id = 'lightbox';
+    box.className = 'lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.innerHTML = '<button class="lightbox__close" type="button" aria-label="Закрыть">×</button><img alt="">';
+    document.body.appendChild(box);
+  }
+  const img = box.querySelector('img');
+  const close = ()=> {
+    box.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+  };
+  const openAt = (i) => {
+    const el = items[i]?.querySelector('img');
+    if(!el) return;
+    img.src = el.src;
+    img.alt = el.alt;
+    box.dataset.index = String(i);
+    box.classList.add('open');
+    document.body.classList.add('no-scroll');
+    box.querySelector('.lightbox__close')?.focus();
+  };
+  box.addEventListener('click', e=>{ if(e.target !== img) close(); });
+  box.querySelector('.lightbox__close').addEventListener('click', close);
+  items.forEach((item, i)=>{
+    const trigger = ()=> openAt(i);
+    item.addEventListener('click', trigger);
+    item.addEventListener('keydown', e=>{
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); trigger(); }
+    });
+  });
+  let touchX = 0;
+  box.addEventListener('touchstart', e=>{ touchX = e.changedTouches[0].clientX; }, { passive:true });
+  box.addEventListener('touchend', e=>{
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) < 40) return;
+    const next = (Number(box.dataset.index||0) + (dx < 0 ? 1 : -1) + items.length) % items.length;
+    openAt(next);
+  });
+  document.addEventListener('keydown', e=>{
+    if(!box.classList.contains('open')) return;
+    if(e.key === 'ArrowRight') openAt((Number(box.dataset.index||0) + 1) % items.length);
+    if(e.key === 'ArrowLeft') openAt((Number(box.dataset.index||0) - 1 + items.length) % items.length);
   });
 }
 
@@ -1068,8 +1261,8 @@ function initTheme(){
 function initLanguage(){
   const btn = document.getElementById('langBtn');
   const menu = document.getElementById('langMenu');
-  btn.addEventListener('click', ()=> menu.classList.toggle('open'));
-  document.addEventListener('click', e=>{ if(!menu.contains(e.target) && e.target!==btn) menu.classList.remove('open'); });
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); menu.classList.toggle('open'); });
+  document.addEventListener('click', e=>{ if(!menu.contains(e.target) && !btn.contains(e.target)) menu.classList.remove('open'); });
   menu.querySelectorAll('button').forEach(b=>{
     b.addEventListener('click', ()=>{
       currentLang = b.dataset.lang;
@@ -1124,8 +1317,41 @@ function initHeaderAndNav(){
   addEventListener('scroll', ()=> header.classList.toggle('scrolled', scrollY > 40), { passive:true });
   const hamburger = document.getElementById('hamburgerBtn');
   const nav = document.getElementById('mainNav');
+  const extras = document.getElementById('headerExtras');
+  const actions = document.querySelector('.header-actions');
+  const placeExtras = () => {
+    if(!extras || !nav || !actions) return;
+    if(innerWidth <= 980) nav.appendChild(extras);
+    else actions.insertBefore(extras, document.getElementById('cartBtn'));
+  };
+  placeExtras();
+  addEventListener('resize', placeExtras);
+  const closeNav = ()=> { nav.classList.remove('open'); hamburger.classList.remove('open'); };
   hamburger.addEventListener('click', ()=>{ nav.classList.toggle('open'); hamburger.classList.toggle('open'); });
-  nav.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> nav.classList.remove('open')));
+  const goTo = (href) => {
+    const target = document.querySelector(href);
+    if (!target) return;
+    closeNav();
+    const offset = href === '#home' ? 0 : (header.offsetHeight || 80);
+    const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    history.pushState(null, '', href);
+  };
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href || href === '#' || !document.querySelector(href)) return;
+      e.preventDefault();
+      goTo(href);
+    });
+  });
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeNav(); });
+  document.addEventListener('click', e=>{
+    if(!nav.classList.contains('open')) return;
+    if(nav.contains(e.target) || hamburger.contains(e.target)) return;
+    closeNav();
+  });
 
   const toTop = document.getElementById('toTopBtn');
   addEventListener('scroll', ()=> toTop.classList.toggle('show', scrollY > 700), { passive:true });
@@ -1170,22 +1396,33 @@ function initReveal(){
 }
 
 function initCounters(){
+  const stats = SITE.stats;
   const counters = document.querySelectorAll('.counter__num');
+  const run = (el) => {
+    if(el.dataset.done) return;
+    el.dataset.done = '1';
+    const key = el.dataset.stat;
+    const target = key && stats[key] != null ? Number(stats[key]) : Number(el.dataset.count);
+    if(!Number.isFinite(target)) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ el.textContent = target.toLocaleString('ru-RU'); return; }
+    const dur = 1600; const start = performance.now();
+    function tick(now){
+      const p = Math.min((now-start)/dur, 1);
+      const eased = 1 - Math.pow(1-p, 3);
+      el.textContent = Math.floor(eased*target).toLocaleString('ru-RU');
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  };
   const io = new IntersectionObserver(entries=>{
-    entries.forEach(en=>{
-      if(!en.isIntersecting) return;
-      const el = en.target; const target = +el.dataset.count; const dur = 1600; const start = performance.now();
-      function tick(now){
-        const p = Math.min((now-start)/dur, 1);
-        const eased = 1 - Math.pow(1-p, 3);
-        el.textContent = Math.floor(eased*target).toLocaleString('ru-RU');
-        if(p < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-      io.unobserve(el);
-    });
-  }, { threshold: 0.12, rootMargin: '80px 0px' });
-  counters.forEach(c=> io.observe(c));
+    entries.forEach(en=>{ if(en.isIntersecting){ run(en.target); io.unobserve(en.target); } });
+  }, { threshold: 0.01, rootMargin: '120px 0px' });
+  counters.forEach(c=>{
+    io.observe(c);
+    const r = c.getBoundingClientRect();
+    if(r.top < innerHeight && r.bottom > 0) run(c);
+  });
 }
 
 function initRipple(){
@@ -1219,21 +1456,42 @@ function initMagnetic(){
    INIT
 --------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', async ()=>{
-  await loadMenuFromApi();
-  await loadReviewsFromApi();
   window.DISHES = DISHES;
   window.currentLang = currentLang;
   window.openDishHistoryModal = openDishHistoryModal;
   window.addToCart = addToCart;
+  window.plovTrack?.('page_view');
+  renderMenu();
+  initMenuControls();
   initLoader();
+  initReveal();
+  const menuSec = document.getElementById('menu');
+  if(menuSec){
+    const once = new IntersectionObserver((entries)=>{
+      if(entries.some(en => en.isIntersecting)){
+        window.plovTrack?.('menu_view');
+        once.disconnect();
+      }
+    }, { threshold: 0.18 });
+    once.observe(menuSec);
+  }
+  try {
+    await loadMenuFromApi();
+    SITE.stats.dishes = DISHES.length;
+    window.DISHES = DISHES;
+    renderMenu();
+  } catch {
+    renderMenu();
+  }
+  await loadReviewsFromApi();
   initRegistration();
   initHeroCanvas();
-  initMenuControls();
   initCart();
   initReserveForm();
   initOrderForm();
   initReviewForm();
   initModals();
+  initGallery();
   initTheme();
   initLanguage();
   initMusic();
@@ -1243,12 +1501,15 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   initMagnetic();
   applyI18n();
   try {
-    const tableMod = await import('./table3d.js?v=tapfix');
+    const tableMod = await import('./table3d.js?v=dish-show4');
     await tableMod.initDastarkhan();
+    window.dispatchEvent(new Event('plovtg-table-ready'));
     const animMod = await import('./animations.js');
     animMod.initGsapAnimations();
   } catch (err) {
     console.warn('3D / GSAP не загрузились', err);
-    initReveal();
+    window.dispatchEvent(new Event('plovtg-table-error'));
+    document.getElementById('tableFallback')?.removeAttribute('hidden');
+    document.getElementById('dastarkhanCanvas')?.classList.add('is-hidden');
   }
 });

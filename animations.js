@@ -33,9 +33,28 @@ export function initGsapAnimations() {
     }
 
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    intro.from('.table-stage__intro .eyebrow', { y: 16, opacity: 0, duration: 0.45 })
-      .from('.table-stage__intro h2', { y: 22, opacity: 0, duration: 0.5 }, '<0.08')
-      .from('.table-stage__hint', { y: 12, opacity: 0, duration: 0.4 }, '<0.12');
+    intro.from('.home-hero .eyebrow', { y: 16, opacity: 0, duration: 0.5 })
+      .from('.home-hero h1', { y: 22, opacity: 0, duration: 0.55 }, '<0.08')
+      .from('.home-hero__lead', { y: 16, opacity: 0, duration: 0.45 }, '<0.1')
+      .from('.home-hero__actions', { y: 14, opacity: 0, duration: 0.45 }, '<0.08')
+      .from('.home-hero__next', { y: 10, opacity: 0, duration: 0.4 }, '<0.12');
+
+    gsap.fromTo('.home-hero__photo', { scale: 1.12, y: 18 }, {
+      scale: 1.04, y: 0, duration: 1.8, ease: 'power3.out'
+    });
+
+    gsap.from('.table-hero .eyebrow, .table-hero h2, .table-hero__lead', {
+      y: 18, opacity: 0, stagger: 0.08, duration: 0.55, ease: 'power3.out',
+      scrollTrigger: { trigger: '#dastarkhan', start: 'top 78%' }
+    });
+    gsap.from('.dish-nav', {
+      autoAlpha: 0, scale: 0.7, duration: 0.5, stagger: 0.08, ease: 'back.out(1.6)',
+      scrollTrigger: { trigger: '#dastarkhan', start: 'top 70%' }
+    });
+    gsap.from('.dish-dots', {
+      autoAlpha: 0, y: 10, duration: 0.45, ease: 'power2.out',
+      scrollTrigger: { trigger: '#dastarkhan', start: 'top 70%' }
+    });
 
     gsap.fromTo('.hero__content > *', {
       y: 24
@@ -57,7 +76,7 @@ export function initGsapAnimations() {
       transformOrigin: 'top'
     });
 
-    ScrollTrigger.batch('.dish-card, .chef-card, .review-card, .news-card, .promo-card, .why-card, .gallery-item', {
+    ScrollTrigger.batch('.chef-card, .review-card, .news-card, .promo-card, .why-card, .gallery-item', {
       start: 'top 88%',
       onEnter: (els) => gsap.fromTo(els, {
         y: 36, opacity: 0, rotateX: 8
@@ -105,16 +124,5 @@ export function initGsapAnimations() {
         return result;
       };
     }
-
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener('click', (event) => {
-        const id = link.getAttribute('href');
-        if (!id || id === '#') return;
-        const target = document.querySelector(id);
-        if (!target) return;
-        event.preventDefault();
-        gsap.to(window, { duration: 0.7, scrollTo: { y: target, offsetY: 0 }, ease: 'power2.inOut' });
-      });
-    });
   });
 }

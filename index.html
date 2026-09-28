@@ -3,9 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLOV TG — Элитный ресторан таджикской кухни</title>
+<title>PLOV TG — Ресторан таджикской кухни в Душанбе</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="description" content="PLOV TG — ресторан таджикской кухни премиум-класса в Душанбе. Плов, манты, курутоб, шашлык и другие блюда национальной кухни.">
+<link rel="canonical" href="https://web-production-d58c8.up.railway.app/">
+<meta name="description" content="PLOV TG — ресторан таджикской кухни в Душанбе. Плов, манты, курутоб. Бронирование столов и доставка.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PLOV TG — таджикская кухня в Душанбе">
+<meta property="og:description" content="Ресторан с дастарханом: плов, манты, курутоб. Бронирование и доставка.">
+<meta property="og:url" content="https://web-production-d58c8.up.railway.app/">
+<meta property="og:image" content="https://web-production-d58c8.up.railway.app/images/og-plov-tg.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PLOV TG — таджикская кухня в Душанбе">
+<meta name="twitter:description" content="Ресторан с дастарханом: плов, манты, курутоб.">
+<meta name="twitter:image" content="https://web-production-d58c8.up.railway.app/images/og-plov-tg.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Restaurant","name":"PLOV TG","address":{"@type":"PostalAddress","streetAddress":"проспект Рудаки, 25","addressLocality":"Душанбе","addressCountry":"TJ"},"telephone":"+992301155445","servesCuisine":"Tajik","url":"https://web-production-d58c8.up.railway.app/"}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -31,12 +44,13 @@
     </svg>
     <div class="loader__bar"><div class="loader__bar-fill" id="loaderFill"></div></div>
     <p class="loader__pct" id="loaderPct">0%</p>
+    <p class="loader__status" id="loaderStatus" data-i18n="loader_status">Загрузка дастархана…</p>
   </div>
 </div>
 
 <!-- ================= CINEMATIC WELCOME ================= -->
 <div id="welcome" class="welcome">
-  <h1 class="welcome__title" data-i18n="welcome_title">ДОБРО ПОЖАЛОВАТЬ<br>В МИР НАСТОЯЩЕЙ<br><span>ТАДЖИКСКОЙ КУХНИ</span></h1>
+  <h2 class="welcome__title" data-i18n="welcome_title">ДОБРО ПОЖАЛОВАТЬ<br>В МИР НАСТОЯЩЕЙ<br><span>ТАДЖИКСКОЙ КУХНИ</span></h2>
 </div>
 
 <!-- ================= REGISTRATION MODAL ================= -->
@@ -72,8 +86,8 @@
       <span class="logo__main">PLOV</span><span class="logo__sub">TG</span>
     </a>
     <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
-      <a href="#story" data-i18n="nav_home">Главная</a>
-      <a href="#home" data-i18n="nav_dastarkhan">Дастархан</a>
+      <a href="#home" data-i18n="nav_home">Главная</a>
+      <a href="#dastarkhan" data-i18n="nav_dastarkhan">Дастархан</a>
       <a href="#menu" data-i18n="nav_menu">Меню</a>
       <a href="#about" data-i18n="nav_about">О нас</a>
       <a href="#chefs" data-i18n="nav_chefs">Повара</a>
@@ -83,6 +97,7 @@
       <a href="#contacts" data-i18n="nav_contacts">Контакты</a>
     </nav>
     <div class="header-actions">
+      <div class="header-extras" id="headerExtras">
       <button class="icon-btn" id="langBtn" data-i18n-aria="icon_lang" data-tip="Язык" title="Язык" aria-label="Язык">
         <span id="langLabel">RU</span>
         <span class="icon-btn__text" data-i18n="icon_lang">Язык</span>
@@ -104,6 +119,7 @@
         <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><title>Музыка</title><path fill="currentColor" d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
         <span class="icon-btn__text" data-i18n="icon_music">Музыка</span>
       </button>
+      </div>
       <button class="icon-btn cart-btn" id="cartBtn" data-i18n-aria="icon_cart" data-tip="Корзина" title="Корзина" aria-label="Корзина">
         <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><title>Корзина</title><path fill="currentColor" d="M6 6h15l-1.5 9h-12z" opacity=".18"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M3 4h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.6L21 8H6"/><circle cx="9.5" cy="20.5" r="1.3" fill="currentColor"/><circle cx="17.5" cy="20.5" r="1.3" fill="currentColor"/></svg>
         <span class="icon-btn__text" data-i18n="icon_cart">Корзина</span>
@@ -115,50 +131,66 @@
 </header>
 
 <main id="main" tabindex="-1">
-<!-- ================= 3D TABLE FIRST ================= -->
-<section class="table-section" id="home">
+<!-- ================= HOME: cinematic dastarkhan photo ================= -->
+<section class="home-hero" id="home">
+  <img class="home-hero__photo" src="/images/resto-dastarkhan.jpg" alt="Дастархан PLOV TG с пловом, мантами и фатиром" width="1600" height="1067">
+  <div class="home-hero__veil"></div>
+  <div class="home-hero__content">
+    <p class="eyebrow" data-i18n="hero_eyebrow">Ресторан таджикской кухни · Душанбе</p>
+    <h1>PLOV TG</h1>
+    <p class="home-hero__lead" data-i18n="table_hero_lead">Таджикская кухня в Душанбе — плов, манты и дастархан.</p>
+    <div class="home-hero__actions">
+      <a href="#menu" class="btn btn--gold" data-i18n="hero_btn_menu">Посмотреть меню</a>
+      <a href="#reserve" class="btn btn--ghost" data-i18n="hero_btn_book">Забронировать столик</a>
+    </div>
+  </div>
+  <a href="#dastarkhan" class="home-hero__next" data-i18n="nav_dastarkhan">Дастархан</a>
+</section>
+
+<!-- ================= 3D DASTARKHAN ================= -->
+<section class="table-section dish-showcase" id="dastarkhan">
   <div class="table-scroll" id="tableScroll">
     <div class="table-stage" id="tableStage">
-      <div class="table-stage__intro" data-reveal>
+      <div class="table-stage__intro table-hero">
         <p class="eyebrow" data-i18n="table_eyebrow">Наш дастархан</p>
-        <h2 data-i18n="table_title">Стол, за которым собирается вся Таджикская кухня</h2>
+        <h2 data-i18n="table_title">3D блюда таджикской кухни</h2>
+        <p class="table-hero__lead" data-i18n="table_hint">Стрелки переключают блюда. Потяните мышью, чтобы повернуть.</p>
       </div>
       <div class="table-perspective" id="tablePerspective">
-        <canvas id="dastarkhanCanvas" role="img" aria-label="Круглый дастархан с таджикскими узорами сузани"></canvas>
-        <div class="table-caption" id="tableCaption"></div>
+        <p class="table-fallback" id="tableFallback" hidden data-i18n="table_fallback">3D недоступно в этом браузере.</p>
+        <canvas id="dastarkhanCanvas" role="img" aria-label="Трёхмерный плов"></canvas>
+        <button type="button" class="dish-nav dish-nav--prev" id="dishPrev" data-i18n-aria="dish_prev" aria-label="Предыдущее блюдо">‹</button>
+        <button type="button" class="dish-nav dish-nav--next" id="dishNext" data-i18n-aria="dish_next" aria-label="Следующее блюдо">›</button>
+        <div class="table-caption show" id="tableCaption"></div>
+        <div class="dish-dots" id="dishDots" role="tablist" aria-label="Блюда дастархана"></div>
       </div>
-      <div class="table-stage__actions">
-        <a href="#menu" class="btn btn--gold" data-i18n="table_cta">Смотреть меню</a>
-      </div>
-      <p class="table-stage__hint" data-i18n="table_hint">Нажмите на крышку блюда, чтобы открыть его. Если отойдёте — крышка закроется сама. Нажмите на блюдо, чтобы увидеть историю.</p>
     </div>
   </div>
 </section>
 
 <!-- ================= HERO ================= -->
 <section class="hero" id="story">
-  <img class="hero__photo" src="/images/resto-interior.jpg" alt="Чайхана PLOV TG">
+  <img class="hero__photo" src="/images/resto-interior.jpg" alt="Чайхана PLOV TG" width="1600" height="1067">
   <canvas id="heroCanvas" class="hero__canvas"></canvas>
   <div class="hero__vignette"></div>
   <div class="hero__content container">
-    <p class="eyebrow" data-reveal data-i18n="hero_eyebrow">Ресторан таджикской кухни · Душанбе</p>
-    <h1 class="hero__title" data-reveal>
+    <p class="eyebrow" data-reveal data-i18n="about_eyebrow">История ресторана</p>
+    <h2 class="hero__title" data-reveal>
       <span data-i18n="hero_title1">Вкус,</span>
       <span class="gold-text" data-i18n="hero_title2">достойный дастархана</span>
-    </h1>
+    </h2>
     <p class="hero__usp" data-reveal data-i18n="hero_usp">Ресторан в Душанбе — бронирование столов и доставка</p>
     <p class="hero__desc" data-reveal data-i18n="hero_desc">Плов, манты и курутоб, приготовленные так, как их готовили в домах Самарканда и Душанбе поколениями — в атмосфере тёплого золотого света и настоящего дерева.</p>
     <p class="hero__place" data-reveal data-i18n="hero_place">Душанбе, проспект Рудаки, 25</p>
     <div class="hero__actions" data-reveal>
-      <a href="#reserve" class="btn btn--gold magnetic" data-i18n="hero_btn_book">Забронировать столик</a>
-      <a href="#menu" class="btn btn--ghost magnetic" data-i18n="hero_btn_menu">Посмотреть меню</a>
-      <a href="#menu" class="btn btn--text" data-i18n="hero_btn_order">Заказать</a>
+      <a href="#menu" class="btn btn--gold magnetic" data-i18n="hero_btn_menu">Посмотреть меню</a>
+      <a href="#reserve" class="btn btn--ghost magnetic" data-i18n="hero_btn_book">Забронировать столик</a>
     </div>
     <div class="hero__counters" data-reveal>
-      <div class="counter"><span class="counter__num" data-count="14">0</span><span class="counter__label" data-i18n="c_years">лет традиций</span></div>
-      <div class="counter"><span class="counter__num" data-count="12">0</span><span class="counter__label" data-i18n="c_dishes">блюд в меню</span></div>
-      <div class="counter"><span class="counter__num" data-count="48000">0</span><span class="counter__label" data-i18n="c_guests">гостей в год</span></div>
-      <div class="counter"><span class="counter__num" data-count="6">0</span><span class="counter__label" data-i18n="c_chefs">поваров</span></div>
+      <div class="counter"><span class="counter__num" data-stat="years" data-count="14">0</span><span class="counter__label" data-i18n="c_years">лет традиций</span></div>
+      <div class="counter"><span class="counter__num" data-stat="dishes" data-count="12">0</span><span class="counter__label" data-i18n="c_dishes">блюд в меню</span></div>
+      <div class="counter"><span class="counter__num" data-stat="guests" data-count="48000">0</span><span class="counter__label" data-i18n="c_guests">гостей в год</span></div>
+      <div class="counter"><span class="counter__num" data-stat="chefs" data-count="6">0</span><span class="counter__label" data-i18n="c_chefs">поваров</span></div>
     </div>
   </div>
   <div class="scroll-hint"><span></span></div>
@@ -208,8 +240,8 @@
 <section class="about-section" id="about">
   <div class="container about-grid">
     <div class="about-media" data-reveal>
-      <img src="/images/resto-interior.jpg" alt="Чайхана PLOV TG">
-      <img class="about-media__second" src="/images/resto-dastarkhan.jpg" alt="Дастархан в зале">
+      <img src="/images/resto-interior.jpg" alt="Чайхана PLOV TG" width="800" height="1000">
+      <img class="about-media__second" src="/images/resto-dastarkhan.jpg" alt="Дастархан в зале" width="640" height="512">
       <div class="about-media__frame"></div>
     </div>
     <div class="about-text">
@@ -245,19 +277,22 @@
     <h2 class="section-title center" data-i18n="chefs_title">Шеф-повара</h2>
     <div class="chefs-grid">
       <div class="chef-card" data-reveal>
-        <div class="chef-card__img"><img loading="lazy" src="/images/chef-usmon.jpg" alt="Усмон Алиев — главный шеф-повар"></div>
+        <div class="chef-card__img"><img loading="lazy" src="/images/chef-usmon.jpg" width="400" height="533" alt="Усмон Алиев — главный шеф-повар"></div>
         <h3>Усмон Алиев</h3>
         <p class="chef-card__role" data-i18n="chef1_role">Главный шеф-повар · 22 года стажа</p>
+        <p class="chef-card__bio" data-i18n="chef1_bio">Отвечает за плов и казан. Демонстрационный профиль команды.</p>
       </div>
       <div class="chef-card" data-reveal>
-        <div class="chef-card__img"><img loading="lazy" src="/images/chef-nozim.jpg" alt="Нозим Рахимов — шеф-повар гриля"></div>
+        <div class="chef-card__img"><img loading="lazy" src="/images/chef-nozim.jpg" width="400" height="533" alt="Нозим Рахимов — шеф-повар гриля"></div>
         <h3>Нозим Рахимов</h3>
         <p class="chef-card__role" data-i18n="chef2_role">Шеф-повар тандыра и гриля</p>
+        <p class="chef-card__bio" data-i18n="chef2_bio">Гриль, шашлык и выпечка из тандыра. Демонстрационный профиль.</p>
       </div>
       <div class="chef-card" data-reveal>
-        <div class="chef-card__img"><img loading="lazy" src="/images/chef-farrukh.jpg" alt="Фаррух Саидов — кондитер"></div>
+        <div class="chef-card__img"><img loading="lazy" src="/images/chef-farrukh.jpg" width="400" height="533" alt="Фаррух Саидов — кондитер"></div>
         <h3>Фаррух Саидов</h3>
         <p class="chef-card__role" data-i18n="chef3_role">Кондитер · выпечка и десерты</p>
+        <p class="chef-card__bio" data-i18n="chef3_bio">Халиса, фатир и сладкий стол. Демонстрационный профиль.</p>
       </div>
     </div>
   </div>
@@ -269,11 +304,11 @@
     <p class="eyebrow center" data-i18n="gallery_eyebrow">Атмосфера</p>
     <h2 class="section-title center" data-i18n="gallery_title">Фотогалерея ресторана</h2>
     <div class="gallery-grid">
-      <div class="gallery-item span2" data-reveal><img loading="lazy" src="/images/resto-ceiling.jpg" alt="Резной расписной потолок в таджикском стиле"><span data-i18n="g1">Резной потолок ручной работы</span></div>
-      <div class="gallery-item" data-reveal><img loading="lazy" src="/images/resto-dastarkhan.jpg" alt="Традиционный таджикский дастархан"><span data-i18n="g2">Традиционный дастархан</span></div>
-      <div class="gallery-item" data-reveal><img loading="lazy" src="/images/resto-navruz.jpg" alt="Праздничный стол Навруз"><span data-i18n="g3">Праздничный зал Навруз</span></div>
-      <div class="gallery-item span2" data-reveal><img loading="lazy" src="/images/resto-vip.jpg" alt="Чайхана в таджикском стиле"><span data-i18n="g4">Чайхана и VIP-зал</span></div>
-      <div class="gallery-item span2" data-reveal><img loading="lazy" src="/images/resto-interior.jpg" alt="Зал чайханы PLOV TG"><span data-i18n="g5">Главный зал</span></div>
+      <div class="gallery-item span2" data-reveal tabindex="0" role="button" aria-label="Резной расписной потолок в таджикском стиле"><img loading="lazy" src="/images/resto-ceiling.jpg" width="800" height="520" alt="Резной расписной потолок в таджикском стиле"><span data-i18n="g1">Резной потолок ручной работы</span></div>
+      <div class="gallery-item" data-reveal tabindex="0" role="button" aria-label="Традиционный таджикский дастархан"><img loading="lazy" src="/images/resto-dastarkhan.jpg" width="600" height="520" alt="Традиционный таджикский дастархан"><span data-i18n="g2">Традиционный дастархан</span></div>
+      <div class="gallery-item" data-reveal tabindex="0" role="button" aria-label="Праздничный стол Навруз"><img loading="lazy" src="/images/resto-navruz.jpg" width="600" height="520" alt="Праздничный стол Навруз"><span data-i18n="g3">Праздничный зал Навруз</span></div>
+      <div class="gallery-item span2" data-reveal tabindex="0" role="button" aria-label="Чайхана в таджикском стиле"><img loading="lazy" src="/images/resto-vip.jpg" width="800" height="520" alt="Чайхана в таджикском стиле"><span data-i18n="g4">Чайхана и VIP-зал</span></div>
+      <div class="gallery-item span2" data-reveal tabindex="0" role="button" aria-label="Зал чайханы PLOV TG"><img loading="lazy" src="/images/resto-interior.jpg" width="800" height="520" alt="Зал чайханы PLOV TG"><span data-i18n="g5">Главный зал</span></div>
     </div>
   </div>
 </section>
@@ -358,6 +393,7 @@
         <textarea id="resComment" rows="2"></textarea>
       </div>
       <button type="submit" class="btn btn--gold btn--wide magnetic"><span data-i18n="reserve_btn">Забронировать столик</span></button>
+      <p class="form-privacy" data-i18n="privacy_note">Отправляя форму, вы соглашаетесь на обработку указанных контактов для связи по заказу или брони.</p>
       <p class="form-error" id="reserveError"></p>
       <p class="form-success" id="reserveSuccess" data-i18n="reserve_success">Спасибо! Ваша бронь принята, мы свяжемся с вами в ближайшее время.</p>
     </form>
@@ -390,7 +426,7 @@
       <h3 data-i18n="review_form_title">Оставить отзыв</h3>
       <div class="field-row">
         <div class="field"><label for="revName" data-i18n="f_name">Имя</label><input type="text" id="revName" required autocomplete="name"><span class="field__error" data-i18n="err_name">Введите имя (мин. 2 символа)</span></div>
-        <div class="field"><label for="revCity" data-i18n="f_city">Город</label><input type="text" id="revCity"></div>
+        <div class="field"><label for="revCity" data-i18n="f_city">Город</label><input type="text" id="revCity" required autocomplete="address-level2"><span class="field__error" data-i18n="err_city">Укажите город</span></div>
       </div>
       <div class="field">
         <label for="revRating">Оценка</label>
@@ -417,19 +453,19 @@
     <h2 class="section-title center" data-i18n="news_title">Последние события PLOV TG</h2>
     <div class="news-grid">
       <div class="news-card" data-reveal>
-        <img loading="lazy" src="/images/fatir.jpg" alt="Новое сезонное меню">
+        <img loading="lazy" src="/images/resto-navruz.jpg" width="640" height="360" alt="Новое сезонное меню">
         <span class="news-card__date">15 января 2026</span>
         <h3 data-i18n="news1_t">Новое сезонное меню</h3>
         <p data-i18n="news1_d">Мы обновили меню, добавив фатир из тандыра и сезонные травы к курутобу.</p>
       </div>
       <div class="news-card" data-reveal>
-        <img loading="lazy" src="/images/chef-usmon.jpg" alt="Мастер-класс по плову">
+        <img loading="lazy" src="/images/resto-interior.jpg" width="640" height="360" alt="Мастер-класс по плову">
         <span class="news-card__date">10 января 2026</span>
         <h3 data-i18n="news2_t">Мастер-класс по плову</h3>
         <p data-i18n="news2_d">Приглашаем на мастер-класс от шеф-повара Усмона Алиева — научитесь готовить настоящий таджикский плов.</p>
       </div>
       <div class="news-card" data-reveal>
-        <img loading="lazy" src="/images/resto-vip.jpg" alt="Расширение VIP-зала">
+        <img loading="lazy" src="/images/resto-vip.jpg" width="640" height="360" alt="Расширение VIP-зала">
         <span class="news-card__date">5 января 2026</span>
         <h3 data-i18n="news3_t">Расширение VIP-зала</h3>
         <p data-i18n="news3_d">Открыли новый VIP-зал с резными колоннами для торжеств и переговоров.</p>
@@ -441,13 +477,11 @@
 <!-- ================= SOCIAL ================= -->
 <section class="social-section">
   <div class="container">
-    <h2 class="section-title center" data-i18n="social_title">Мы в социальных сетях</h2>
+    <h2 class="section-title center" data-i18n="social_title">Как с нами связаться</h2>
     <div class="social-grid">
-      <a class="social-tile" href="https://instagram.com/plovtg" target="_blank" rel="noopener">Instagram</a>
-      <a class="social-tile" href="https://t.me/plovtg" target="_blank" rel="noopener">Telegram</a>
-      <a class="social-tile" href="https://facebook.com/plovtg" target="_blank" rel="noopener">Facebook</a>
-      <a class="social-tile" href="https://youtube.com/@plovtg" target="_blank" rel="noopener">YouTube</a>
-      <a class="social-tile" href="https://tiktok.com/@plovtg" target="_blank" rel="noopener">TikTok</a>
+      <a class="social-tile" href="tel:+992301155445">+992 30 11 55 45</a>
+      <a class="social-tile" href="mailto:info@plovtg.tj">info@plovtg.tj</a>
+      <a class="social-tile" href="https://maps.google.com/?q=Dushanbe,+Rudaki+Avenue+25" target="_blank" rel="noopener">Душанбе, Рудаки, 25</a>
     </div>
   </div>
 </section>
@@ -461,7 +495,7 @@
       <ul class="contacts-list">
         <li><strong data-i18n="c_phone">Телефон:</strong> <a href="tel:+992301155445">+992 30 11 55 45</a></li>
         <li><strong data-i18n="c_email">Email:</strong> <a href="mailto:info@plovtg.tj">info@plovtg.tj</a></li>
-        <li><strong data-i18n="c_address">Адрес:</strong> <span data-i18n="c_address_val">г. Душанбе, проспект Рудаки, 25</span></li>
+        <li><strong data-i18n="c_address">Адрес:</strong> <a href="https://maps.google.com/?q=Dushanbe,+Rudaki+Avenue+25" target="_blank" rel="noopener" data-i18n="c_address_val">г. Душанбе, проспект Рудаки, 25</a></li>
         <li><strong data-i18n="c_hours">Часы работы:</strong> <span data-i18n="c_hours_val">10:00 — 24:00, ежедневно</span></li>
       </ul>
     </div>
@@ -483,7 +517,7 @@
         <div class="field"><label for="orderName" data-i18n="f_name">Имя</label><input type="text" id="orderName" required autocomplete="name"><span class="field__error" data-i18n="err_name">Введите имя (мин. 2 символа)</span></div>
         <div class="field"><label for="orderPhone" data-i18n="f_phone">Телефон</label><input type="tel" id="orderPhone" required autocomplete="tel"><span class="field__error" data-i18n="err_phone">Введите корректный номер телефона</span></div>
       </div>
-      <div class="field"><label for="orderEmail" data-i18n="reg_email">Email</label><input type="email" id="orderEmail" required autocomplete="email"><span class="field__error" data-i18n="err_email">Введите корректный email</span></div>
+      <div class="field"><label for="orderEmail" data-i18n="reg_email">Email</label><input type="email" id="orderEmail" autocomplete="email"><span class="field__error" data-i18n="err_email">Введите корректный email</span></div>
       <div class="field"><label for="orderAddress" data-i18n="f_address">Адрес доставки</label><input type="text" id="orderAddress" required autocomplete="street-address"><span class="field__error" data-i18n="err_address">Укажите адрес доставки</span></div>
       <div class="field-row">
         <div class="field"><label for="orderDate" data-i18n="f_date">Дата</label><input type="date" id="orderDate" required><span class="field__error" data-i18n="err_date">Выберите дату не в прошлом</span></div>
@@ -492,6 +526,7 @@
       <div class="field"><label for="orderComment" data-i18n="f_comment">Комментарий к заказу</label><textarea id="orderComment" rows="2"></textarea></div>
       <div class="order-modal__summary" id="orderSummary"></div>
       <button type="submit" class="btn btn--gold btn--wide magnetic"><span data-i18n="order_submit">Подтвердить заказ</span></button>
+      <p class="form-privacy" data-i18n="privacy_note">Отправляя форму, вы соглашаетесь на обработку указанных контактов для связи по заказу или брони.</p>
       <p class="form-error" id="orderError"></p>
       <p class="form-success" id="orderSuccess" data-i18n="order_success">Спасибо! Заказ №<span id="orderNum"></span> принят и готовится.</p>
     </form>
@@ -517,6 +552,7 @@
   <p class="cart-empty" id="cartEmptyMsg" data-i18n="cart_empty">Корзина пуста. Добавьте блюда из меню.</p>
   <div class="cart-drawer__foot">
     <div class="cart-total"><span data-i18n="cart_total">Итого:</span> <strong id="cartTotal">0 сомони</strong></div>
+    <button class="btn btn--ghost btn--wide" id="cartClearBtn" type="button" data-i18n="cart_clear">Очистить</button>
     <button class="btn btn--gold btn--wide magnetic" id="checkoutBtn"><span data-i18n="cart_checkout">Оформить заказ</span></button>
   </div>
 </aside>
@@ -533,17 +569,20 @@
       <p><a href="tel:+992301155445">+992 30 11 55 45</a></p>
       <p><a href="mailto:info@plovtg.tj">info@plovtg.tj</a></p>
       <p data-i18n="c_address_val">г. Душанбе, проспект Рудаки, 25</p>
+      <p data-i18n="c_hours_val">10:00 — 24:00, ежедневно</p>
     </div>
     <div>
-      <h4 data-i18n="footer_social">Соцсети</h4>
-      <div class="footer-social">
-        <a href="https://instagram.com/plovtg" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://t.me/plovtg" target="_blank" rel="noopener">Telegram</a>
-        <a href="https://facebook.com/plovtg" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://youtube.com/@plovtg" target="_blank" rel="noopener">YouTube</a>
-        <a href="https://tiktok.com/@plovtg" target="_blank" rel="noopener">TikTok</a>
+      <h4 data-i18n="footer_nav">Навигация</h4>
+      <div class="footer-nav">
+        <a href="#menu" data-i18n="nav_menu">Меню</a>
+        <a href="#reserve" data-i18n="hero_btn_book">Забронировать столик</a>
+        <a href="#contacts" data-i18n="nav_contacts">Контакты</a>
         <a href="/admin.html" data-i18n="footer_staff">Для персонала</a>
       </div>
+    </div>
+    <div>
+      <h4 data-i18n="footer_hours">Часы работы</h4>
+      <p data-i18n="c_hours_val">10:00 — 24:00, ежедневно</p>
     </div>
   </div>
   <div class="container footer-bottom">
@@ -566,6 +605,6 @@
 }
 </script>
 <script src="api.js"></script>
-<script src="script.js?v=tapfix"></script>
+<script src="script.js?v=dish-show4"></script>
 </body>
 </html>

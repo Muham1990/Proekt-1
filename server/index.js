@@ -52,6 +52,10 @@ function clampText(v, max) {
   return typeof v === 'string' ? v.trim().slice(0, max) : '';
 }
 
+function publicSiteUrl() {
+  return String(process.env.PUBLIC_SITE_URL || 'https://web-production-d58c8.up.railway.app').replace(/\/$/, '');
+}
+
 async function main() {
   loadEnv();
   const store = await createStore();
@@ -59,6 +63,7 @@ async function main() {
   const ROOT = path.join(__dirname, '..');
   const app = express();
 
+  app.set('trust proxy', 1);
   app.disable('x-powered-by');
   app.use(helmet({
     contentSecurityPolicy: false,
@@ -95,7 +100,8 @@ async function main() {
   app.get('/api/config', (_req, res) => {
     res.json({
       supabaseUrl: process.env.SUPABASE_URL || '',
-      supabaseAnonKey: process.env.SUPABASE_ANON_KEY || ''
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
+      siteUrl: publicSiteUrl()
     });
   });
 

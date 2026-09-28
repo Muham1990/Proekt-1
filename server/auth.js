@@ -32,13 +32,25 @@ function parseCookies(req) {
   return out;
 }
 
+function cookieSecure() {
+  return process.env.COOKIE_SECURE === '1'
+    || Boolean(process.env.RAILWAY_ENVIRONMENT)
+    || process.env.NODE_ENV === 'production';
+}
+
+function cookieFlags() {
+  const parts = ['HttpOnly', 'SameSite=Lax', 'Path=/'];
+  if (cookieSecure()) parts.push('Secure');
+  return parts.join('; ');
+}
+
 function cookieHeader(token) {
   const maxAge = SESSION_HOURS * 60 * 60;
-  return `${COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`;
+  return `${COOKIE}=${encodeURIComponent(token)}; ${cookieFlags()}; Max-Age=${maxAge}`;
 }
 
 function clearCookieHeader() {
-  return `${COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`;
+  return `${COOKIE}=; ${cookieFlags()}; Max-Age=0`;
 }
 
 function requireAdmin(store) {

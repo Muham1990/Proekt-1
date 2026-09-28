@@ -11,8 +11,13 @@ function getResend() {
   }
 }
 
+function siteUrl() {
+  return String(process.env.PUBLIC_SITE_URL || 'https://web-production-d58c8.up.railway.app').replace(/\/$/, '');
+}
+
 function welcomeHtml(name) {
   const guest = String(name || 'меҳмон').replace(/[<>&]/g, '');
+  const menuUrl = `${siteUrl()}/#menu`;
   return `<!doctype html>
 <html><body style="margin:0;background:#0a0806;font-family:Georgia,serif;color:#f3ead9;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0806;padding:32px 12px;">
@@ -23,7 +28,7 @@ function welcomeHtml(name) {
           <h1 style="margin:0 0 16px;font-size:28px;color:#f3d99c;">Хуш омадед, ${guest}</h1>
           <p style="line-height:1.6;margin:0 0 16px;">Спасибо за регистрацию. Дастархан уже накрыт: плов, манты, курутоб и чай ждут вас в Душанбе.</p>
           <p style="line-height:1.6;margin:0 0 24px;">Откройте меню, забронируйте стол или закажите доставку — мы ответим теплом таджикского гостеприимства.</p>
-          <a href="https://web-production-d58c8.up.railway.app/#menu" style="display:inline-block;background:#d9b56a;color:#14100a;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:700;">Открыть меню</a>
+          <a href="${menuUrl}" style="display:inline-block;background:#d9b56a;color:#14100a;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:700;">Открыть меню</a>
         </td></tr>
       </table>
     </td></tr>
@@ -81,7 +86,7 @@ async function sendWithSupabaseOtp(name, email) {
     options: {
       data: { name },
       shouldCreateUser: true,
-      emailRedirectTo: process.env.PUBLIC_SITE_URL || 'https://web-production-d58c8.up.railway.app'
+      emailRedirectTo: siteUrl()
     }
   });
   if (error) {
