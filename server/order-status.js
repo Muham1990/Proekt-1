@@ -50,7 +50,7 @@ function customerMessage(order) {
   const num = order.order_number;
   switch (normalize(order.status)) {
     case 'PENDING_PAYMENT':
-      return `🟡 Заказ №${num} ожидает оплаты.`;
+      return `🟡 Заказ №${num} ожидает оплату.\n\nОплатите перевод и пришлите фото чека в этот чат.`;
     case 'PENDING_CONFIRMATION':
       return `🟡 Заказ №${num} принят в обработку. Ресторан скоро подтвердит его.`;
     case 'PAID':
@@ -75,7 +75,10 @@ function customerMessage(order) {
 function adminButtons(status) {
   const s = normalize(status);
   const rows = [];
-  if (s === 'PENDING_CONFIRMATION' || s === 'PENDING_PAYMENT' || s === 'PAID') {
+  if (s === 'PENDING_PAYMENT') {
+    rows.push([{ text: '✅ ОПЛАТА ПОЛУЧЕНА', callback_data: 'st:PAID' }, { text: 'ОТКЛОНИТЬ', callback_data: 'st:CANCELLED' }]);
+  }
+  if (s === 'PENDING_CONFIRMATION' || s === 'PAID') {
     rows.push([{ text: 'ПРИНЯТЬ', callback_data: 'st:ACCEPTED' }, { text: 'ОТКЛОНИТЬ', callback_data: 'st:CANCELLED' }]);
   }
   if (s === 'ACCEPTED') {

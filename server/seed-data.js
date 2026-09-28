@@ -21,7 +21,7 @@ const DISHES = [
       en: 'Plov is a symbol of Tajik hospitality. Legend says Tamerlane first cooked it to feed his army. In Tajikistan it is made in a kazan over an open fire with devzira rice.',
       tj: 'Оши палов рамзи меҳмоннавозии тоҷик аст. Мувофиқи афсона Темур онро барои лашкар пухтааст.'
     },
-    img: IMG('plov.jpg')
+    img: IMG('rewards/plov.png')
   },
   {
     id: 'manti', cat: 'main', angle: -128, price: 85, cal: 420,
@@ -41,7 +41,7 @@ const DISHES = [
       en: 'Manti arrived along the Silk Road and were a festive dish for weddings and Navruz.',
       tj: 'Манту тавассути Роҳи Абрешим омада, хӯроки идона ҳисобида мешуд.'
     },
-    img: IMG('manti.jpg')
+    img: IMG('rewards/manti.png')
   },
   {
     id: 'kurutob', cat: 'main', angle: -96, price: 65, cal: 390,
@@ -61,7 +61,7 @@ const DISHES = [
       en: 'Qurutob is Tajikistan’s national treasure. The name comes from qurut and ob. It was once nomad food.',
       tj: 'Қурутоб ганҷи миллии Тоҷикистон аст. Ном аз «қурут» ва «об» омадааст.'
     },
-    img: IMG('kurutob.jpg')
+    img: IMG('rewards/qurutob.png')
   },
   {
     id: 'shashlik', cat: 'grill', angle: -64, price: 140, cal: 520,
@@ -81,7 +81,7 @@ const DISHES = [
       en: 'The secret is a marinade of onion, cumin and pomegranate juice, grilled on walnut or cherry coals.',
       tj: 'Сирри шашлик дар маринад аз пиёз, зира ва шарбати анор аст.'
     },
-    img: IMG('shashlik.jpg')
+    img: IMG('resto-navruz.jpg')
   },
   {
     id: 'kabob', cat: 'grill', angle: -32, price: 110, cal: 470,
@@ -101,7 +101,7 @@ const DISHES = [
       en: 'Kabob was born in the Tajik mountains: minced meat grilled quickly for 10–15 minutes.',
       tj: 'Кабоб дар кӯҳҳои Тоҷикистон таваллуд шудааст ва тез дар ангишт пухта мешавад.'
     },
-    img: IMG('kabob.jpg')
+    img: IMG('resto-vip.jpg')
   },
   {
     id: 'samsa', cat: 'bakery', angle: 0, price: 25, cal: 310,
@@ -121,7 +121,7 @@ const DISHES = [
       en: 'Sambusa is baked in a tandoor at 400°C. The Samarkand–Bukhara recipe dates back to the 10th century.',
       tj: 'Самбӯсаро дар танӯр дар 400°C мепазанд. Рецепт аз асри X омадааст.'
     },
-    img: IMG('samsa.jpg')
+    img: IMG('rewards/sambusa.png')
   },
   {
     id: 'oshi-tugrama', cat: 'soup', angle: 32, price: 70, cal: 340,
@@ -141,7 +141,7 @@ const DISHES = [
       en: 'Oshi tugrama is a northern Tajik soup. In Khujand a pinch of saffron is added.',
       tj: 'Оши туграма шӯрбои шимоли Тоҷикистон аст. Дар Хуҷанд заъфарон мегузоранд.'
     },
-    img: IMG('oshi-tugrama.jpg')
+    img: IMG('resto-interior.jpg')
   },
   {
     id: 'fatir', cat: 'bakery', angle: 64, price: 20, cal: 260,
@@ -161,7 +161,7 @@ const DISHES = [
       en: 'Nomadic tribes baked fatir because it stayed fresh. In the old days it was made on Fridays.',
       tj: 'Фатирро қабоилаи кӯчманчӣ мепухт — он дер хушк намешуд.'
     },
-    img: IMG('fatir.jpg')
+    img: IMG('rewards/sambusa.png')
   },
   {
     id: 'halisa', cat: 'dessert', angle: 96, price: 35, cal: 410, icon: 'dessert',
@@ -181,7 +181,7 @@ const DISHES = [
       en: 'Halisa is cooked on the night before Navruz and stands for the sweetness of the new year.',
       tj: 'Ҳалисаро шаб пеш аз Наврӯз омода мекунанд — рамзи ширинии соли нав.'
     },
-    img: IMG('halisa.jpg')
+    img: IMG('rewards/dessert.png')
   },
   {
     id: 'chakka', cat: 'drink', angle: 128, price: 18, cal: 90,
@@ -201,7 +201,7 @@ const DISHES = [
       en: 'Chakka is Pamir heritage. In GBAO it is made from yak milk. Elders say daily chakka brings a hundred years of life.',
       tj: 'Чакка мероси Помир аст. Дар ВМКБ онро аз шири як месозанд.'
     },
-    img: IMG('chakka.jpg')
+    img: IMG('rewards/dugob.png')
   },
   {
     id: 'shirchoy', cat: 'drink', angle: 160, price: 22, cal: 140, icon: 'tea',
@@ -221,7 +221,7 @@ const DISHES = [
       en: 'Pamir shepherds invented shirchoy to stay warm. It is the first drink a host offers a guest.',
       tj: 'Ширчойро чӯпонони Помир ихтироъ кардаанд. Ин аввалин нӯшокиест, ки хоҷа ба меҳмон медиҳад.'
     },
-    img: IMG('shirchoy.jpg')
+    img: IMG('rewards/tea.png')
   },
   {
     id: 'dugob', cat: 'drink', angle: 192, price: 15, cal: 70,
@@ -241,7 +241,207 @@ const DISHES = [
       en: 'Dugob is a summer drink. The name means “drink twice” — one glass is never enough.',
       tj: 'Дугоб нӯшокии тобистон аст. Ном маънои «ду бор нӯшидан»-ро дорад.'
     },
-    img: IMG('dugob.jpg')
+    img: IMG('rewards/dugob.png')
+  },
+  {
+    id: 'shurpa', cat: 'soup', angle: 224, price: 55, cal: 280,
+    name: { ru: 'Шурпа', en: 'Shurpa', tj: 'Шӯрбо' },
+    desc: {
+      ru: 'Наваристый бульон с бараниной, нутом и овощами — первое блюдо дастархана.',
+      en: 'Rich lamb broth with chickpeas and vegetables — the first course of the dastarkhan.',
+      tj: 'Шӯрбо бо гӯшти гӯсфанд, нахуд ва сабзавот.'
+    },
+    ingredients: {
+      ru: 'баранина, нут, морковь, картофель, лук, зелень',
+      en: 'lamb, chickpeas, carrot, potato, onion, herbs',
+      tj: 'гӯшт, нахуд, сабзӣ, картошка, пиёз'
+    },
+    history: {
+      ru: 'Шурпу варят часами в казане. В Таджикистане её ставят на стол первой, чтобы гость согрелся перед пловом.',
+      en: 'Shurpa simmers for hours in a kazan and is served first so the guest warms up before plov.',
+      tj: 'Шӯрбо дар дег соатҳо ҷӯшонида мешавад ва аввал пешкаш мегардад.'
+    },
+    img: IMG('resto-dastarkhan.jpg')
+  },
+  {
+    id: 'lagman', cat: 'soup', angle: 256, price: 68, cal: 360,
+    name: { ru: 'Лагман', en: 'Lagman', tj: 'Лағмон' },
+    desc: {
+      ru: 'Домашняя лапша в мясном соусе с перцем, редькой и зеленью.',
+      en: 'Hand-pulled noodles in a meat sauce with pepper, radish and herbs.',
+      tj: 'Ресмони дастӣ бо гӯшт, қаламфур ва сабзавот.'
+    },
+    ingredients: {
+      ru: 'лапша, говядина, перец, редька, лук, чеснок',
+      en: 'noodles, beef, pepper, radish, onion, garlic',
+      tj: 'ресмон, гӯшт, қаламфур, турб, пиёз'
+    },
+    history: {
+      ru: 'Лагман пришёл по Шёлковому пути. В Худжанде тесто тянут вручную — от этого зависит «душа» блюда.',
+      en: 'Lagman travelled the Silk Road. In Khujand the dough is pulled by hand — that is the soul of the dish.',
+      tj: 'Лағмон тавассути Роҳи Абрешим омадааст. Дар Хуҷанд хамирро бо даст мекашанд.'
+    },
+    img: IMG('resto-interior.jpg')
+  },
+  {
+    id: 'mastava', cat: 'soup', angle: 288, price: 58, cal: 310,
+    name: { ru: 'Мастава', en: 'Mastava', tj: 'Мастоба' },
+    desc: {
+      ru: 'Густой рисовый суп с говядиной, морковью и томатами.',
+      en: 'Hearty rice soup with beef, carrots and tomatoes.',
+      tj: 'Шӯрбои ғафси биринҷ бо гӯшт ва сабзӣ.'
+    },
+    ingredients: {
+      ru: 'рис, говядина, морковь, томаты, зира, зелень',
+      en: 'rice, beef, carrot, tomato, cumin, herbs',
+      tj: 'биринҷ, гӯшт, сабзӣ, помидор, зира'
+    },
+    history: {
+      ru: 'Мастава — «плов, который стал супом». Её готовили, когда риса было мало, а гостей — много.',
+      en: 'Mastava is “plov that became soup”, cooked when rice was scarce and guests were many.',
+      tj: 'Мастоба — оши палове, ки шӯрбо шуд. Вақте биринҷ кам ва меҳмон зиёд буд, мепухтанд.'
+    },
+    img: IMG('resto-ceiling.jpg')
+  },
+  {
+    id: 'dimlama', cat: 'main', angle: 320, price: 95, cal: 430,
+    name: { ru: 'Димлама', en: 'Dimlama', tj: 'Димлама' },
+    desc: {
+      ru: 'Томлёные слои мяса и овощей в казане — сок остаётся в блюде.',
+      en: 'Slow-stewed layers of meat and vegetables in a kazan, juices kept in the pot.',
+      tj: 'Қабатҳои гӯшт ва сабзавот дар дег оҳиста пухта мешаванд.'
+    },
+    ingredients: {
+      ru: 'баранина, картофель, капуста, морковь, перец, зира',
+      en: 'lamb, potato, cabbage, carrot, pepper, cumin',
+      tj: 'гӯшт, картошка, карам, сабзӣ, қаламфур'
+    },
+    history: {
+      ru: 'Димламу не мешают: каждый слой отдаёт вкус следующему. Так готовили в кишлаках на весь день.',
+      en: 'Dimlama is never stirred: each layer feeds the next. Village cooks left it for the whole day.',
+      tj: 'Димламаро намеомезанд: ҳар қабат ба қабати баъдӣ таъм медиҳад.'
+    },
+    img: IMG('resto-vip.jpg')
+  },
+  {
+    id: 'jiz', cat: 'grill', angle: 352, price: 155, cal: 560,
+    name: { ru: 'Жиз', en: 'Jiz', tj: 'Ҷиз' },
+    desc: {
+      ru: 'Баранина, обжаренная в собственном жире до хрустящей корочки.',
+      en: 'Lamb fried in its own fat until the crust is crisp.',
+      tj: 'Гӯшти гӯсфанд дар равғани худ то қишри хушк бирён.'
+    },
+    ingredients: {
+      ru: 'баранина, курдюк, лук, зира, соль',
+      en: 'lamb, fat tail, onion, cumin, salt',
+      tj: 'гӯшт, думба, пиёз, зира, намак'
+    },
+    history: {
+      ru: 'Жиз — блюдо гор и чабанов. Его едят горячим, с луком и свежим ноном — без соусов.',
+      en: 'Jiz is mountain shepherds’ food. It is eaten hot with onion and fresh non — no sauces.',
+      tj: 'Ҷиз хӯроки кӯҳистон ва чӯпонон аст. Онро гарм бо пиёз ва нони тару тоза мехӯранд.'
+    },
+    img: IMG('resto-navruz.jpg')
+  },
+  {
+    id: 'naryn', cat: 'main', angle: 384, price: 80, cal: 390,
+    name: { ru: 'Нарын', en: 'Naryn', tj: 'Норин' },
+    desc: {
+      ru: 'Тонкая домашняя лапша с отварной кониной или говядиной и луком.',
+      en: 'Fine homemade noodles with boiled beef or horse meat and onion.',
+      tj: 'Ресмони тунук бо гӯшти ҷӯшонда ва пиёз.'
+    },
+    ingredients: {
+      ru: 'лапша, говядина, лук, чёрный перец, бульон',
+      en: 'noodles, beef, onion, black pepper, broth',
+      tj: 'ресмон, гӯшт, пиёз, қаламфур, шӯрбо'
+    },
+    history: {
+      ru: 'Нарын режут очень тонко — мастерство повара видно по ширине ленты. Праздничное блюдо севера.',
+      en: 'Naryn is sliced very thin — the cook’s skill shows in the ribbon. A northern feast dish.',
+      tj: 'Норинро хеле тунук мебуранд — ҳунари ошпаз аз паҳнои лента дида мешавад.'
+    },
+    img: IMG('resto-dastarkhan.jpg')
+  },
+  {
+    id: 'nisholda', cat: 'dessert', angle: 416, price: 28, cal: 220, icon: 'dessert',
+    name: { ru: 'Нишолда', en: 'Nisholda', tj: 'Нишолда' },
+    desc: {
+      ru: 'Воздушный белковый десерт с сахаром — сладость Навруза.',
+      en: 'An airy egg-white and sugar sweet — the taste of Navruz.',
+      tj: 'Ширинии сафеда ва шакар — таъми Наврӯз.'
+    },
+    ingredients: {
+      ru: 'яичный белок, сахар, корень мыльнянки, лимон',
+      en: 'egg white, sugar, soapwort root, lemon',
+      tj: 'сафеда, шакар, решаи сабун, лимӯ'
+    },
+    history: {
+      ru: 'Нишолду взбивают часами перед Наврузом. Белая шапка на столе — пожелание светлого года.',
+      en: 'Nisholda is whisked for hours before Navruz. The white peak on the table wishes a bright year.',
+      tj: 'Нишолдаро пеш аз Наврӯз соатҳо мезананд. Куллаи сафед орзуи соли равшан аст.'
+    },
+    img: IMG('rewards/dessert.png')
+  },
+  {
+    id: 'sumalak', cat: 'dessert', angle: 448, price: 32, cal: 240, icon: 'dessert',
+    name: { ru: 'Сумаляк', en: 'Sumalak', tj: 'Сумалак' },
+    desc: {
+      ru: 'Ритуальное блюдо Навруза из пророщенной пшеницы, томлённое всю ночь.',
+      en: 'A Navruz ritual dish of sprouted wheat, simmered through the night.',
+      tj: 'Хӯроки маросимии Наврӯз аз гандуми сабзида, шаб то субҳ пухта.'
+    },
+    ingredients: {
+      ru: 'пророщенная пшеница, мука, масло, грецкие орехи',
+      en: 'sprouted wheat, flour, oil, walnuts',
+      tj: 'гандуми сабзида, орд, равған, чормағз'
+    },
+    history: {
+      ru: 'Сумаляк варят всю ночь хором, с песнями. Кто мешает котёл — тому год будет сладким.',
+      en: 'Sumalak is cooked all night together, with songs. Whoever stirs the pot is promised a sweet year.',
+      tj: 'Сумалакро шаб то субҳ бо суруд мепазанд. Касе дегро омезад, солаш ширин мешавад.'
+    },
+    img: IMG('resto-navruz.jpg')
+  },
+  {
+    id: 'non', cat: 'bakery', angle: 480, price: 12, cal: 210,
+    name: { ru: 'Нон тандырный', en: 'Tandoor non', tj: 'Нони танӯрӣ' },
+    desc: {
+      ru: 'Круглая лепёшка из тандыра с узором чекича — хлеб к каждому дастархану.',
+      en: 'Round tandoor bread stamped with a chekich pattern — bread for every table.',
+      tj: 'Нони гирдаи танӯрӣ бо нақши чекич — нони ҳар дастархон.'
+    },
+    ingredients: {
+      ru: 'мука, вода, дрожжи, кунжут, соль',
+      en: 'flour, water, yeast, sesame, salt',
+      tj: 'орд, об, хамиртуруш, кунҷит, намак'
+    },
+    history: {
+      ru: 'Нон не режут ножом и не кладут «лицом» вниз — к хлебу в Таджикистане особое почтение.',
+      en: 'Non is not cut with a knife and never laid face-down — bread is treated with respect.',
+      tj: 'Нони тоҷикиро бо корд намебуранд ва рӯйро поён намегузоранд — эҳтироми нон бузург аст.'
+    },
+    img: IMG('rewards/sambusa.png')
+  },
+  {
+    id: 'kompot', cat: 'drink', angle: 512, price: 16, cal: 90,
+    name: { ru: 'Компот из сухофруктов', en: 'Dried-fruit kompot', tj: 'Компоти меваи хушк' },
+    desc: {
+      ru: 'Отвар из урюка, изюма и яблок — домашний напиток к плову.',
+      en: 'A broth of dried apricot, raisins and apple — the house drink with plov.',
+      tj: 'Нӯшокии зардолу, мавиз ва себ — нӯшокии хонагӣ ба оши палов.'
+    },
+    ingredients: {
+      ru: 'урюк, изюм, яблоко, сахар, вода',
+      en: 'dried apricot, raisins, apple, sugar, water',
+      tj: 'зардолу, мавиз, себ, шакар, об'
+    },
+    history: {
+      ru: 'Компот ставят на дастархан вместо газировки. Сухофрукты Памира и Худжанда отдают сладость без резкости.',
+      en: 'Kompot is served instead of soda. Pamir and Khujand dried fruit give sweetness without sharpness.',
+      tj: 'Компотро ба ҷои нӯшокии газдор мегузоранд. Меваи хушки Помиру Хуҷанд ширинии нарм медиҳад.'
+    },
+    img: IMG('rewards/tea.png')
   }
 ];
 

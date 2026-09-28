@@ -155,6 +155,7 @@ function migrate(db) {
     'ALTER TABLE orders ADD COLUMN lat TEXT',
     'ALTER TABLE orders ADD COLUMN lng TEXT',
     'ALTER TABLE orders ADD COLUMN apartment TEXT',
+    'ALTER TABLE orders ADD COLUMN receipt_file_id TEXT',
     'ALTER TABLE reward_claims ADD COLUMN telegram_user_id TEXT'
   ];
   for (const stmt of extraCols) {
@@ -163,28 +164,7 @@ function migrate(db) {
 }
 
 function seedIfEmpty(db) {
-  const dishCount = db.prepare('SELECT COUNT(*) AS n FROM dishes').get().n;
-  if (dishCount === 0) {
-    const insert = db.prepare(`
-      INSERT INTO dishes (
-        id, cat, angle, name_ru, name_en, name_tj,
-        desc_ru, desc_en, desc_tj,
-        ingredients_ru, ingredients_en, ingredients_tj,
-        history_ru, history_en, history_tj,
-        price, cal, img, icon, available, sort_order
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
-    `);
-    DISHES.forEach((d, i) => {
-      insert.run(
-        d.id, d.cat, d.angle,
-        d.name.ru, d.name.en, d.name.tj,
-        d.desc.ru, d.desc.en, d.desc.tj,
-        d.ingredients.ru, d.ingredients.en, d.ingredients.tj,
-        d.history.ru, d.history.en, d.history.tj,
-        d.price, d.cal, d.img, d.icon || null, i
-      );
-    });
-  }
+  upsertDishes(db);
 
   const reviewCount = db.prepare('SELECT COUNT(*) AS n FROM reviews').get().n;
   if (reviewCount === 0) {
@@ -204,9 +184,53 @@ function seedIfEmpty(db) {
   }
 }
 
+function upsertDishes(db) {
+  const stmt = db.prepare(`
+    INSERT INTO dishes (
+      id, cat, angle, name_ru, name_en, name_tj,
+      desc_ru, desc_en, desc_tj,
+      ingredients_ru, ingredients_en, ingredients_tj,
+      history_ru, history_en, history_tj,
+      price, cal, img, icon, available, sort_order
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      cat=excluded.cat,
+      angle=excluded.angle,
+      name_ru=excluded.name_ru,
+      name_en=excluded.name_en,
+      name_tj=excluded.name_tj,
+      desc_ru=excluded.desc_ru,
+      desc_en=excluded.desc_en,
+      desc_tj=excluded.desc_tj,
+      ingredients_ru=excluded.ingredients_ru,
+      ingredients_en=excluded.ingredients_en,
+      ingredients_tj=excluded.ingredients_tj,
+      history_ru=excluded.history_ru,
+      history_en=excluded.history_en,
+      history_tj=excluded.history_tj,
+      price=excluded.price,
+      cal=excluded.cal,
+      img=excluded.img,
+      icon=excluded.icon,
+      sort_order=excluded.sort_order
+  `);
+  const tx = db.transaction(() => {
+    DISHES.forEach((d, i) => {
+      stmt.run(
+        d.id, d.cat, d.angle,
+        d.name.ru, d.name.en, d.name.tj,
+        d.desc.ru, d.desc.en, d.desc.tj,
+        d.ingredients.ru, d.ingredients.en, d.ingredients.tj,
+        d.history.ru, d.history.en, d.history.tj,
+        d.price, d.cal, d.img, d.icon || null, i
+      );
+    });
+  });
+  tx();
+}
+
 function refreshDishImages(db) {
-  const upd = db.prepare('UPDATE dishes SET img = ? WHERE id = ?');
-  DISHES.forEach((d) => upd.run(d.img, d.id));
+  upsertDishes(db);
 }
 
 function mapDish(row) {

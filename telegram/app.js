@@ -20,7 +20,9 @@ const TILES = [
   { id: 'shashlik', emoji: '🍢' },
   { id: 'kurutob', emoji: '🥣' },
   { id: 'samsa', emoji: '🥟' },
-  { id: 'oshi-tugrama', emoji: '🍲' }
+  { id: 'oshi-tugrama', emoji: '🍲' },
+  { id: 'lagman', emoji: '🍜' },
+  { id: 'jiz', emoji: '🔥' }
 ];
 
 const state = {
@@ -294,33 +296,66 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
     const rows = receiptRows();
     const sum = data.total || total();
     document.getElementById('doneTitle').textContent = `Заказ №${data.orderNumber}`;
-    document.getElementById('doneLead').textContent = data.paymentUrl
-      ? (data.paymentReady
-        ? 'Сейчас откроется страница Alif. Данные карты мы не храним.'
-        : 'Alif у ресторана ещё не подключён. Нажмите «Оплатить через Alif» — там можно выбрать оплату при получении.')
+    document.getElementById('doneLead').textContent = data.needsReceipt
+      ? 'Оплатите перевод, сфотографируйте чек и отправьте его ниже.'
       : 'Ресторан получил заказ. Мы напишем в Telegram, когда начнём готовить.';
     document.getElementById('doneBox').innerHTML = `${rows}<div class="receipt-total"><span>Сумма</span><strong>${sum} TJS</strong></div>`;
-    const payBtn = document.getElementById('payAlifBtn');
-    if (payBtn && data.paymentUrl) {
-      payBtn.hidden = false;
-      payBtn.onclick = () => {
-        tg?.openLink?.(data.paymentUrl) || window.open(data.paymentUrl, '_blank');
-      };
-    } else if (payBtn) {
-      payBtn.hidden = true;
-    }
+    state.lastOrderNumber = data.orderNumber;
+    state.receiptImage = null;
+    const receiptBox = document.getElementById('receiptBox');
+    if (receiptBox) receiptBox.hidden = !data.needsReceipt;
     toast(`Заказ №${data.orderNumber}`);
     state.cart = [];
     saveCart();
     state.sessionId = crypto.randomUUID();
     localStorage.setItem('plovtg_tg_reward', state.sessionId);
     state.claim = null;
-    if (data.paymentUrl) {
-      tg?.openLink?.(data.paymentUrl) || window.open(data.paymentUrl, '_blank');
-    }
     go('done');
   } catch (ex) {
     err.textContent = ex.message || 'Не удалось оформить заказ. Попробуйте ещё раз.';
+  }
+});
+
+document.getElementById('receiptFile')?.addEventListener('change', (e) => {
+  const file = e.target.files?.[0];
+  const preview = document.getElementById('receiptPreview');
+  const send = document.getElementById('receiptSend');
+  if (!file || !file.type.startsWith('image/')) {
+    toast('Выберите фото чека');
+    return;
+  }
+  if (file.size > 2_400_000) {
+    toast('Фото слишком большое');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    state.receiptImage = reader.result;
+    if (preview) {
+      preview.src = reader.result;
+      preview.hidden = false;
+    }
+    if (send) send.hidden = false;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('receiptSend')?.addEventListener('click', async () => {
+  const msg = document.getElementById('receiptMsg');
+  if (!state.receiptImage || !state.lastOrderNumber) {
+    toast('Сначала сделайте фото чека');
+    return;
+  }
+  try {
+    const data = await api('/api/telegram/receipt', {
+      orderNumber: state.lastOrderNumber,
+      image: state.receiptImage
+    }, 'POST');
+    if (msg) msg.textContent = data.message || 'Чек отправлен.';
+    toast('Чек отправлен');
+    document.getElementById('receiptSend').hidden = true;
+  } catch (err) {
+    if (msg) msg.textContent = err.message || 'Не удалось отправить чек';
   }
 });
 
@@ -337,3 +372,20 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
     api('/api/telegram/session', {}, 'POST').catch(() => {});
   }
 })();
+
+function openHttp(url) {
+  if (window.Telegram?.WebApp?.openLink) window.Telegram.WebApp.openLink(url);
+  else window.open(url, '_blank', 'noopener');
+}
+
+document.getElementById('tgWriteBtn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  const href = e.currentTarget.getAttribute('href');
+  if (window.Telegram?.WebApp?.openTelegramLink) window.Telegram.WebApp.openTelegramLink(href);
+  else openHttp(href);
+});
+
+document.getElementById('tgMapBtn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  openHttp(e.currentTarget.getAttribute('href'));
+});

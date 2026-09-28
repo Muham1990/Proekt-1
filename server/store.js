@@ -117,6 +117,19 @@ function sqliteStore(db) {
       const itemsStmt = db.prepare('SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ?');
       return orders.map((o) => ({ ...o, items: itemsStmt.all(o.id) }));
     },
+    async getLatestPendingPaymentByTelegram(telegramUserId) {
+      const order = db.prepare(`
+        SELECT * FROM orders
+        WHERE telegram_user_id = ? AND status = 'PENDING_PAYMENT'
+        ORDER BY id DESC LIMIT 1
+      `).get(String(telegramUserId));
+      if (!order) return null;
+      order.items = db.prepare('SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ?').all(order.id);
+      return order;
+    },
+    async saveOrderReceipt(id, fileId) {
+      return db.prepare('UPDATE orders SET receipt_file_id = ? WHERE id = ?').run(String(fileId || ''), id).changes;
+    },
     async upsertTelegramCustomer(row) {
       const existing = db.prepare('SELECT * FROM telegram_customers WHERE telegram_user_id = ?').get(String(row.telegramUserId));
       const sessionId = existing?.session_id || crypto.randomUUID();
@@ -342,6 +355,20 @@ function neonStore(sql) {
       }
       return result;
     },
+    async getLatestPendingPaymentByTelegram(telegramUserId) {
+      const rows = await sql`
+        SELECT * FROM orders
+        WHERE telegram_user_id = ${String(telegramUserId)} AND status = 'PENDING_PAYMENT'
+        ORDER BY id DESC LIMIT 1
+      `;
+      if (!rows[0]) return null;
+      const items = await sql`SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ${rows[0].id}`;
+      return { ...rows[0], items };
+    },
+    async saveOrderReceipt(id, fileId) {
+      const rows = await sql`UPDATE orders SET receipt_file_id = ${String(fileId || '')} WHERE id = ${id} RETURNING id`;
+      return rows.length;
+    },
     async upsertTelegramCustomer(row) {
       const existing = await sql`SELECT * FROM telegram_customers WHERE telegram_user_id = ${String(row.telegramUserId)}`;
       const sessionId = existing[0]?.session_id || crypto.randomUUID();
@@ -480,25 +507,38 @@ function neonStore(sql) {
 }
 
 async function seedNeon(sql) {
-  const dishCount = await sql`SELECT COUNT(*)::int AS n FROM dishes`;
-  if (dishCount[0].n === 0) {
-    for (const [i, d] of DISHES.entries()) {
-      await sql`
-        INSERT INTO dishes (
-          id, cat, angle, name_ru, name_en, name_tj, desc_ru, desc_en, desc_tj,
-          ingredients_ru, ingredients_en, ingredients_tj, history_ru, history_en, history_tj,
-          price, cal, img, icon, available, sort_order
-        ) VALUES (
-          ${d.id}, ${d.cat}, ${d.angle}, ${d.name.ru}, ${d.name.en}, ${d.name.tj},
-          ${d.desc.ru}, ${d.desc.en}, ${d.desc.tj}, ${d.ingredients.ru}, ${d.ingredients.en}, ${d.ingredients.tj},
-          ${d.history.ru}, ${d.history.en}, ${d.history.tj}, ${d.price}, ${d.cal}, ${d.img}, ${d.icon || null}, TRUE, ${i}
-        )
-      `;
-    }
-  } else {
-    for (const d of DISHES) {
-      await sql`UPDATE dishes SET img = ${d.img} WHERE id = ${d.id}`;
-    }
+  for (const [i, d] of DISHES.entries()) {
+    await sql`
+      INSERT INTO dishes (
+        id, cat, angle, name_ru, name_en, name_tj, desc_ru, desc_en, desc_tj,
+        ingredients_ru, ingredients_en, ingredients_tj, history_ru, history_en, history_tj,
+        price, cal, img, icon, available, sort_order
+      ) VALUES (
+        ${d.id}, ${d.cat}, ${d.angle}, ${d.name.ru}, ${d.name.en}, ${d.name.tj},
+        ${d.desc.ru}, ${d.desc.en}, ${d.desc.tj}, ${d.ingredients.ru}, ${d.ingredients.en}, ${d.ingredients.tj},
+        ${d.history.ru}, ${d.history.en}, ${d.history.tj}, ${d.price}, ${d.cal}, ${d.img}, ${d.icon || null}, TRUE, ${i}
+      )
+      ON CONFLICT (id) DO UPDATE SET
+        cat = excluded.cat,
+        angle = excluded.angle,
+        name_ru = excluded.name_ru,
+        name_en = excluded.name_en,
+        name_tj = excluded.name_tj,
+        desc_ru = excluded.desc_ru,
+        desc_en = excluded.desc_en,
+        desc_tj = excluded.desc_tj,
+        ingredients_ru = excluded.ingredients_ru,
+        ingredients_en = excluded.ingredients_en,
+        ingredients_tj = excluded.ingredients_tj,
+        history_ru = excluded.history_ru,
+        history_en = excluded.history_en,
+        history_tj = excluded.history_tj,
+        price = excluded.price,
+        cal = excluded.cal,
+        img = excluded.img,
+        icon = excluded.icon,
+        sort_order = excluded.sort_order
+    `;
   }
   const reviewCount = await sql`SELECT COUNT(*)::int AS n FROM reviews`;
   if (reviewCount[0].n === 0) {

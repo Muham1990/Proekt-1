@@ -3,8 +3,7 @@
 const { MIN_ORDER_AMOUNT, selectReward } = require('./reward-config');
 const { prepareItems, todayStamp } = require('./place-order');
 const statusLib = require('./order-status');
-const { miniAppUrl, publicSiteUrl } = require('./telegram-auth');
-const { checkoutPageUrl, paymentReady } = require('./payments');
+const { miniAppUrl, publicSiteUrl, botLink } = require('./telegram-auth');
 const crypto = require('node:crypto');
 
 const PHONE = '+992301155445';
@@ -37,6 +36,18 @@ async function api(method, body) {
 
 function esc(s) {
   return String(s || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+}
+
+function contactKeyboard() {
+  const write = botLink() || 'https://t.me/resstaurantbot';
+  const site = publicSiteUrl();
+  return {
+    inline_keyboard: [
+      [{ text: '✍️ Написать нам', url: write }],
+      [{ text: '🌐 Сайт ресторана', url: site }],
+      [{ text: '📍 Открыть карту', url: 'https://maps.google.com/?q=Dushanbe,+Rudaki+Avenue+25' }]
+    ]
+  };
 }
 
 function mainKeyboard() {
@@ -110,9 +121,44 @@ async function notifyCustomer(order) {
 
 function orderSummaryText(order, title) {
   const items = (order.items || []).map((i) => `• ${esc(i.name_snapshot)} × ${i.qty}`).join('\n');
-  const pay = order.payment_method === 'card' ? '💳 Карта / Alif' : '💵 При получении';
+  const pay = order.payment_method === 'card' ? '💳 Перевод — фото чека' : '💵 При получении';
   const type = order.fulfillment === 'pickup' ? '🏠 Самовывоз' : '📍 Доставка';
   return `<b>${esc(title)}</b>\n\n№${esc(order.order_number)}\n\n👤 ${esc(order.name)}\n📞 ${esc(order.phone)}\n\n${items}\n\n💰 <b>${order.total} TJS</b>\n${pay}\n${type}\n${esc(order.address || '')}\n\n${statusLib.label(order.status)}`;
+}
+
+async function sendReceiptToAdmin(order, { fileId, buffer, filename } = {}) {
+  const chatId = adminChatId();
+  if (!chatId || !token()) return false;
+  const caption = `🧾 Чек по заказу №${order.order_number}\n👤 ${order.name}\n📞 ${order.phone}\n💰 ${order.total} TJS`;
+  const reply_markup = {
+    inline_keyboard: statusLib.withOrderId([
+      [{ text: '✅ ОПЛАТА ПОЛУЧЕНА', callback_data: 'st:PAID' }, { text: 'ОТКЛОНИТЬ', callback_data: 'st:CANCELLED' }]
+    ], order.id)
+  };
+  try {
+    if (fileId) {
+      await api('sendPhoto', { chat_id: chatId, photo: fileId, caption, reply_markup });
+      return true;
+    }
+    if (buffer && buffer.length) {
+      const form = new FormData();
+      form.append('chat_id', String(chatId));
+      form.append('caption', caption);
+      form.append('reply_markup', JSON.stringify(reply_markup));
+      form.append('photo', new Blob([buffer], { type: 'image/jpeg' }), filename || 'receipt.jpg');
+      const res = await fetch(`https://api.telegram.org/bot${token()}/sendPhoto`, {
+        method: 'POST',
+        body: form,
+        signal: AbortSignal.timeout(28000)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!data.ok) throw new Error(data.description || 'sendPhoto failed');
+      return true;
+    }
+  } catch (err) {
+    console.warn('Telegram receipt:', err.message);
+  }
+  return false;
 }
 
 async function notifyAdmin(order) {
@@ -172,7 +218,7 @@ function faqReply(text, dishes) {
 async function startBot(store) {
   if (!token()) {
     console.log('Telegram-бот: токен не задан, сайт работает без бота.');
-    return { notifyCustomer, notifyAdmin, enabled: false };
+    return { notifyCustomer, notifyAdmin, sendReceiptToAdmin, enabled: false };
   }
 
   try {
@@ -222,6 +268,28 @@ async function startBot(store) {
     const flow = checkout.get(chatId);
     const dishes = await store.listDishes(true);
 
+    const photoId = msg.photo?.[msg.photo.length - 1]?.file_id
+      || (msg.document && /^image\//.test(String(msg.document.mime_type || '')) ? msg.document.file_id : '');
+    if (photoId) {
+      const pending = await store.getLatestPendingPaymentByTelegram(String(from.id));
+      if (pending) {
+        const ok = await sendReceiptToAdmin(pending, { fileId: photoId });
+        if (ok) {
+          try { await store.saveOrderReceipt(pending.id, photoId); } catch (err) {
+            console.warn('save receipt:', err.message);
+          }
+          await api('sendMessage', {
+            chat_id: chatId,
+            text: `Чек по заказу №${pending.order_number} отправлен. Ресторан проверит оплату.`,
+            reply_markup: mainKeyboard()
+          });
+        } else {
+          await api('sendMessage', { chat_id: chatId, text: 'Не удалось отправить чек. Попробуйте ещё раз.' });
+        }
+        return;
+      }
+    }
+
     if (msg.location && flow) {
       flow.lat = msg.location.latitude;
       flow.lng = msg.location.longitude;
@@ -237,13 +305,17 @@ async function startBot(store) {
       checkout.delete(chatId);
       await api('sendMessage', {
         chat_id: chatId,
-        text: '<b>🇹🇯 Добро пожаловать в PLOV TG</b>\n\nТаджикская кухня с доставкой по Душанбе.\nПлов, манты, курутоб — как на домашнем дастархане.',
+        text: '<b>PLOV TG</b>\n<i>Дастархан в Душанбе</i>\n\nПлов · манты · курутоб\nДоставка и самовывоз · 10:00–24:00\n\nСоберите стол ниже или откройте приложение.',
         parse_mode: 'HTML',
         reply_markup: mainKeyboard()
       });
       const web = webAppKeyboard();
       if (web) {
-        await api('sendMessage', { chat_id: chatId, text: 'Полное меню и барабан подарков — в приложении.', reply_markup: web });
+        await api('sendMessage', {
+          chat_id: chatId,
+          text: 'Полное меню, заказ и барабан подарков — в приложении.',
+          reply_markup: web
+        });
       }
       return;
     }
@@ -251,13 +323,9 @@ async function startBot(store) {
     if (text === '/help' || text === '📞 Связаться с нами') {
       await api('sendMessage', {
         chat_id: chatId,
-        text: `📞 Связаться с нами\n\nТелефон: ${PHONE}\nАдрес: ${ADDRESS}\nВремя: ${HOURS}`,
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: '📞 Позвонить', url: 'tel:+992301155445' }],
-            [{ text: '✍️ Написать', url: `https://t.me/${process.env.TELEGRAM_BOT_USERNAME || 'share'}` }]
-          ]
-        }
+        parse_mode: 'HTML',
+        text: `<b>Связаться с нами</b>\n\n📞 ${PHONE}\n📍 ${esc(ADDRESS)}\n🕰 ${esc(HOURS)}\n\nНажмите номер, чтобы позвонить. Написать или открыть карту — кнопки ниже.`,
+        reply_markup: contactKeyboard()
       });
       return;
     }
@@ -312,7 +380,8 @@ async function startBot(store) {
     if (text === '📍 Доставка') {
       await api('sendMessage', {
         chat_id: chatId,
-        text: `Доставка по Душанбе.\nСамовывоз: ${ADDRESS}\n${HOURS}\n\nВ приложении можно отправить геолокацию.`
+        parse_mode: 'HTML',
+        text: `<b>Доставка PLOV TG</b>\n\nПо Душанбе.\nСамовывоз: ${esc(ADDRESS)}\n${esc(HOURS)}\n\nВ приложении можно отправить геолокацию.`
       });
       return;
     }
@@ -445,7 +514,7 @@ async function startBot(store) {
       return;
     }
     if (flow.step === 'pay') {
-      const card = /карт|alif|visa/i.test(text);
+      const card = /карт|alif|visa|перевод|чек/i.test(text);
       const cash = /получен|налич/i.test(text);
       if (!card && !cash) {
         await askPay(chatId);
@@ -461,7 +530,7 @@ async function startBot(store) {
       chat_id: chatId,
       text: 'Способ оплаты:',
       reply_markup: {
-        keyboard: [[{ text: '💵 Оплата при получении' }, { text: '💳 Оплата картой' }], [{ text: 'Отмена' }]],
+        keyboard: [[{ text: '💵 Оплата при получении' }, { text: '💳 Перевод — фото чека' }], [{ text: 'Отмена' }]],
         resize_keyboard: true
       }
     });
@@ -506,21 +575,14 @@ async function startBot(store) {
       carts.set(chatId, { items: [], rewardSessionId: crypto.randomUUID() });
       let extra = '';
       if (flow.payment === 'card') {
-        extra = paymentReady()
-          ? '\n\nНажмите «Оплатить через Alif». Данные карты мы не храним.'
-          : '\n\nAlif ещё не подключён у ресторана. Откройте кнопку оплаты — там можно выбрать оплату при получении.';
+        extra = '\n\nОплатите перевод, затем <b>сфотографируйте чек</b> и отправьте фото в этот чат.';
       }
       await api('sendMessage', {
         chat_id: chatId,
         text: `Заказ <b>№${esc(orderNumber)}</b>\n\n👤 ${esc(flow.name)}\n📞 ${esc(flow.phone)}\n${flow.fulfillment === 'pickup' ? '🏠 Самовывоз' : '📍 Доставка'}\n\n${prepared.map((i) => `• ${esc(i.name_snapshot)} × ${i.qty}`).join('\n')}\n\n💰 <b>${total} TJS</b>\n${statusLib.label(status)}${extra}`,
         parse_mode: 'HTML',
-        reply_markup: flow.payment === 'card'
-          ? { inline_keyboard: [[{ text: '💳 ОПЛАТИТЬ ЧЕРЕЗ ALIF', url: checkoutPageUrl(orderNumber) }]] }
-          : mainKeyboard()
+        reply_markup: mainKeyboard()
       });
-      if (flow.payment === 'card') {
-        await api('sendMessage', { chat_id: chatId, text: 'После оплаты вернитесь в бота.', reply_markup: mainKeyboard() });
-      }
       await notifyAdmin(order);
     } catch (err) {
       await api('sendMessage', {
@@ -691,7 +753,7 @@ async function startBot(store) {
 
   loop().catch((err) => console.warn('Telegram loop stopped:', err.message));
   console.log('Telegram-бот: long polling getUpdates');
-  return { notifyCustomer, notifyAdmin, enabled: true, stop() { running = false; } };
+  return { notifyCustomer, notifyAdmin, sendReceiptToAdmin, enabled: true, stop() { running = false; } };
 }
 
 function catLabel(cat) {
@@ -705,4 +767,4 @@ function catLabel(cat) {
   })[cat] || cat;
 }
 
-module.exports = { startBot, notifyCustomer, notifyAdmin };
+module.exports = { startBot, notifyCustomer, notifyAdmin, sendReceiptToAdmin };

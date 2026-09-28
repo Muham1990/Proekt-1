@@ -84,7 +84,10 @@ async function main() {
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false
   }));
-  app.use(express.json({ limit: '32kb' }));
+  app.use((req, res, next) => {
+    if (req.path === '/api/telegram/receipt') return next();
+    express.json({ limit: '32kb' })(req, res, next);
+  });
   app.use(express.urlencoded({ extended: false, limit: '32kb' }));
 
   app.use('/vendor/gsap', express.static(path.join(ROOT, 'node_modules/gsap')));

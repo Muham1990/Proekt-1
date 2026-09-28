@@ -18,7 +18,7 @@ const SITE = {
   phone: '+992301155445',
   email: 'info@plovtg.tj',
   demo: true,
-  stats: { years: 14, dishes: 12, guests: 48000, chefs: 6 }
+  stats: { years: 14, dishes: 22, guests: 48000, chefs: 6 }
 };
 
 const DISHES = [
@@ -27,84 +27,154 @@ const DISHES = [
     name: { ru: 'Плов', en: 'Plov', tj: 'Оши палов' },
     desc: { ru: 'Классический таджикский плов с бараниной, морковью и нутом, томлённый в казане.', en: 'Classic Tajik pilaf with lamb, carrots and chickpeas, slow-cooked in a kazan.', tj: 'Оши палави суннатии тоҷикӣ бо гӯшти гӯсфанд.' },
     price: 120, cal: 480, ingredients: { ru: 'рис девзира, баранина, морковь, нут, лук, зира', en: 'devzira rice, lamb, carrot, chickpeas, onion, cumin', tj: 'биринҷ, гӯшт, сабзӣ, нахуд, пиёз, зира' },
-    img: IMG('plov.jpg')
+    img: IMG('rewards/plov.png')
   },
   {
     id: 'manti', cat: 'main', angle: -128,
     name: { ru: 'Манты', en: 'Manti', tj: 'Манту' },
     desc: { ru: 'Нежные манты с сочной бараниной и ароматным луком, подаются со сметаной.', en: 'Tender steamed dumplings with juicy lamb and onion, served with sour cream.', tj: 'Манти нарм бо гӯшти гӯсфанд ва пиёз.' },
     price: 85, cal: 420, ingredients: { ru: 'тесто, баранина, лук, чёрный перец, сметана', en: 'dough, lamb, onion, black pepper, sour cream', tj: 'хамир, гӯшт, пиёз, қаламфур' },
-    img: IMG('manti.jpg')
+    img: IMG('rewards/manti.png')
   },
   {
     id: 'kurutob', cat: 'main', angle: -96,
     name: { ru: 'Курутоб', en: 'Qurutob', tj: 'Қурутоб' },
     desc: { ru: 'Национальное блюдо из слоёного хлеба фатир с курутом, помидорами и луком.', en: 'National dish of layered fatir bread with qurut (dried yoghurt), tomatoes and onion.', tj: 'Хӯроки миллӣ аз фатир бо қурут ва помидор.' },
     price: 65, cal: 390, ingredients: { ru: 'фатир, курут, помидоры, лук, зелень, льняное масло', en: 'fatir bread, qurut, tomato, onion, herbs, linseed oil', tj: 'фатир, қурут, помидор, пиёз, сабзавот' },
-    img: IMG('kurutob.jpg')
+    img: IMG('rewards/qurutob.png')
   },
   {
     id: 'shashlik', cat: 'grill', angle: -64,
     name: { ru: 'Шашлык', en: 'Shashlik', tj: 'Шашлик' },
     desc: { ru: 'Сочные кусочки баранины, маринованные в специях и обжаренные на углях.', en: 'Juicy lamb chunks marinated in spices, grilled over charcoal.', tj: 'Порчаҳои гӯшти гӯсфанд, дар ангишт бирён карда шуда.' },
     price: 140, cal: 520, ingredients: { ru: 'баранина, лук, зира, красный перец, уксус', en: 'lamb, onion, cumin, red pepper, vinegar', tj: 'гӯшт, пиёз, зира, қаламфури сурх' },
-    img: IMG('shashlik.jpg')
+    img: IMG('resto-navruz.jpg')
   },
   {
     id: 'kabob', cat: 'grill', angle: -32,
     name: { ru: 'Кабоб', en: 'Kabob', tj: 'Кабоб' },
     desc: { ru: 'Рубленое мясо на шампуре с луком и специями, обжаренное на открытом огне.', en: 'Minced meat skewers with onion and spices, grilled over open fire.', tj: 'Гӯшти қима дар сих бо пиёз ва ҳанут.' },
     price: 110, cal: 470, ingredients: { ru: 'говядина, баранина, лук, кориандр, зира', en: 'beef, lamb, onion, coriander, cumin', tj: 'гӯшти гов, пиёз, кашнич, зира' },
-    img: IMG('kabob.jpg')
+    img: IMG('resto-vip.jpg')
   },
   {
     id: 'samsa', cat: 'bakery', angle: 0,
     name: { ru: 'Самбуса', en: 'Sambusa', tj: 'Самбӯса' },
     desc: { ru: 'Слоёные пирожки с бараниной и луком, запечённые в тандыре.', en: 'Flaky pastry filled with lamb and onion, baked in a tandoor.', tj: 'Самбӯсаи қабатнок бо гӯшт ва пиёз аз танӯр.' },
     price: 25, cal: 310, ingredients: { ru: 'слоёное тесто, баранина, лук, зира', en: 'puff pastry, lamb, onion, cumin', tj: 'хамир, гӯшт, пиёз, зира' },
-    img: IMG('samsa.jpg')
+    img: IMG('rewards/sambusa.png')
   },
   {
     id: 'oshi-tugrama', cat: 'soup', angle: 32,
     name: { ru: 'Оши Туграма', en: 'Oshi Tugrama', tj: 'Оши туграма' },
     desc: { ru: 'Наваристый суп с домашней лапшой, говядиной и овощами.', en: 'Rich soup with hand-cut noodles, beef and vegetables.', tj: 'Шӯрбои бой бо равған, гӯшт ва сабзавот.' },
     price: 70, cal: 340, ingredients: { ru: 'лапша, говядина, нут, картофель, зелень', en: 'noodles, beef, chickpeas, potato, herbs', tj: 'ресмон, гӯшт, нахуд, картошка' },
-    img: IMG('oshi-tugrama.jpg')
+    img: IMG('resto-interior.jpg')
   },
   {
     id: 'fatir', cat: 'bakery', angle: 64,
     name: { ru: 'Фатир', en: 'Fatir', tj: 'Фатир' },
     desc: { ru: 'Слоёная лепёшка из тандыра — основа для курутоба и самостоятельная закуска.', en: 'Layered tandoor flatbread — the base for qurutob and a snack on its own.', tj: 'Нони қабатноки танӯрӣ.' },
     price: 20, cal: 260, ingredients: { ru: 'мука, вода, масло, соль', en: 'flour, water, oil, salt', tj: 'орд, об, равған, намак' },
-    img: IMG('fatir.jpg')
+    img: IMG('rewards/sambusa.png')
   },
   {
     id: 'halisa', cat: 'dessert', angle: 96,
     name: { ru: 'Халиса', en: 'Halisa', tj: 'Ҳалиса' },
     desc: { ru: 'Тягучий десерт из муки и топлёного масла с сахарным сиропом.', en: 'A silky flour-and-ghee dessert finished with sugar syrup.', tj: 'Ширинии орд бо равған ва шарбати шакар.' },
     price: 35, cal: 410, ingredients: { ru: 'мука, топлёное масло, сахарный сироп, орехи', en: 'flour, ghee, sugar syrup, nuts', tj: 'орд, равған, шарбат, чормағз' },
-    img: IMG('halisa.jpg'), icon: 'dessert'
+    img: IMG('rewards/dessert.png'), icon: 'dessert'
   },
   {
     id: 'chakka', cat: 'drink', angle: 128,
     name: { ru: 'Чакка', en: 'Chakka', tj: 'Чакка' },
     desc: { ru: 'Густой кисломолочный продукт — таджикская версия густого йогурта.', en: 'Thick strained yoghurt — the Tajik take on cultured dairy.', tj: 'Маҳсули ширии ғафс.' },
     price: 18, cal: 90, ingredients: { ru: 'молоко, закваска, соль', en: 'milk, culture, salt', tj: 'шир, хамиртуруш, намак' },
-    img: IMG('chakka.jpg')
+    img: IMG('rewards/dugob.png')
   },
   {
     id: 'shirchoy', cat: 'drink', angle: 160,
     name: { ru: 'Ширчой', en: 'Shirchoy', tj: 'Ширчой' },
     desc: { ru: 'Традиционный чай с молоком, маслом и щепоткой соли — тёплый завтрак Памира.', en: 'Traditional milk tea with butter and a pinch of salt — a warm Pamir breakfast.', tj: 'Чойи анъанавӣ бо шир ва равған.' },
     price: 22, cal: 140, ingredients: { ru: 'чёрный чай, молоко, масло, соль', en: 'black tea, milk, butter, salt', tj: 'чойи сиёҳ, шир, равған, намак' },
-    img: IMG('shirchoy.jpg'), icon: 'tea'
+    img: IMG('rewards/tea.png'), icon: 'tea'
   },
   {
     id: 'dugob', cat: 'drink', angle: 192,
     name: { ru: 'Дугоб', en: 'Dugob', tj: 'Дугоб' },
     desc: { ru: 'Освежающий йогуртовый напиток с холодной водой и мятой.', en: 'Refreshing chilled yoghurt drink with mint.', tj: 'Нӯшокии хунуки чакка бо об ва наъно.' },
     price: 15, cal: 70, ingredients: { ru: 'йогурт, вода, мята, соль', en: 'yoghurt, water, mint, salt', tj: 'чакка, об, наъно, намак' },
-    img: IMG('dugob.jpg')
+    img: IMG('rewards/dugob.png')
+  },
+  {
+    id: 'shurpa', cat: 'soup', angle: 224, price: 55, cal: 280,
+    name: { ru: 'Шурпа', en: 'Shurpa', tj: 'Шӯрбо' },
+    desc: { ru: 'Наваристый бульон с бараниной, нутом и овощами — первое блюдо дастархана.', en: 'Rich lamb broth with chickpeas and vegetables — the first course of the dastarkhan.', tj: 'Шӯрбо бо гӯшти гӯсфанд, нахуд ва сабзавот.' },
+    ingredients: { ru: 'баранина, нут, морковь, картофель, лук, зелень', en: 'lamb, chickpeas, carrot, potato, onion, herbs', tj: 'гӯшт, нахуд, сабзӣ, картошка, пиёз' },
+    img: IMG('resto-dastarkhan.jpg')
+  },
+  {
+    id: 'lagman', cat: 'soup', angle: 256, price: 68, cal: 360,
+    name: { ru: 'Лагман', en: 'Lagman', tj: 'Лағмон' },
+    desc: { ru: 'Домашняя лапша в мясном соусе с перцем, редькой и зеленью.', en: 'Hand-pulled noodles in a meat sauce with pepper, radish and herbs.', tj: 'Ресмони дастӣ бо гӯшт, қаламфур ва сабзавот.' },
+    ingredients: { ru: 'лапша, говядина, перец, редька, лук, чеснок', en: 'noodles, beef, pepper, radish, onion, garlic', tj: 'ресмон, гӯшт, қаламфур, турб, пиёз' },
+    img: IMG('resto-interior.jpg')
+  },
+  {
+    id: 'mastava', cat: 'soup', angle: 288, price: 58, cal: 310,
+    name: { ru: 'Мастава', en: 'Mastava', tj: 'Мастоба' },
+    desc: { ru: 'Густой рисовый суп с говядиной, морковью и томатами.', en: 'Hearty rice soup with beef, carrots and tomatoes.', tj: 'Шӯрбои ғафси биринҷ бо гӯшт ва сабзӣ.' },
+    ingredients: { ru: 'рис, говядина, морковь, томаты, зира, зелень', en: 'rice, beef, carrot, tomato, cumin, herbs', tj: 'биринҷ, гӯшт, сабзӣ, помидор, зира' },
+    img: IMG('resto-ceiling.jpg')
+  },
+  {
+    id: 'dimlama', cat: 'main', angle: 320, price: 95, cal: 430,
+    name: { ru: 'Димлама', en: 'Dimlama', tj: 'Димлама' },
+    desc: { ru: 'Томлёные слои мяса и овощей в казане — сок остаётся в блюде.', en: 'Slow-stewed layers of meat and vegetables in a kazan, juices kept in the pot.', tj: 'Қабатҳои гӯшт ва сабзавот дар дег оҳиста пухта мешаванд.' },
+    ingredients: { ru: 'баранина, картофель, капуста, морковь, перец, зира', en: 'lamb, potato, cabbage, carrot, pepper, cumin', tj: 'гӯшт, картошка, карам, сабзӣ, қаламфур' },
+    img: IMG('resto-vip.jpg')
+  },
+  {
+    id: 'jiz', cat: 'grill', angle: 352, price: 155, cal: 560,
+    name: { ru: 'Жиз', en: 'Jiz', tj: 'Ҷиз' },
+    desc: { ru: 'Баранина, обжаренная в собственном жире до хрустящей корочки.', en: 'Lamb fried in its own fat until the crust is crisp.', tj: 'Гӯшти гӯсфанд дар равғани худ то қишри хушк бирён.' },
+    ingredients: { ru: 'баранина, курдюк, лук, зира, соль', en: 'lamb, fat tail, onion, cumin, salt', tj: 'гӯшт, думба, пиёз, зира, намак' },
+    img: IMG('resto-navruz.jpg')
+  },
+  {
+    id: 'naryn', cat: 'main', angle: 384, price: 80, cal: 390,
+    name: { ru: 'Нарын', en: 'Naryn', tj: 'Норин' },
+    desc: { ru: 'Тонкая домашняя лапша с отварной говядиной и луком.', en: 'Fine homemade noodles with boiled beef and onion.', tj: 'Ресмони тунук бо гӯшти ҷӯшонда ва пиёз.' },
+    ingredients: { ru: 'лапша, говядина, лук, чёрный перец, бульон', en: 'noodles, beef, onion, black pepper, broth', tj: 'ресмон, гӯшт, пиёз, қаламфур, шӯрбо' },
+    img: IMG('resto-dastarkhan.jpg')
+  },
+  {
+    id: 'nisholda', cat: 'dessert', angle: 416, price: 28, cal: 220, icon: 'dessert',
+    name: { ru: 'Нишолда', en: 'Nisholda', tj: 'Нишолда' },
+    desc: { ru: 'Воздушный белковый десерт с сахаром — сладость Навруза.', en: 'An airy egg-white and sugar sweet — the taste of Navruz.', tj: 'Ширинии сафеда ва шакар — таъми Наврӯз.' },
+    ingredients: { ru: 'яичный белок, сахар, лимон', en: 'egg white, sugar, lemon', tj: 'сафеда, шакар, лимӯ' },
+    img: IMG('rewards/dessert.png')
+  },
+  {
+    id: 'sumalak', cat: 'dessert', angle: 448, price: 32, cal: 240, icon: 'dessert',
+    name: { ru: 'Сумаляк', en: 'Sumalak', tj: 'Сумалак' },
+    desc: { ru: 'Ритуальное блюдо Навруза из пророщенной пшеницы, томлённое всю ночь.', en: 'A Navruz ritual dish of sprouted wheat, simmered through the night.', tj: 'Хӯроки маросимии Наврӯз аз гандуми сабзида.' },
+    ingredients: { ru: 'пророщенная пшеница, мука, масло, грецкие орехи', en: 'sprouted wheat, flour, oil, walnuts', tj: 'гандуми сабзида, орд, равған, чормағз' },
+    img: IMG('resto-navruz.jpg')
+  },
+  {
+    id: 'non', cat: 'bakery', angle: 480, price: 12, cal: 210,
+    name: { ru: 'Нон тандырный', en: 'Tandoor non', tj: 'Нони танӯрӣ' },
+    desc: { ru: 'Круглая лепёшка из тандыра с узором чекича — хлеб к каждому дастархану.', en: 'Round tandoor bread stamped with a chekich pattern — bread for every table.', tj: 'Нони гирдаи танӯрӣ бо нақши чекич.' },
+    ingredients: { ru: 'мука, вода, дрожжи, кунжут, соль', en: 'flour, water, yeast, sesame, salt', tj: 'орд, об, хамиртуруш, кунҷит, намак' },
+    img: IMG('rewards/sambusa.png')
+  },
+  {
+    id: 'kompot', cat: 'drink', angle: 512, price: 16, cal: 90,
+    name: { ru: 'Компот из сухофруктов', en: 'Dried-fruit kompot', tj: 'Компоти меваи хушк' },
+    desc: { ru: 'Отвар из урюка, изюма и яблок — домашний напиток к плову.', en: 'A broth of dried apricot, raisins and apple — the house drink with plov.', tj: 'Нӯшокии зардолу, мавиз ва себ ба оши палов.' },
+    ingredients: { ru: 'урюк, изюм, яблоко, сахар, вода', en: 'dried apricot, raisins, apple, sugar, water', tj: 'зардолу, мавиз, себ, шакар, об' },
+    img: IMG('rewards/tea.png')
   }
 ];
 
@@ -160,6 +230,7 @@ const I18N = {
     err_code:'Введите 6-значный код из письма',
     err_guests:'От 1 до 50 гостей', err_date:'Выберите дату не в прошлом', err_time:'Укажите время', err_address:'Укажите адрес доставки',
     nav_home:'Главная', nav_dastarkhan:'Дастархан', nav_menu:'Меню', nav_about:'О нас', nav_chefs:'Повара', nav_gallery:'Галерея', nav_reviews:'Отзывы', nav_news:'Новости', nav_contacts:'Контакты',
+    nav_register:'Регистрация',
     skip_menu:'Перейти к меню', skip_content:'Перейти к основному содержимому', table_cta:'Смотреть меню', hero_place:'Душанбе, проспект Рудаки, 25', search_label:'Поиск по меню',
     icon_lang:'Язык', icon_profile:'Профиль', icon_theme:'Тема', icon_music:'Музыка', icon_cart:'Корзина',
     hero_eyebrow:'Ресторан таджикской кухни · Душанбе', hero_title1:'Вкус,', hero_title2:'достойный дастархана',
@@ -246,6 +317,7 @@ const I18N = {
     err_code:'Enter the 6-digit code from the email',
     err_guests:'From 1 to 50 guests', err_date:'Choose a date not in the past', err_time:'Choose a time', err_address:'Enter a delivery address',
     nav_home:'Home', nav_dastarkhan:'Dastarkhan', nav_menu:'Menu', nav_about:'About', nav_chefs:'Chefs', nav_gallery:'Gallery', nav_reviews:'Reviews', nav_news:'News', nav_contacts:'Contacts',
+    nav_register:'Register',
     skip_menu:'Skip to menu', skip_content:'Skip to main content', table_cta:'View menu', hero_place:'25 Rudaki Avenue, Dushanbe', search_label:'Search the menu',
     icon_lang:'Language', icon_profile:'Profile', icon_theme:'Theme', icon_music:'Music', icon_cart:'Cart',
     hero_eyebrow:'Tajik cuisine restaurant · Dushanbe', hero_title1:'A taste', hero_title2:'worthy of the dastarkhan',
@@ -332,6 +404,7 @@ const I18N = {
     err_code:'Рамзи 6-рақамаро аз почта ворид кунед',
     err_guests:'Аз 1 то 50 меҳмон', err_date:'Санаи гузаштаро интихоб накунед', err_time:'Вақтро нишон диҳед', err_address:'Суроғаи расониданро ворид кунед',
     nav_home:'Асосӣ', nav_dastarkhan:'Дастархон', nav_menu:'Меню', nav_about:'Дар бораи мо', nav_chefs:'Ошпазон', nav_gallery:'Галерея', nav_reviews:'Тақризҳо', nav_news:'Ахбор', nav_contacts:'Тамос',
+    nav_register:'Бақайдгирӣ',
     skip_menu:'Ба меню гузаред', skip_content:'Ба қисми асосӣ гузаред', table_cta:'Дидани меню', hero_place:'ш. Душанбе, хиёбони Рӯдакӣ, 25', search_label:'Ҷустуҷӯи меню',
     icon_lang:'Забон', icon_profile:'Профил', icon_theme:'Мавзуъ', icon_music:'Мусиқӣ', icon_cart:'Сабад',
     hero_eyebrow:'Тарабхонаи таомҳои тоҷикӣ · Душанбе', hero_title1:'Таъме,', hero_title2:'сазовори дастархон',
@@ -475,19 +548,27 @@ function initLoader(){
   }
   window.addEventListener('plovtg-table-ready', hideAndStop, { once: true });
   window.addEventListener('plovtg-table-error', hideAndStop, { once: true });
-  setTimeout(hideAndStop, 1800);
+  window.addEventListener('load', hideAndStop, { once: true });
+  setTimeout(hideAndStop, 700);
 }
 
 function showWelcome(){
   const welcome = document.getElementById('welcome');
+  const skip = sessionStorage.getItem('plovtg_welcomed') === '1'
+    || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (skip || !welcome) {
+    welcome?.classList.add('hide');
+    document.body.classList.remove('no-scroll');
+    return;
+  }
+  sessionStorage.setItem('plovtg_welcomed', '1');
   welcome.classList.add('show');
   document.body.classList.add('no-scroll');
   setTimeout(()=>{
     welcome.classList.remove('show');
     welcome.classList.add('hide');
     document.body.classList.remove('no-scroll');
-    openRegistrationOrGreet();
-  }, 1000);
+  }, 520);
 }
 
 function getSavedUser(){
@@ -556,10 +637,7 @@ function closeRegModal(){
 }
 
 function openRegistrationOrGreet(){
-  if(isVerifiedUser()){
-    return;
-  }
-  openRegModal();
+  /* Registration opens only from the dedicated button. */
 }
 
 function initTelegramLinks(){
@@ -579,6 +657,12 @@ function initTelegramLinks(){
 
 function initRegistration(){
   document.getElementById('regBtn')?.addEventListener('click', openRegModal);
+  document.querySelectorAll('.js-open-reg').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openRegModal();
+    });
+  });
   document.getElementById('regClose')?.addEventListener('click', closeRegModal);
   document.getElementById('regModal')?.addEventListener('click', (e)=>{
     if(e.target.id === 'regModal') closeRegModal();
@@ -763,6 +847,56 @@ const DISH_HISTORY = {
     ru: 'Дугоб — напиток лета и дружбы. Этот освежающий йогуртовый напиток готовят в каждом таджикском доме в знойные летние дни. Название происходит от слов "ду" (два) и "гоб" (пить) — "дважды пить", потому что один стакана мало. Дугоб не только утоляет жажду, но и восстанавливает силы после тяжёлой работы в поле. В старину дугоб разливали в общую чашу — и все гости пили по очереди, что символизировало единство и доверие.',
     en: 'Dugob is the drink of summer and friendship. This refreshing yoghurt drink is prepared in every Tajik home on hot summer days. The name comes from the words "du" (two) and "gob" (drink) — "drink twice", because one glass is not enough. Dugob not only quenches thirst, but also restores strength after hard work in the field. In ancient times, dugob was poured into a common bowl — and all guests drank in turn, symbolizing unity and trust.',
     tj: 'Дугоб — нӯшокии тобистон ва дӯстӣ. Ин нӯшокии хунуки чаккаро дар ҳар хонаи тоҷикӣ дар рӯзҳои гарми тобистон омода мекунанд. Ном аз калимаҳои "ду" (ду) ва "гоб" (нӯшидан) омадааст — "ду маротиба нӯшидан", зеро як стакан кам аст. Дугоб на танҳо ташнагиро мебардорад, балки пас аз кори вазнини саҳро қувват бармегардонад. Дар замонҳои қадим дугобро дар ҷомаи умумӣ мерехтанд — ва ҳамаи меҳмонон навбат менӯшиданд, ки ягонагӣ ва бовариро рамз мекард.'
+  },
+  shurpa: {
+    ru: 'Шурпу варят часами в казане. В Таджикистане её ставят на стол первой, чтобы гость согрелся и подготовился к плову.',
+    en: 'Shurpa simmers for hours in a kazan. In Tajikistan it is served first so the guest warms up before plov.',
+    tj: 'Шӯрбо дар дег соатҳо ҷӯшонида мешавад ва аввал пешкаш мегардад.'
+  },
+  lagman: {
+    ru: 'Лагман пришёл по Шёлковому пути. В Худжанде тесто тянут вручную — от этого зависит «душа» блюда.',
+    en: 'Lagman travelled the Silk Road. In Khujand the dough is pulled by hand — that is the soul of the dish.',
+    tj: 'Лағмон тавассути Роҳи Абрешим омадааст. Дар Хуҷанд хамирро бо даст мекашанд.'
+  },
+  mastava: {
+    ru: 'Мастава — «плов, который стал супом». Её готовили, когда риса было мало, а гостей — много.',
+    en: 'Mastava is “plov that became soup”, cooked when rice was scarce and guests were many.',
+    tj: 'Мастоба — оши палове, ки шӯрбо шуд. Вақте биринҷ кам ва меҳмон зиёд буд, мепухтанд.'
+  },
+  dimlama: {
+    ru: 'Димламу не мешают: каждый слой отдаёт вкус следующему. Так готовили в кишлаках на весь день.',
+    en: 'Dimlama is never stirred: each layer feeds the next. Village cooks left it for the whole day.',
+    tj: 'Димламаро намеомезанд: ҳар қабат ба қабати баъдӣ таъм медиҳад.'
+  },
+  jiz: {
+    ru: 'Жиз — блюдо гор и чабанов. Его едят горячим, с луком и свежим ноном — без соусов.',
+    en: 'Jiz is mountain shepherds’ food. It is eaten hot with onion and fresh non — no sauces.',
+    tj: 'Ҷиз хӯроки кӯҳистон ва чӯпонон аст. Онро гарм бо пиёз ва нони тару тоза мехӯранд.'
+  },
+  naryn: {
+    ru: 'Нарын режут очень тонко — мастерство повара видно по ширине ленты. Праздничное блюдо севера.',
+    en: 'Naryn is sliced very thin — the cook’s skill shows in the ribbon. A northern feast dish.',
+    tj: 'Норинро хеле тунук мебуранд — ҳунари ошпаз аз паҳнои лента дида мешавад.'
+  },
+  nisholda: {
+    ru: 'Нишолду взбивают часами перед Наврузом. Белая шапка на столе — пожелание светлого года.',
+    en: 'Nisholda is whisked for hours before Navruz. The white peak on the table wishes a bright year.',
+    tj: 'Нишолдаро пеш аз Наврӯз соатҳо мезананд. Куллаи сафед орзуи соли равшан аст.'
+  },
+  sumalak: {
+    ru: 'Сумаляк варят всю ночь хором, с песнями. Кто мешает котёл — тому год будет сладким.',
+    en: 'Sumalak is cooked all night together, with songs. Whoever stirs the pot is promised a sweet year.',
+    tj: 'Сумалакро шаб то субҳ бо суруд мепазанд. Касе дегро омезад, солаш ширин мешавад.'
+  },
+  non: {
+    ru: 'Нон не режут ножом и не кладут «лицом» вниз — к хлебу в Таджикистане особое почтение.',
+    en: 'Non is not cut with a knife and never laid face-down — bread is treated with respect.',
+    tj: 'Нони тоҷикиро бо корд намебуранд ва рӯйро поён намегузоранд — эҳтироми нон бузург аст.'
+  },
+  kompot: {
+    ru: 'Компот ставят на дастархан вместо газировки. Сухофрукты Памира и Худжанда отдают сладость без резкости.',
+    en: 'Kompot is served instead of soda. Pamir and Khujand dried fruit give sweetness without sharpness.',
+    tj: 'Компотро ба ҷои нӯшокии газдор мегузоранд. Меваи хушки Помиру Хуҷанд ширинии нарм медиҳад.'
   }
 };
 
@@ -880,10 +1014,25 @@ const DASTARKHAN_PHOTOS = {
   plov: '/images/rewards/plov.png',
   manti: '/images/rewards/manti.png',
   kurutob: '/images/rewards/qurutob.png',
+  shashlik: '/images/resto-navruz.jpg',
+  kabob: '/images/resto-vip.jpg',
   samsa: '/images/rewards/sambusa.png',
+  'oshi-tugrama': '/images/resto-interior.jpg',
+  fatir: '/images/rewards/sambusa.png',
   halisa: '/images/rewards/dessert.png',
+  chakka: '/images/rewards/dugob.png',
   shirchoy: '/images/rewards/tea.png',
-  dugob: '/images/rewards/dugob.png'
+  dugob: '/images/rewards/dugob.png',
+  shurpa: '/images/resto-dastarkhan.jpg',
+  lagman: '/images/resto-interior.jpg',
+  mastava: '/images/resto-ceiling.jpg',
+  dimlama: '/images/resto-vip.jpg',
+  jiz: '/images/resto-navruz.jpg',
+  naryn: '/images/resto-dastarkhan.jpg',
+  nisholda: '/images/rewards/dessert.png',
+  sumalak: '/images/resto-navruz.jpg',
+  non: '/images/rewards/sambusa.png',
+  kompot: '/images/rewards/tea.png'
 };
 
 function dishShowcaseSrc(dish){
@@ -891,37 +1040,47 @@ function dishShowcaseSrc(dish){
 }
 
 function initDastarkhanShowcase(){
-  const photo = document.getElementById('dastarkhanPhoto');
+  const photoA = document.getElementById('dastarkhanPhoto');
+  const photoB = document.getElementById('dastarkhanPhotoB');
   const caption = document.getElementById('tableCaption');
   const indicator = document.getElementById('dishIndicator');
   const prevBtn = document.getElementById('dishPrev');
   const nextBtn = document.getElementById('dishNext');
   const wrap = document.getElementById('tablePerspective');
   const addBtn = document.getElementById('dastarkhanAddBtn');
-  if (!photo || !wrap) {
+  if (!photoA || !wrap) {
     window.dispatchEvent(new Event('plovtg-table-ready'));
     return;
   }
 
   const slides = () => (Array.isArray(window.DISHES) && window.DISHES.length ? window.DISHES : DISHES);
   let index = 0;
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let front = photoA;
+  let back = photoB || photoA;
+  let token = 0;
   const pad = (n) => String(n).padStart(2, '0');
 
-  function render(){
+  function preload(src){
+    if (!src) return;
+    const im = new Image();
+    im.src = src;
+  }
+
+  function preloadAround(){
     const list = slides();
-    const d = list[index];
-    if (!d) return;
+    if (!list.length) return;
+    [-1, 0, 1, 2].forEach((off) => {
+      const d = list[(index + off + list.length) % list.length];
+      if (d) preload(dishShowcaseSrc(d));
+    });
+  }
+
+  function paintMeta(d){
+    const list = slides();
     const lang = currentLang;
     const dict = I18N[lang] || I18N.ru;
     const name = d.name[lang] || d.name.ru;
     const desc = d.desc[lang] || d.desc.ru;
-    photo.src = dishShowcaseSrc(d);
-    photo.alt = name;
-    photo.onerror = () => {
-      photo.onerror = null;
-      photo.src = '/images/resto-dastarkhan.jpg';
-    };
     if (indicator) indicator.textContent = `${pad(index + 1)} / ${pad(list.length)}`;
     if (caption) {
       caption.innerHTML = `
@@ -935,19 +1094,55 @@ function initDastarkhanShowcase(){
     if (addBtn) addBtn.disabled = false;
   }
 
+  function bindFallback(img){
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/images/resto-dastarkhan.jpg';
+    };
+  }
+
+  function show(d, instant){
+    if (!d) return;
+    const src = dishShowcaseSrc(d);
+    const name = d.name[currentLang] || d.name.ru;
+    paintMeta(d);
+    if (!photoB || photoB === photoA || instant) {
+      bindFallback(front);
+      front.src = src;
+      front.alt = name;
+      preloadAround();
+      return;
+    }
+    const mine = ++token;
+    let done = false;
+    const reveal = () => {
+      if (mine !== token || done) return;
+      done = true;
+      back.onload = null;
+      back.alt = name;
+      back.classList.add('is-front');
+      front.classList.remove('is-front');
+      const swap = front;
+      front = back;
+      back = swap;
+      preloadAround();
+    };
+    bindFallback(back);
+    back.onload = reveal;
+    back.src = src;
+    back.alt = name;
+    if (back.complete) reveal();
+  }
+
+  function render(){
+    show(slides()[index], true);
+  }
+
   function go(dir){
     const list = slides();
     if (!list.length) return;
     index = (index + dir + list.length) % list.length;
-    if (!reduce) {
-      photo.classList.add('is-switching');
-      window.setTimeout(() => {
-        render();
-        photo.classList.remove('is-switching');
-      }, 160);
-    } else {
-      render();
-    }
+    show(list[index], false);
   }
 
   prevBtn?.addEventListener('click', () => go(-1));
@@ -956,7 +1151,8 @@ function initDastarkhanShowcase(){
     if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
     if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
   });
-  photo.addEventListener('click', () => {
+  wrap.addEventListener('click', (e) => {
+    if (e.target.closest('.dish-nav')) return;
     const d = slides()[index];
     if (d) openDishHistoryModal(d.id);
   });
@@ -970,6 +1166,7 @@ function initDastarkhanShowcase(){
   });
 
   window.updateDastarkhanLabels = render;
+  slides().forEach((d) => preload(dishShowcaseSrc(d)));
   render();
   window.dispatchEvent(new Event('plovtg-table-ready'));
 }
@@ -1622,7 +1819,10 @@ function initHeaderAndNav(){
   const placeExtras = () => {
     if(!extras || !nav || !actions) return;
     if(innerWidth <= 980) nav.appendChild(extras);
-    else actions.insertBefore(extras, document.getElementById('cartBtn'));
+    else {
+      const pin = document.getElementById('headerRegBtn') || document.getElementById('cartBtn');
+      actions.insertBefore(extras, pin);
+    }
   };
   placeExtras();
   addEventListener('resize', placeExtras);
@@ -1803,7 +2003,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   applyI18n();
   initDastarkhanShowcase();
   try {
-    const animMod = await import('./animations.js?v=no3d1');
+    const animMod = await import('./animations.js?v=design-fix1');
     animMod.initGsapAnimations();
   } catch (err) {
     console.warn('GSAP не загрузился', err);

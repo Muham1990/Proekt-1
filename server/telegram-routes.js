@@ -1,7 +1,7 @@
 'use strict';
 
+const express = require('express');
 const { validateInitData, botLink, miniAppUrl } = require('./telegram-auth');
-const { checkoutPageUrl, paymentReady } = require('./payments');
 const { prepareItems, todayStamp } = require('./place-order');
 const { MIN_ORDER_AMOUNT, selectReward, publicClaim } = require('./reward-config');
 const statusLib = require('./order-status');
@@ -19,6 +19,14 @@ function readInitUser(req) {
     throw err;
   }
   return user;
+}
+
+function parseReceiptImage(dataUrl) {
+  const m = String(dataUrl || '').match(/^data:(image\/(?:jpeg|jpg|png|webp));base64,([A-Za-z0-9+/]+={0,2})$/i);
+  if (!m) return null;
+  const buffer = Buffer.from(m[2], 'base64');
+  if (buffer.length < 800 || buffer.length > 2_500_000) return null;
+  return buffer;
 }
 
 function mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, clampText }) {
@@ -179,16 +187,16 @@ function mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, cla
       const order = await store.getOrder(orderId);
       if (bot?.notifyAdmin) await bot.notifyAdmin(order);
       if (bot?.notifyCustomer) await bot.notifyCustomer(order);
-      const pay = payment === 'card' ? checkoutPageUrl(orderNumber) : null;
       res.status(201).json({
         id: orderId,
         orderNumber,
         total,
         status,
         statusLabel: statusLib.label(status),
-        paymentUrl: pay,
-        paymentReady: paymentReady(),
-        message: pay ? 'Заказ создан. Оплатите через Alif.' : 'Заказ принят и передан ресторану.'
+        needsReceipt: payment === 'card',
+        message: payment === 'card'
+          ? 'Заказ создан. Оплатите перевод и отправьте фото чека.'
+          : 'Заказ принят и передан ресторану.'
       });
     } catch (err) {
       if (err.status === 400 || err.status === 401) {
@@ -200,11 +208,49 @@ function mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, cla
     }
   });
 
+  });
+
+  app.post('/api/telegram/receipt', express.json({ limit: '3mb' }), writeLimit, async (req, res) => {
+    try {
+      const user = readInitUser(req);
+      const orderNumber = clampText(req.body?.orderNumber, 40);
+      const buffer = parseReceiptImage(req.body?.image);
+      if (!buffer) {
+        res.status(400).json({ error: 'Пришлите фото чека (JPG или PNG)' });
+        return;
+      }
+      const pending = orderNumber
+        ? await store.getOrderByNumber(orderNumber)
+        : await store.getLatestPendingPaymentByTelegram(String(user.id));
+      if (!pending || String(pending.telegram_user_id) !== String(user.id)) {
+        res.status(404).json({ error: 'Заказ для чека не найден' });
+        return;
+      }
+      if (statusLib.normalize(pending.status) !== 'PENDING_PAYMENT') {
+        res.status(409).json({ error: 'Этот заказ уже не ждёт оплату' });
+        return;
+      }
+      const ok = bot?.sendReceiptToAdmin
+        ? await bot.sendReceiptToAdmin(pending, { buffer, filename: 'receipt.jpg' })
+        : false;
+      if (!ok) {
+        res.status(503).json({ error: 'Не удалось отправить чек. Напишите фото боту в Telegram.' });
+        return;
+      }
+      try { await store.saveOrderReceipt(pending.id, 'uploaded'); } catch (err) {
+        console.warn('save receipt:', err.message);
+      }
+      res.json({ ok: true, message: 'Чек отправлен. Ресторан проверит оплату.' });
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message || 'Не удалось отправить чек' });
+    }
+  });
+
   app.get('/api/telegram/config', (_req, res) => {
     res.json({
       botUrl: botLink(),
       miniAppUrl: miniAppUrl(),
-      paymentReady: paymentReady(),
+      needsReceipt: true,
       botReady: Boolean(process.env.TELEGRAM_BOT_TOKEN)
     });
   });

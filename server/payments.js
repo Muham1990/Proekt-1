@@ -163,7 +163,7 @@ function pageShell(title, body) {
 </html>`;
 }
 
-function payPageHtml(order, queryToken) {
+function payPageHtml(order, _queryToken) {
   const number = order.order_number;
   const sum = `${order.total} TJS`;
   if (String(order.status) === 'PAID' || statusLib.normalize(order.status) === 'PAID') {
@@ -208,17 +208,12 @@ function payPageHtml(order, queryToken) {
       <a class="btn gold" href="${esc(link)}">Открыть Alif Paylink</a>`);
   }
 
-  const cashAction = `/api/payments/cash?order=${encodeURIComponent(number)}&t=${encodeURIComponent(queryToken || '')}`;
-  return pageShell('Оплата картой недоступна', `
+  return pageShell('Пришлите фото чека', `
     <p class="kicker">PLOV TG</p>
-    <h1>Alif ещё не подключён</h1>
-    <p>Заказ <b>№${esc(number)}</b> сохранён, но страница Alif не откроется, пока ресторан не получит ключ эквайринга в Alif.</p>
+    <h1>Пришлите фото чека</h1>
+    <p>Заказ <b>№${esc(number)}</b> сохранён. Оплатите перевод, сфотографируйте чек и отправьте фото боту PLOV TG.</p>
     <div class="sum"><span>Сумма</span><strong>${esc(sum)}</strong></div>
-    <p class="hint">Можно оплатить при получении — заказ передадим на кухню.</p>
-    <form method="post" action="${esc(cashAction)}">
-      <button class="btn gold" type="submit">Оплачу при получении</button>
-    </form>
-    <a class="btn ghost" href="tel:+992301155445">Позвонить ${esc(PHONE)}</a>`);
+    <a class="btn gold" href="https://t.me/resstaurantbot">Открыть бота и отправить чек</a>`);
 }
 
 function returnPageHtml(order, paid) {

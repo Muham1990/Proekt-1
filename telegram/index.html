@@ -6,7 +6,7 @@
 <title>PLOV TG</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/telegram/app.css?v=checkout2">
+<link rel="stylesheet" href="/telegram/app.css?v=design-fix1">
 </head>
 <body>
 <div id="app">
@@ -72,7 +72,7 @@
         <legend>Оплата</legend>
         <div class="choice">
           <label class="choice-card"><input type="radio" name="payment" value="cash" checked><span>💵</span><strong>При получении</strong><em>Наличные</em></label>
-          <label class="choice-card"><input type="radio" name="payment" value="card"><span>💳</span><strong>Картой</strong><em>Alif Paylink</em></label>
+          <label class="choice-card"><input type="radio" name="payment" value="card"><span>💳</span><strong>Перевод</strong><em>фото чека</em></label>
         </div>
       </fieldset>
       <div class="check-bar">
@@ -92,7 +92,16 @@
       <h2 id="doneTitle">Заказ принят</h2>
       <p id="doneLead" class="tg-lead"></p>
       <div id="doneBox" class="receipt"></div>
-      <button class="btn btn-gold" id="payAlifBtn" type="button" hidden>Оплатить через Alif</button>
+      <div id="receiptBox" hidden>
+        <p class="hint">Оплатите перевод, сфотографируйте чек и отправьте его сюда.</p>
+        <label class="btn btn-gold receipt-pick">
+          📸 Сфотографировать чек
+          <input type="file" id="receiptFile" accept="image/*" capture="environment" hidden>
+        </label>
+        <img id="receiptPreview" alt="Чек" hidden>
+        <button class="btn btn-gold" id="receiptSend" type="button" hidden>Отправить чек</button>
+        <p id="receiptMsg" class="hint"></p>
+      </div>
       <button class="btn btn-gold" data-go="orders">Мои заказы</button>
       <button class="btn btn-ghost" data-go="home">На главную</button>
     </div>
@@ -123,11 +132,19 @@
 
   <main id="screen-contact" class="screen">
     <button class="back" data-go="home">← Назад</button>
+    <p class="tg-kicker">PLOV TG</p>
     <h2>Связаться с нами</h2>
-    <p>Телефон: <a href="tel:+992301155445">+992 30 11 55 45</a></p>
-    <p>Адрес: Душанбе, проспект Рудаки, 25</p>
-    <p>10:00 — 24:00, ежедневно</p>
-    <a class="btn btn-gold" href="tel:+992301155445">📞 Позвонить</a>
+    <div class="contact-card">
+      <p class="tg-kicker">Телефон</p>
+      <a class="contact-phone" href="tel:+992301155445">+992 30 11 55 45</a>
+      <p class="tg-kicker">Адрес</p>
+      <p>Душанбе, проспект Рудаки, 25</p>
+      <p class="tg-kicker">Часы</p>
+      <p>10:00 — 24:00, ежедневно</p>
+    </div>
+    <a class="btn btn-gold" id="tgWriteBtn" href="https://t.me/resstaurantbot" target="_blank" rel="noopener">✍️ Написать в Telegram</a>
+    <a class="btn btn-ghost" id="tgMapBtn" href="https://maps.google.com/?q=Dushanbe,+Rudaki+Avenue+25" target="_blank" rel="noopener">📍 Открыть карту</a>
+    <a class="btn btn-ghost" href="tel:+992301155445">📞 Позвонить</a>
   </main>
 
   <nav class="tg-nav">
@@ -139,6 +156,6 @@
   </nav>
 </div>
 <div id="toast" hidden></div>
-<script src="/telegram/app.js?v=alif1"></script>
+<script src="/telegram/app.js?v=design-fix1"></script>
 </body>
 </html>

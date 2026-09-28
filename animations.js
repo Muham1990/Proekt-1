@@ -1,9 +1,8 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export function initGsapAnimations() {
   document.documentElement.classList.add('gsap-on');
@@ -14,24 +13,6 @@ export function initGsapAnimations() {
   });
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    const welcome = document.querySelector('.welcome__title');
-    if (welcome) {
-      try {
-        const split = SplitText.create
-          ? SplitText.create(welcome, { type: 'words' })
-          : new SplitText(welcome, { type: 'words' });
-        gsap.from(split.words, {
-          y: 28,
-          opacity: 0,
-          duration: 0.55,
-          stagger: 0.04,
-          ease: 'power3.out'
-        });
-      } catch {
-        gsap.from(welcome, { y: 24, opacity: 0, duration: 0.55, ease: 'power3.out' });
-      }
-    }
-
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
     intro.from('.home-hero .eyebrow', { y: 16, opacity: 0, duration: 0.5 })
       .from('.home-hero h1', { y: 22, opacity: 0, duration: 0.55 }, '<0.08')
@@ -52,7 +33,7 @@ export function initGsapAnimations() {
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 78%' }
     });
     gsap.from('.dish-nav', {
-      autoAlpha: 0, scale: 0.7, duration: 0.5, stagger: 0.08, ease: 'back.out(1.6)',
+      scale: 0.88, duration: 0.45, stagger: 0.08, ease: 'back.out(1.6)',
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 70%' }
     });
     gsap.from('.dish-meta', {
