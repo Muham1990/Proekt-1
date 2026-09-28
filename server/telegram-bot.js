@@ -3,7 +3,8 @@
 const { MIN_ORDER_AMOUNT, selectReward } = require('./reward-config');
 const { prepareItems, todayStamp } = require('./place-order');
 const statusLib = require('./order-status');
-const { miniAppUrl, paymentUrl, publicSiteUrl } = require('./telegram-auth');
+const { miniAppUrl, publicSiteUrl } = require('./telegram-auth');
+const { checkoutPageUrl, paymentReady } = require('./payments');
 const crypto = require('node:crypto');
 
 const PHONE = '+992301155445';
@@ -505,17 +506,21 @@ async function startBot(store) {
       carts.set(chatId, { items: [], rewardSessionId: crypto.randomUUID() });
       let extra = '';
       if (flow.payment === 'card') {
-        const pay = paymentUrl(orderNumber, total);
-        extra = pay
-          ? `\n\nОплатите через Alif:\n${esc(pay)}`
-          : '\n\nСтраница Alif ещё не подключена. Заказ создан и ждёт оплату.';
+        extra = paymentReady()
+          ? '\n\nНажмите «Оплатить через Alif». Данные карты мы не храним.'
+          : '\n\nAlif ещё не подключён у ресторана. Откройте кнопку оплаты — там можно выбрать оплату при получении.';
       }
       await api('sendMessage', {
         chat_id: chatId,
         text: `Заказ <b>№${esc(orderNumber)}</b>\n\n👤 ${esc(flow.name)}\n📞 ${esc(flow.phone)}\n${flow.fulfillment === 'pickup' ? '🏠 Самовывоз' : '📍 Доставка'}\n\n${prepared.map((i) => `• ${esc(i.name_snapshot)} × ${i.qty}`).join('\n')}\n\n💰 <b>${total} TJS</b>\n${statusLib.label(status)}${extra}`,
         parse_mode: 'HTML',
-        reply_markup: mainKeyboard()
+        reply_markup: flow.payment === 'card'
+          ? { inline_keyboard: [[{ text: '💳 ОПЛАТИТЬ ЧЕРЕЗ ALIF', url: checkoutPageUrl(orderNumber) }]] }
+          : mainKeyboard()
       });
+      if (flow.payment === 'card') {
+        await api('sendMessage', { chat_id: chatId, text: 'После оплаты вернитесь в бота.', reply_markup: mainKeyboard() });
+      }
       await notifyAdmin(order);
     } catch (err) {
       await api('sendMessage', {

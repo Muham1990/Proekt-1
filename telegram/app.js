@@ -295,9 +295,20 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
     const sum = data.total || total();
     document.getElementById('doneTitle').textContent = `Заказ №${data.orderNumber}`;
     document.getElementById('doneLead').textContent = data.paymentUrl
-      ? 'Откроется страница Alif. Статус заказа станет «оплачен» после подтверждения платежа.'
+      ? (data.paymentReady
+        ? 'Сейчас откроется страница Alif. Данные карты мы не храним.'
+        : 'Alif у ресторана ещё не подключён. Нажмите «Оплатить через Alif» — там можно выбрать оплату при получении.')
       : 'Ресторан получил заказ. Мы напишем в Telegram, когда начнём готовить.';
     document.getElementById('doneBox').innerHTML = `${rows}<div class="receipt-total"><span>Сумма</span><strong>${sum} TJS</strong></div>`;
+    const payBtn = document.getElementById('payAlifBtn');
+    if (payBtn && data.paymentUrl) {
+      payBtn.hidden = false;
+      payBtn.onclick = () => {
+        tg?.openLink?.(data.paymentUrl) || window.open(data.paymentUrl, '_blank');
+      };
+    } else if (payBtn) {
+      payBtn.hidden = true;
+    }
     toast(`Заказ №${data.orderNumber}`);
     state.cart = [];
     saveCart();

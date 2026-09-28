@@ -1,6 +1,7 @@
 'use strict';
 
-const { validateInitData, paymentUrl, botLink, miniAppUrl } = require('./telegram-auth');
+const { validateInitData, botLink, miniAppUrl } = require('./telegram-auth');
+const { checkoutPageUrl, paymentReady } = require('./payments');
 const { prepareItems, todayStamp } = require('./place-order');
 const { MIN_ORDER_AMOUNT, selectReward, publicClaim } = require('./reward-config');
 const statusLib = require('./order-status');
@@ -178,7 +179,7 @@ function mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, cla
       const order = await store.getOrder(orderId);
       if (bot?.notifyAdmin) await bot.notifyAdmin(order);
       if (bot?.notifyCustomer) await bot.notifyCustomer(order);
-      const pay = payment === 'card' ? paymentUrl(orderNumber, total) : null;
+      const pay = payment === 'card' ? checkoutPageUrl(orderNumber) : null;
       res.status(201).json({
         id: orderId,
         orderNumber,
@@ -186,6 +187,7 @@ function mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, cla
         status,
         statusLabel: statusLib.label(status),
         paymentUrl: pay,
+        paymentReady: paymentReady(),
         message: pay ? 'Заказ создан. Оплатите через Alif.' : 'Заказ принят и передан ресторану.'
       });
     } catch (err) {
@@ -202,7 +204,7 @@ function mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, cla
     res.json({
       botUrl: botLink(),
       miniAppUrl: miniAppUrl(),
-      paymentReady: Boolean(process.env.PAYMENT_PROVIDER_URL),
+      paymentReady: paymentReady(),
       botReady: Boolean(process.env.TELEGRAM_BOT_TOKEN)
     });
   });

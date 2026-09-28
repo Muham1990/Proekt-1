@@ -51,11 +51,25 @@ Production URL Mini App: `https://resstaurant.pp.ua/telegram`
 
 ## 5. Оплата Alif
 
-Не храните данные карт. Задайте публичный Paylink:
+Данные карты не хранятся. Нужен эквайринг Alif для бизнеса: https://alif.tj/ru/business/acquiring
 
-`PAYMENT_PROVIDER_URL=https://example-alif-paylink`
+В Railway Variables:
 
-К заказу добавятся `order`, `amount`, `currency=TJS`. Пока URL пуст, заказ с картой создаётся со статусом `PENDING_PAYMENT`, но страница Alif не открывается.
+```
+ALIF_KEY=
+ALIF_PASSWORD=
+ALIF_GATE=km
+ALIF_ENV=production
+```
+
+`key` и `password` выдаёт Alif после договора. Callback: `https://resstaurant.pp.ua/api/payments/alif/callback`
+
+Пока ключей нет, заказ с картой открывает страницу `/pay/...`: там можно выбрать оплату при получении. Статус PAID ставится только после callback Alif со статусом `ok`.
+
+Альтернатива — готовый Paylink:
+
+`PAYMENT_PROVIDER_URL=https://...`
+
 
 ## 6. Запуск локально
 

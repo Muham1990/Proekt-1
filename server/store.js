@@ -106,6 +106,12 @@ function sqliteStore(db) {
       order.items = db.prepare('SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ?').all(id);
       return order;
     },
+    async getOrderByNumber(orderNumber) {
+      const order = db.prepare('SELECT * FROM orders WHERE order_number = ?').get(String(orderNumber || ''));
+      if (!order) return null;
+      order.items = db.prepare('SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ?').all(order.id);
+      return order;
+    },
     async listOrdersByTelegram(telegramUserId) {
       const orders = db.prepare('SELECT * FROM orders WHERE telegram_user_id = ? ORDER BY id DESC LIMIT 30').all(String(telegramUserId));
       const itemsStmt = db.prepare('SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ?');
@@ -319,6 +325,12 @@ function neonStore(sql) {
       const rows = await sql`SELECT * FROM orders WHERE id = ${id}`;
       if (!rows[0]) return null;
       const items = await sql`SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ${id}`;
+      return { ...rows[0], items };
+    },
+    async getOrderByNumber(orderNumber) {
+      const rows = await sql`SELECT * FROM orders WHERE order_number = ${String(orderNumber || '')}`;
+      if (!rows[0]) return null;
+      const items = await sql`SELECT dish_id, name_snapshot, price, qty FROM order_items WHERE order_id = ${rows[0].id}`;
       return { ...rows[0], items };
     },
     async listOrdersByTelegram(telegramUserId) {

@@ -15,6 +15,7 @@ const {
 } = require('./reward-config');
 const { startBot } = require('./telegram-bot');
 const { mountTelegramRoutes } = require('./telegram-routes');
+const { mountPaymentRoutes, alifReady } = require('./payments');
 const { botLink, miniAppUrl } = require('./telegram-auth');
 const statusLib = require('./order-status');
 const crypto = require('node:crypto');
@@ -84,6 +85,7 @@ async function main() {
     crossOriginEmbedderPolicy: false
   }));
   app.use(express.json({ limit: '32kb' }));
+  app.use(express.urlencoded({ extended: false, limit: '32kb' }));
 
   app.use('/vendor/gsap', express.static(path.join(ROOT, 'node_modules/gsap')));
 
@@ -129,6 +131,10 @@ async function main() {
         supabase: Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY)
       },
       telegram: Boolean(process.env.TELEGRAM_BOT_TOKEN),
+      payments: {
+        alif: alifReady(),
+        paylink: Boolean(process.env.PAYMENT_PROVIDER_URL)
+      },
       time: new Date().toISOString()
     });
   });
@@ -591,6 +597,7 @@ async function main() {
   });
 
   mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, clampText });
+  mountPaymentRoutes(app, store, bot);
 
   app.use(express.static(ROOT, {
     index: 'index.html',
