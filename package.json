@@ -2,7 +2,7 @@
   "name": "plovtg",
   "version": "1.0.0",
   "private": true,
-  "description": "PLOV TG — ресторан: Express, Neon/SQLite, Three.js, GSAP",
+  "description": "PLOV TG — ресторан: Express, Neon/SQLite, GSAP",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
@@ -19,8 +19,6 @@
     "express-rate-limit": "^8.2.1",
     "gsap": "^3.15.0",
     "helmet": "^8.1.0",
-    "postprocessing": "^6.39.5",
-    "resend": "^6.30.0",
-    "three": "^0.186.1"
+    "resend": "^6.30.0"
   }
 }

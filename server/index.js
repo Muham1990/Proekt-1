@@ -8,6 +8,13 @@ const rateLimit = require('express-rate-limit');
 const { createStore } = require('./store');
 const { sendWelcomeEmail } = require('./email');
 const {
+  MIN_ORDER_AMOUNT,
+  selectReward,
+  publicPrizes,
+  publicClaim
+} = require('./reward-config');
+const crypto = require('node:crypto');
+const {
   verifyPassword,
   createToken,
   cookieHeader,
@@ -52,6 +59,8 @@ function clampText(v, max) {
   return typeof v === 'string' ? v.trim().slice(0, max) : '';
 }
 
+const SESSION_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 function publicSiteUrl() {
   return String(process.env.PUBLIC_SITE_URL || 'https://web-production-d58c8.up.railway.app').replace(/\/$/, '');
 }
@@ -71,9 +80,7 @@ async function main() {
   }));
   app.use(express.json({ limit: '32kb' }));
 
-  app.use('/vendor/three', express.static(path.join(ROOT, 'node_modules/three')));
   app.use('/vendor/gsap', express.static(path.join(ROOT, 'node_modules/gsap')));
-  app.use('/vendor/postprocessing', express.static(path.join(ROOT, 'node_modules/postprocessing')));
 
   app.use('/api', rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -226,6 +233,15 @@ async function main() {
       const orderId = await store.createOrder({
         orderNumber, name, phone, email, address, date, time, comment: comment || null, total
       }, prepared);
+      const claimId = clampText(req.body?.claimId, 80);
+      const sessionId = clampText(req.body?.sessionId, 80);
+      if (claimId && SESSION_RE.test(sessionId) && total >= MIN_ORDER_AMOUNT) {
+        try {
+          await store.attachRewardToOrder({ claimId, sessionId, orderId });
+        } catch (attachErr) {
+          console.warn('Reward attach:', attachErr.message || attachErr);
+        }
+      }
       res.status(201).json({
         id: orderId,
         orderNumber,
@@ -237,6 +253,123 @@ async function main() {
       console.warn('Order create:', err.message || err);
       res.status(500).json({ error: 'Не удалось сохранить заказ. Попробуйте ещё раз.' });
     }
+  });
+
+  app.get('/api/rewards/config', (_req, res) => {
+    res.json({
+      minOrderAmount: MIN_ORDER_AMOUNT,
+      currency: 'TJS',
+      enabled: true,
+      prizes: publicPrizes()
+    });
+  });
+
+  app.get('/api/rewards/status', async (req, res) => {
+    const sessionId = String(req.query.sessionId || '');
+    if (!SESSION_RE.test(sessionId)) {
+      res.status(400).json({ error: 'Некорректная сессия' });
+      return;
+    }
+    const row = await store.findRewardClaimBySession(sessionId);
+    res.json({ claim: publicClaim(row) });
+  });
+
+  app.post('/api/rewards/spin', writeLimit, async (req, res) => {
+    const sessionId = String(req.body?.sessionId || '');
+    const items = Array.isArray(req.body?.items) ? req.body.items : [];
+    if (!SESSION_RE.test(sessionId)) {
+      res.status(400).json({ error: 'Некорректная сессия' });
+      return;
+    }
+    if (items.length === 0 || items.length > 40) {
+      res.status(400).json({ error: 'Корзина пуста' });
+      return;
+    }
+
+    const existing = await store.findRewardClaimBySession(sessionId);
+    if (existing) {
+      res.status(409).json({
+        error: 'Подарок уже открыт для этого заказа',
+        claim: publicClaim(existing)
+      });
+      return;
+    }
+
+    let total = 0;
+    const parts = [];
+    for (const item of items) {
+      const qty = Number(item?.qty);
+      if (!item?.id || !Number.isInteger(qty) || qty < 1 || qty > 20) {
+        res.status(400).json({ error: 'Некорректный состав заказа' });
+        return;
+      }
+      const dish = await store.getDish(item.id, true);
+      if (!dish) {
+        res.status(400).json({ error: `Блюдо «${item.id}» недоступно` });
+        return;
+      }
+      total += dish.price * qty;
+      parts.push(`${item.id}:${qty}`);
+    }
+
+    if (total < MIN_ORDER_AMOUNT) {
+      res.status(400).json({
+        error: `Добавьте ещё ${MIN_ORDER_AMOUNT - total} сомони, чтобы открыть подарок`
+      });
+      return;
+    }
+
+    const prize = selectReward((max) => crypto.randomInt(max));
+    const claimId = crypto.randomUUID();
+    try {
+      const row = await store.createRewardClaim({
+        id: claimId,
+        sessionId,
+        rewardId: prize.id,
+        rewardName: prize.name,
+        cartTotal: total,
+        cartHash: parts.sort().join('|'),
+        status: 'won'
+      });
+      res.status(201).json({
+        rewardId: prize.id,
+        rewardName: prize.name,
+        image: prize.image || null,
+        rewardType: prize.type,
+        claimId,
+        status: 'won',
+        createdAt: row?.created_at || new Date().toISOString()
+      });
+    } catch (err) {
+      const again = await store.findRewardClaimBySession(sessionId);
+      if (again) {
+        res.status(409).json({
+          error: 'Подарок уже открыт для этого заказа',
+          claim: publicClaim(again)
+        });
+        return;
+      }
+      console.warn('Reward spin:', err.message || err);
+      res.status(500).json({ error: 'Не удалось открыть подарок' });
+    }
+  });
+
+  app.post('/api/rewards/attach', writeLimit, async (req, res) => {
+    const claimId = clampText(req.body?.claimId, 80);
+    const sessionId = clampText(req.body?.sessionId, 80);
+    const orderId = Number(req.body?.orderId);
+    if (!claimId || !SESSION_RE.test(sessionId) || !Number.isInteger(orderId) || orderId < 1) {
+      res.status(400).json({ error: 'Некорректные данные подарка' });
+      return;
+    }
+    const row = await store.findRewardClaimById(claimId);
+    if (!row || row.session_id !== sessionId) {
+      res.status(404).json({ error: 'Подарок не найден' });
+      return;
+    }
+    await store.attachRewardToOrder({ claimId, sessionId, orderId });
+    const next = await store.findRewardClaimById(claimId);
+    res.json(publicClaim(next));
   });
 
   app.get('/api/reviews', async (_req, res) => {

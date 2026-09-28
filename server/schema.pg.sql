@@ -86,3 +86,15 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   expires_at TIMESTAMPTZ NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS reward_claims (
+  id TEXT PRIMARY KEY,
+  session_id TEXT NOT NULL UNIQUE,
+  order_id INTEGER REFERENCES orders(id),
+  reward_id TEXT NOT NULL,
+  reward_name TEXT NOT NULL,
+  cart_total INTEGER NOT NULL,
+  cart_hash TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'won',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

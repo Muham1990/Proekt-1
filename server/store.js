@@ -122,6 +122,26 @@ function sqliteStore(db) {
       }
       const row = db.prepare('SELECT * FROM dishes WHERE id = ?').get(id);
       return row ? mapDish(row) : null;
+    },
+    async findRewardClaimBySession(sessionId) {
+      return db.prepare('SELECT * FROM reward_claims WHERE session_id = ?').get(sessionId) || null;
+    },
+    async findRewardClaimById(id) {
+      return db.prepare('SELECT * FROM reward_claims WHERE id = ?').get(id) || null;
+    },
+    async createRewardClaim(row) {
+      db.prepare(`
+        INSERT INTO reward_claims (id, session_id, reward_id, reward_name, cart_total, cart_hash, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `).run(row.id, row.sessionId, row.rewardId, row.rewardName, row.cartTotal, row.cartHash, row.status);
+      return db.prepare('SELECT * FROM reward_claims WHERE id = ?').get(row.id);
+    },
+    async attachRewardToOrder({ claimId, sessionId, orderId }) {
+      return db.prepare(`
+        UPDATE reward_claims
+        SET order_id = ?, status = 'claimed'
+        WHERE id = ? AND session_id = ? AND order_id IS NULL
+      `).run(orderId, claimId, sessionId).changes;
     }
   };
 }
@@ -257,6 +277,31 @@ function neonStore(sql) {
       }
       const rows = await sql`SELECT * FROM dishes WHERE id = ${id}`;
       return rows[0] ? mapDish(rows[0]) : null;
+    },
+    async findRewardClaimBySession(sessionId) {
+      const rows = await sql`SELECT * FROM reward_claims WHERE session_id = ${sessionId}`;
+      return rows[0] || null;
+    },
+    async findRewardClaimById(id) {
+      const rows = await sql`SELECT * FROM reward_claims WHERE id = ${id}`;
+      return rows[0] || null;
+    },
+    async createRewardClaim(row) {
+      const rows = await sql`
+        INSERT INTO reward_claims (id, session_id, reward_id, reward_name, cart_total, cart_hash, status)
+        VALUES (${row.id}, ${row.sessionId}, ${row.rewardId}, ${row.rewardName}, ${row.cartTotal}, ${row.cartHash}, ${row.status})
+        RETURNING *
+      `;
+      return rows[0] || null;
+    },
+    async attachRewardToOrder({ claimId, sessionId, orderId }) {
+      const rows = await sql`
+        UPDATE reward_claims
+        SET order_id = ${orderId}, status = 'claimed'
+        WHERE id = ${claimId} AND session_id = ${sessionId} AND order_id IS NULL
+        RETURNING id
+      `;
+      return rows.length;
     }
   };
 }

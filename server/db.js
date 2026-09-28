@@ -111,6 +111,19 @@ function migrate(db) {
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       expires_at TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS reward_claims (
+      id TEXT PRIMARY KEY,
+      session_id TEXT NOT NULL UNIQUE,
+      order_id INTEGER,
+      reward_id TEXT NOT NULL,
+      reward_name TEXT NOT NULL,
+      cart_total INTEGER NOT NULL,
+      cart_hash TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'won',
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      FOREIGN KEY (order_id) REFERENCES orders(id)
+    );
   `);
 }
 

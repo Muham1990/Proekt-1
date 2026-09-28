@@ -47,11 +47,15 @@ export function initGsapAnimations() {
       y: 18, opacity: 0, stagger: 0.08, duration: 0.55, ease: 'power3.out',
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 78%' }
     });
+    gsap.from('.dastarkhan-frame', {
+      scale: 0.96, duration: 0.7, ease: 'power3.out',
+      scrollTrigger: { trigger: '#dastarkhan', start: 'top 78%' }
+    });
     gsap.from('.dish-nav', {
       autoAlpha: 0, scale: 0.7, duration: 0.5, stagger: 0.08, ease: 'back.out(1.6)',
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 70%' }
     });
-    gsap.from('.dish-dots', {
+    gsap.from('.dish-meta', {
       autoAlpha: 0, y: 10, duration: 0.45, ease: 'power2.out',
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 70%' }
     });

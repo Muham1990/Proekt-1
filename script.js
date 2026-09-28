@@ -2,7 +2,7 @@
 /* =========================================================
    PLOV TG — main script (vanilla JS, ES6+)
    Sections: i18n, loader/intro, registration, canvases,
-   table showcase, menu (search/filter/sort), cart, forms,
+   dastarkhan photo showcase, menu (search/filter/sort), cart, forms,
    misc UI (theme, music, header, reveal, counters, ripple)
 ========================================================= */
 
@@ -161,9 +161,9 @@ const I18N = {
     hero_desc:'Плов, манты и курутоб, приготовленные так, как их готовили в домах Самарканда и Душанбе поколениями — в атмосфере тёплого золотого света и настоящего дерева.',
     hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик',
     c_years:'лет традиций', c_dishes:'блюд в меню', c_guests:'гостей в год', c_chefs:'поваров',
-    table_eyebrow:'Наш дастархан', table_title:'3D блюда таджикской кухни',
-    table_hint:'Стрелки переключают блюда. Потяните мышью, чтобы повернуть.',
-    dish_prev:'Предыдущее блюдо', dish_next:'Следующее блюдо', table_fallback:'3D недоступно в этом браузере.',
+    table_eyebrow:'Наш дастархан', table_title:'Блюда таджикской кухни',
+    table_hint:'Стрелки переключают блюда. Нажмите фото, чтобы узнать историю.',
+    dish_prev:'Предыдущее блюдо', dish_next:'Следующее блюдо',
     menu_eyebrow:'Меню ресторана', menu_title:'Настоящая таджикская кухня', search_ph:'Поиск блюд… (плов, манты, курутоб)',
     sort_default:'Сортировка', sort_price_asc:'Цена: по возрастанию', sort_price_desc:'Цена: по убыванию', sort_name:'По названию',
     cat_all:'Все', cat_main:'Основные', cat_soup:'Супы', cat_grill:'Гриль', cat_bakery:'Выпечка', cat_dessert:'Десерты', cat_drink:'Напитки',
@@ -208,6 +208,20 @@ const I18N = {
     c_hours:'Часы работы:', c_hours_val:'10:00 — 24:00, ежедневно',
     order_title:'Оформление заказа', order_submit:'Подтвердить заказ', order_success:'Спасибо! Заказ №<span id="orderNum"></span> принят и готовится.',
     cart_title:'Ваша корзина', cart_empty:'Корзина пуста. Добавьте блюда из меню.', cart_total:'Итого:', cart_checkout:'Оформить заказ',
+    reward_kicker:'Получите подарок от Дастархана', reward_title:'Бонусный барабан',
+    reward_need_more:'Добавьте ещё {n} сомони и получите возможность прокрутить бонусный барабан.',
+    reward_unlocked:'Бонус разблокирован', reward_open:'Крутить барабан', reward_view:'Смотреть подарок',
+    reward_spin:'Крутить барабан', reward_spinning:'Барабан вращается…', reward_hub:'КРУТИ',
+    reward_win_title:'Поздравляем!', reward_win_sub:'Ваш бонус от Дастархана.',
+    reward_sub_food:'Бесплатный подарок к вашему заказу.',
+    reward_sub_drink:'Напиток будет добавлен к вашему заказу.',
+    reward_sub_cash:'Вам начислен бонус 10 сомони.',
+    reward_sub_discount:'Скидка будет применена к текущему заказу.',
+    reward_claim:'Забрать подарок', reward_claim_bonus:'Забрать бонус',
+    reward_claim_toast:'Бонус будет добавлен к вашему заказу',
+    reward_fail_title:'Не удалось получить результат', reward_retry:'Попробовать снова',
+    reward_claimed_hint:'Подарок уже получен',
+    reward_close:'Закрыть барабан', reward_progress_label:'Прогресс до бонусного барабана',
     footer_tag:'Элитный ресторан таджикской кухни в самом сердце Душанбе.', footer_contacts:'Контакты', footer_social:'Соцсети', footer_nav:'Навигация', footer_hours:'Часы работы', footer_rights:'Все права защищены.',
     footer_staff:'Для персонала', f_city:'Город', f_review:'Ваш отзыв', err_review:'Напишите отзыв (мин. 8 символов)', err_city:'Укажите город',
     review_form_title:'Оставить отзыв', review_btn:'Отправить отзыв', review_success:'Спасибо! Отзыв отправлен на модерацию.',
@@ -227,9 +241,9 @@ const I18N = {
     hero_desc:'Plov, manti and qurutob, prepared the way they were made in the homes of Samarkand and Dushanbe for generations — in an atmosphere of warm golden light and real wood.',
     hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table',
     c_years:'years of tradition', c_dishes:'dishes on the menu', c_guests:'guests a year', c_chefs:'chefs',
-    table_eyebrow:'Our dastarkhan', table_title:'3D dishes of Tajik cuisine',
-    table_hint:'Use the arrows to switch dishes. Drag to rotate.',
-    dish_prev:'Previous dish', dish_next:'Next dish', table_fallback:'3D is not available in this browser.',
+    table_eyebrow:'Our dastarkhan', table_title:'Dishes of Tajik cuisine',
+    table_hint:'Use the arrows to switch dishes. Tap a photo to read its story.',
+    dish_prev:'Previous dish', dish_next:'Next dish',
     menu_eyebrow:'Restaurant menu', menu_title:'Authentic Tajik cuisine', search_ph:'Search dishes… (plov, manti, qurutob)',
     sort_default:'Sort', sort_price_asc:'Price: low to high', sort_price_desc:'Price: high to low', sort_name:'By name',
     cat_all:'All', cat_main:'Mains', cat_soup:'Soups', cat_grill:'Grill', cat_bakery:'Bakery', cat_dessert:'Desserts', cat_drink:'Drinks',
@@ -274,6 +288,20 @@ const I18N = {
     c_hours:'Hours:', c_hours_val:'10:00 AM — midnight, daily',
     order_title:'Checkout', order_submit:'Confirm order', order_success:'Thank you! Order #<span id="orderNum"></span> is confirmed and being prepared.',
     cart_title:'Your cart', cart_empty:'Your cart is empty. Add dishes from the menu.', cart_total:'Total:', cart_checkout:'Checkout',
+    reward_kicker:'A gift from the Dastarkhan', reward_title:'Bonus wheel',
+    reward_need_more:'Add {n} more TJS to spin the bonus wheel.',
+    reward_unlocked:'Bonus unlocked', reward_open:'Spin the wheel', reward_view:'View gift',
+    reward_spin:'Spin the wheel', reward_spinning:'The wheel is spinning…', reward_hub:'SPIN',
+    reward_win_title:'Congratulations!', reward_win_sub:'Your bonus from the Dastarkhan.',
+    reward_sub_food:'A complimentary gift with your order.',
+    reward_sub_drink:'The drink will be added to your order.',
+    reward_sub_cash:'A 10 TJS bonus has been credited.',
+    reward_sub_discount:'The discount will be applied to this order.',
+    reward_claim:'Claim the gift', reward_claim_bonus:'Claim the bonus',
+    reward_claim_toast:'The bonus will be added to your order',
+    reward_fail_title:'Could not get a result', reward_retry:'Try again',
+    reward_claimed_hint:'Gift already received',
+    reward_close:'Close the wheel', reward_progress_label:'Progress toward the bonus wheel',
     footer_tag:'An elite Tajik restaurant in the heart of Dushanbe.', footer_contacts:'Contacts', footer_social:'Social', footer_nav:'Navigation', footer_hours:'Hours', footer_rights:'All rights reserved.',
     footer_staff:'Staff login', f_city:'City', f_review:'Your review', err_review:'Write a review (min. 8 characters)', err_city:'Enter a city',
     review_form_title:'Leave a review', review_btn:'Send review', review_success:'Thank you! Your review is awaiting moderation.',
@@ -293,9 +321,9 @@ const I18N = {
     hero_desc:'Оши палов, манту ва қурутоб — тавре ки дар хонаҳои Самарқанду Душанбе наслҳо пухта мешуданд, дар фазои нури тиллоӣ ва чӯби асил.',
     hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан',
     c_years:'соли анъана', c_dishes:'таом дар меню', c_guests:'меҳмон дар сол', c_chefs:'ошпаз',
-    table_eyebrow:'Дастархони мо', table_title:'Таомҳои 3D-и тоҷикӣ',
-    table_hint:'Тирчаҳо таомро иваз мекунанд. Бо муш гардонед.',
-    dish_prev:'Таоми қаблӣ', dish_next:'Таоми навбатӣ', table_fallback:'3D дар ин браузер дастрас нест.',
+    table_eyebrow:'Дастархони мо', table_title:'Таомҳои тоҷикӣ',
+    table_hint:'Тирчаҳо таомро иваз мекунанд. Барои ҳикоя аксро пахш кунед.',
+    dish_prev:'Таоми қаблӣ', dish_next:'Таоми навбатӣ',
     menu_eyebrow:'Менюи тарабхона', menu_title:'Таомҳои асили тоҷикӣ', search_ph:'Ҷустуҷӯи таом… (палов, манту, қурутоб)',
     sort_default:'Мураттабсозӣ', sort_price_asc:'Нарх: аз кам ба зиёд', sort_price_desc:'Нарх: аз зиёд ба кам', sort_name:'Аз рӯи ном',
     cat_all:'Ҳама', cat_main:'Асосӣ', cat_soup:'Шӯрбо', cat_grill:'Гриль', cat_bakery:'Нонворӣ', cat_dessert:'Ширинӣ', cat_drink:'Нӯшокӣ',
@@ -340,6 +368,20 @@ const I18N = {
     c_hours:'Соатҳои корӣ:', c_hours_val:'10:00 — 24:00, ҳар рӯз',
     order_title:'Расмиёти фармоиш', order_submit:'Тасдиқи фармоиш', order_success:'Ташаккур! Фармоиши №<span id="orderNum"></span> қабул шуд.',
     cart_title:'Сабади шумо', cart_empty:'Сабад холист. Таом аз меню илова кунед.', cart_total:'Ҳамагӣ:', cart_checkout:'Расмият додани фармоиш',
+    reward_kicker:'Тӯҳфа аз дастархон гиред', reward_title:'Барабани бонусӣ',
+    reward_need_more:'Боз {n} сомонӣ илова кунед ва барабани бонусиро чарх занед.',
+    reward_unlocked:'Бонус кушода шуд', reward_open:'Чарх задани барабан', reward_view:'Дидани тӯҳфа',
+    reward_spin:'Чарх задани барабан', reward_spinning:'Барабан чарх мезанад…', reward_hub:'ЧАРХ',
+    reward_win_title:'Табрик!', reward_win_sub:'Бонуси шумо аз дастархон.',
+    reward_sub_food:'Тӯҳфаи ройгон ба фармоиши шумо.',
+    reward_sub_drink:'Нӯшокӣ ба фармоиш илова мешавад.',
+    reward_sub_cash:'Бонуси 10 сомонӣ ҳисоб шуд.',
+    reward_sub_discount:'Тахфиф ба фармоиши ҷорӣ татбиқ мешавад.',
+    reward_claim:'Гирифтани тӯҳфа', reward_claim_bonus:'Гирифтани бонус',
+    reward_claim_toast:'Бонус ба фармоиши шумо илова мешавад',
+    reward_fail_title:'Натиҷа гирифта нашуд', reward_retry:'Бори дигар',
+    reward_claimed_hint:'Тӯҳфа аллакай гирифта шудааст',
+    reward_close:'Пӯшидани барабан', reward_progress_label:'Пешрафт то барабани бонусӣ',
     footer_tag:'Тарабхонаи баланди таомҳои тоҷикӣ дар маркази Душанбе.', footer_contacts:'Тамос', footer_social:'Шабакаҳо', footer_nav:'Навигатсия', footer_hours:'Соатҳои корӣ', footer_rights:'Ҳама ҳуқуқҳо ҳифз шудаанд.',
     footer_staff:'Барои кормандон', f_city:'Шаҳр', f_review:'Тақризи шумо', err_review:'Тақриз нависед (ҳадди ақал 8 аломат)', err_city:'Шаҳрро ворид кунед',
     review_form_title:'Тақриз гузоштан', review_btn:'Фиристодани тақриз', review_success:'Ташаккур! Тақриз ба санҷиш фиристода шуд.',
@@ -347,6 +389,7 @@ const I18N = {
   }
 };
 I18N.tg = I18N.tj;
+window.I18N = I18N;
 let currentLang = localStorage.getItem('plovtg_lang') || 'ru';
 if(currentLang === 'tg') currentLang = 'tj';
 
@@ -375,6 +418,7 @@ function applyI18n(){
   renderMenu();
   updateCartUI();
   if (typeof window.updateDastarkhanLabels === 'function') window.updateDastarkhanLabels();
+  if (typeof window.updateRewardI18n === 'function') window.updateRewardI18n();
 }
 
 /* ---------------------------------------------------------
@@ -709,6 +753,104 @@ function openDishHistoryModal(id) {
   modal.classList.add('open');
 }
 
+const DASTARKHAN_PHOTOS = {
+  plov: '/images/rewards/plov.png',
+  manti: '/images/rewards/manti.png',
+  kurutob: '/images/rewards/qurutob.png',
+  samsa: '/images/rewards/sambusa.png',
+  halisa: '/images/rewards/dessert.png',
+  shirchoy: '/images/rewards/tea.png',
+  dugob: '/images/rewards/dugob.png'
+};
+
+function dishShowcaseSrc(dish){
+  return DASTARKHAN_PHOTOS[dish.id] || dish.img || '/images/resto-dastarkhan.jpg';
+}
+
+function initDastarkhanShowcase(){
+  const photo = document.getElementById('dastarkhanPhoto');
+  const caption = document.getElementById('tableCaption');
+  const indicator = document.getElementById('dishIndicator');
+  const prevBtn = document.getElementById('dishPrev');
+  const nextBtn = document.getElementById('dishNext');
+  const wrap = document.getElementById('tablePerspective');
+  const addBtn = document.getElementById('dastarkhanAddBtn');
+  if (!photo || !wrap) {
+    window.dispatchEvent(new Event('plovtg-table-ready'));
+    return;
+  }
+
+  const slides = () => (Array.isArray(window.DISHES) && window.DISHES.length ? window.DISHES : DISHES);
+  let index = 0;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pad = (n) => String(n).padStart(2, '0');
+
+  function render(){
+    const list = slides();
+    const d = list[index];
+    if (!d) return;
+    const lang = currentLang;
+    const dict = I18N[lang] || I18N.ru;
+    const name = d.name[lang] || d.name.ru;
+    const desc = d.desc[lang] || d.desc.ru;
+    photo.src = dishShowcaseSrc(d);
+    photo.alt = name;
+    photo.onerror = () => {
+      photo.onerror = null;
+      photo.src = '/images/resto-dastarkhan.jpg';
+    };
+    if (indicator) indicator.textContent = `${pad(index + 1)} / ${pad(list.length)}`;
+    if (caption) {
+      caption.innerHTML = `
+        <p class="table-caption__num">${pad(index + 1)}</p>
+        <strong>${escapeHtml(name)}</strong>
+        <span class="table-caption__desc">${escapeHtml(desc)}</span>
+        <span class="table-caption__price">${d.price} ${dict.unit}</span>
+      `;
+    }
+    wrap.setAttribute('aria-label', name);
+    if (addBtn) addBtn.disabled = false;
+  }
+
+  function go(dir){
+    const list = slides();
+    if (!list.length) return;
+    index = (index + dir + list.length) % list.length;
+    if (!reduce) {
+      photo.classList.add('is-switching');
+      window.setTimeout(() => {
+        render();
+        photo.classList.remove('is-switching');
+      }, 160);
+    } else {
+      render();
+    }
+  }
+
+  prevBtn?.addEventListener('click', () => go(-1));
+  nextBtn?.addEventListener('click', () => go(1));
+  wrap.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+  });
+  photo.addEventListener('click', () => {
+    const d = slides()[index];
+    if (d) openDishHistoryModal(d.id);
+  });
+  addBtn?.addEventListener('click', () => {
+    const d = slides()[index];
+    if (!d) return;
+    addToCart(d.id);
+    const dict = I18N[currentLang] || I18N.ru;
+    addBtn.textContent = currentLang === 'en' ? 'Added!' : currentLang === 'tj' ? 'Илова шуд!' : 'Добавлено!';
+    window.setTimeout(() => { addBtn.textContent = dict.add_cart; }, 1400);
+  });
+
+  window.updateDastarkhanLabels = render;
+  render();
+  window.dispatchEvent(new Event('plovtg-table-ready'));
+}
+
 function initTableInteraction(){
   const wrapper = document.getElementById('tableScroll');
   const wheel = document.getElementById('tableWheel');
@@ -897,6 +1039,22 @@ let cart = JSON.parse(localStorage.getItem('plovtg_cart') || '[]');
 
 function saveCart(){ localStorage.setItem('plovtg_cart', JSON.stringify(cart)); }
 
+function getCartTotals(){
+  let total = 0, count = 0;
+  for (const c of cart) {
+    const d = DISHES.find(x => x.id === c.id);
+    if (!d) continue;
+    total += d.price * c.qty;
+    count += c.qty;
+  }
+  return { total, count };
+}
+
+window.getCartSnapshot = function(){
+  const { total, count } = getCartTotals();
+  return { total, count, items: cart.map((c) => ({ id: c.id, qty: c.qty })) };
+};
+
 function showToast(message){
   let el = document.getElementById('siteToast');
   if(!el){
@@ -911,6 +1069,7 @@ function showToast(message){
   clearTimeout(showToast._t);
   showToast._t = setTimeout(()=> el.classList.remove('show'), 2400);
 }
+window.showToast = showToast;
 
 window.plovTrack = function(event, payload){
   window.dispatchEvent(new CustomEvent('plovtg-analytics', { detail: { event, payload, t: Date.now() } }));
@@ -967,6 +1126,7 @@ function updateCartUI(){
   emptyEl.classList.toggle('show', cart.length===0);
   countEl.textContent = count;
   totalEl.textContent = `${total} ${dict.unit}`;
+  window.dispatchEvent(new CustomEvent('plovtg-cart-updated', { detail: { total, count, items: cart.slice() } }));
 }
 
 function initCart(){
@@ -1138,10 +1298,13 @@ function initOrderForm(){
         date: document.getElementById('orderDate').value,
         time: document.getElementById('orderTime').value,
         comment: document.getElementById('orderComment').value.trim(),
-        items: cart.map(c => ({ id: c.id, qty: c.qty }))
+        items: cart.map(c => ({ id: c.id, qty: c.qty })),
+        claimId: window.getRewardClaimId?.() || null,
+        sessionId: window.getRewardSessionId?.() || null
       });
       document.getElementById('orderNum').textContent = created.orderNumber;
       document.getElementById('orderSuccess').classList.add('show');
+      window.dispatchEvent(new CustomEvent('plovtg-order-complete', { detail: created }));
       cart = []; saveCart(); updateCartUI();
       setTimeout(()=>{
         document.getElementById('orderModal').classList.remove('open');
@@ -1500,16 +1663,11 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   initRipple();
   initMagnetic();
   applyI18n();
+  initDastarkhanShowcase();
   try {
-    const tableMod = await import('./table3d.js?v=dish-show4');
-    await tableMod.initDastarkhan();
-    window.dispatchEvent(new Event('plovtg-table-ready'));
-    const animMod = await import('./animations.js');
+    const animMod = await import('./animations.js?v=no3d1');
     animMod.initGsapAnimations();
   } catch (err) {
-    console.warn('3D / GSAP не загрузились', err);
-    window.dispatchEvent(new Event('plovtg-table-error'));
-    document.getElementById('tableFallback')?.removeAttribute('hidden');
-    document.getElementById('dastarkhanCanvas')?.classList.add('is-hidden');
+    console.warn('GSAP не загрузился', err);
   }
 });

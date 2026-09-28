@@ -20,7 +20,7 @@
 {"@context":"https://schema.org","@type":"Restaurant","name":"PLOV TG","address":{"@type":"PostalAddress","streetAddress":"проспект Рудаки, 25","addressLocality":"Душанбе","addressCountry":"TJ"},"telephone":"+992301155445","servesCuisine":"Tajik","url":"https://web-production-d58c8.up.railway.app/"}
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=no3d1">
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="skip_content">Перейти к основному содержимому</a>
@@ -147,23 +147,26 @@
   <a href="#dastarkhan" class="home-hero__next" data-i18n="nav_dastarkhan">Дастархан</a>
 </section>
 
-<!-- ================= 3D DASTARKHAN ================= -->
+<!-- ================= DASTARKHAN SHOWCASE ================= -->
 <section class="table-section dish-showcase" id="dastarkhan">
-  <div class="table-scroll" id="tableScroll">
-    <div class="table-stage" id="tableStage">
-      <div class="table-stage__intro table-hero">
-        <p class="eyebrow" data-i18n="table_eyebrow">Наш дастархан</p>
-        <h2 data-i18n="table_title">3D блюда таджикской кухни</h2>
-        <p class="table-hero__lead" data-i18n="table_hint">Стрелки переключают блюда. Потяните мышью, чтобы повернуть.</p>
-      </div>
-      <div class="table-perspective" id="tablePerspective">
-        <p class="table-fallback" id="tableFallback" hidden data-i18n="table_fallback">3D недоступно в этом браузере.</p>
-        <canvas id="dastarkhanCanvas" role="img" aria-label="Трёхмерный плов"></canvas>
-        <button type="button" class="dish-nav dish-nav--prev" id="dishPrev" data-i18n-aria="dish_prev" aria-label="Предыдущее блюдо">‹</button>
-        <button type="button" class="dish-nav dish-nav--next" id="dishNext" data-i18n-aria="dish_next" aria-label="Следующее блюдо">›</button>
-        <div class="table-caption show" id="tableCaption"></div>
-        <div class="dish-dots" id="dishDots" role="tablist" aria-label="Блюда дастархана"></div>
-      </div>
+  <div class="table-stage" id="tableStage">
+    <div class="table-stage__intro table-hero">
+      <p class="eyebrow" data-i18n="table_eyebrow">Наш дастархан</p>
+      <h2 data-i18n="table_title">Блюда таджикской кухни</h2>
+      <p class="table-hero__lead" data-i18n="table_hint">Стрелки переключают блюда. Нажмите фото, чтобы узнать историю.</p>
+    </div>
+    <div class="table-perspective dastarkhan-photo" id="tablePerspective" tabindex="0" role="region" aria-roledescription="carousel" data-i18n-aria="table_title">
+      <figure class="dastarkhan-frame">
+        <img id="dastarkhanPhoto" src="/images/rewards/plov.png" alt="Плов" width="720" height="720">
+        <span class="dastarkhan-frame__ring" aria-hidden="true"></span>
+      </figure>
+      <button type="button" class="dish-nav dish-nav--prev" id="dishPrev" data-i18n-aria="dish_prev" aria-label="Предыдущее блюдо">←</button>
+      <button type="button" class="dish-nav dish-nav--next" id="dishNext" data-i18n-aria="dish_next" aria-label="Следующее блюдо">→</button>
+    </div>
+    <div class="dish-meta">
+      <p class="dish-indicator" id="dishIndicator" aria-live="polite">01 / 12</p>
+      <div class="table-caption show" id="tableCaption" aria-live="polite"></div>
+      <button type="button" class="btn btn--gold" id="dastarkhanAddBtn" data-i18n="add_cart">В корзину</button>
     </div>
   </div>
 </section>
@@ -551,11 +554,58 @@
   <div class="cart-drawer__items" id="cartItems"></div>
   <p class="cart-empty" id="cartEmptyMsg" data-i18n="cart_empty">Корзина пуста. Добавьте блюда из меню.</p>
   <div class="cart-drawer__foot">
+    <section class="reward-progress is-locked" id="rewardProgress" data-reward-root aria-labelledby="rewardProgressTitle">
+      <p class="reward-progress__kicker" id="rewardProgressTitle" data-i18n="reward_kicker">Получите подарок от Дастархана</p>
+      <div class="reward-progress__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="rewardProgressBar" data-i18n-aria="reward_progress_label">
+        <span class="reward-progress__fill" id="rewardProgressFill"></span>
+      </div>
+      <p class="reward-progress__nums" id="rewardProgressNums">0 / 100 сомони</p>
+      <p class="reward-progress__hint" id="rewardProgressHint" aria-live="polite">Добавьте ещё 100 сомони и получите возможность прокрутить бонусный барабан.</p>
+      <button class="btn btn--gold btn--wide" id="rewardOpenBtn" type="button" hidden disabled data-reward-aria="reward_open">
+        <span>Крутить барабан</span>
+      </button>
+    </section>
     <div class="cart-total"><span data-i18n="cart_total">Итого:</span> <strong id="cartTotal">0 сомони</strong></div>
     <button class="btn btn--ghost btn--wide" id="cartClearBtn" type="button" data-i18n="cart_clear">Очистить</button>
     <button class="btn btn--gold btn--wide magnetic" id="checkoutBtn"><span data-i18n="cart_checkout">Оформить заказ</span></button>
   </div>
 </aside>
+
+<!-- ================= BONUS WHEEL ================= -->
+<div class="reward-overlay" id="rewardModal" role="dialog" aria-modal="true" aria-labelledby="rewardSceneTitle" aria-hidden="true">
+  <div class="reward-scene" data-reward-root>
+    <button class="modal-close reward-scene__close" id="rewardCloseBtn" type="button" data-i18n-aria="reward_close" aria-label="Закрыть">×</button>
+    <p class="reward-scene__eyebrow" data-i18n="reward_kicker">Бонус от Дастархана</p>
+    <h2 class="reward-scene__title" id="rewardSceneTitle" data-i18n="reward_title">Бонусный барабан</h2>
+    <p class="sr-only" id="rewardLive" aria-live="polite"></p>
+    <div class="bonus-wheel" id="bonusWheel">
+      <div class="bonus-wheel__pointer" id="bonusWheelPointer" aria-hidden="true"></div>
+      <div class="bonus-wheel__frame">
+        <div class="bonus-wheel__ornament" aria-hidden="true"></div>
+        <div class="bonus-wheel__spin" id="bonusWheelSpin">
+          <canvas id="bonusWheelCanvas" width="620" height="620"></canvas>
+        </div>
+        <div class="bonus-wheel__hub" aria-hidden="true"><span data-i18n="reward_hub">КРУТИ</span></div>
+      </div>
+    </div>
+    <button class="btn btn--gold reward-spin" id="rewardSpinBtn" type="button" data-reward-aria="reward_spin">
+      <span data-i18n="reward_spin">Крутить барабан</span>
+    </button>
+    <canvas class="reward-confetti" id="rewardConfetti" hidden></canvas>
+    <div class="reward-error" id="rewardError" hidden>
+      <h3 data-reward-error-title data-i18n="reward_fail_title">Не удалось получить результат</h3>
+      <button class="btn btn--gold" id="rewardRetryBtn" type="button"><span data-i18n="reward_retry">Попробовать снова</span></button>
+    </div>
+    <div class="reward-win" id="rewardWin" hidden>
+      <p class="reward-win__kicker" data-i18n="reward_win_title">Поздравляем!</p>
+      <img class="reward-win__photo" id="rewardWinPhoto" alt="" width="220" height="220" hidden>
+      <p class="reward-win__badge" id="rewardWinBadge" hidden></p>
+      <h3 class="reward-win__name" id="rewardWinName"></h3>
+      <p class="reward-win__sub" id="rewardWinSub"></p>
+      <button class="btn btn--gold" id="rewardClaimBtn" type="button"><span data-i18n="reward_claim">Забрать бонус</span></button>
+    </div>
+  </div>
+</div>
 
 <!-- ================= FOOTER ================= -->
 <footer class="site-footer">
@@ -594,9 +644,6 @@
 <script type="importmap">
 {
   "imports": {
-    "three": "/vendor/three/build/three.module.js",
-    "three/addons/": "/vendor/three/examples/jsm/",
-    "postprocessing": "/vendor/postprocessing/build/index.js",
     "gsap": "/vendor/gsap/index.js",
     "gsap/ScrollTrigger": "/vendor/gsap/ScrollTrigger.js",
     "gsap/ScrollToPlugin": "/vendor/gsap/ScrollToPlugin.js",
@@ -605,6 +652,7 @@
 }
 </script>
 <script src="api.js"></script>
-<script src="script.js?v=dish-show4"></script>
+<script src="script.js?v=no3d2"></script>
+<script type="module" src="rewards.js?v=bonus-wheel1"></script>
 </body>
 </html>
