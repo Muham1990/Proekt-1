@@ -1,0 +1,59 @@
+:root{
+  --black:#0a0806;
+  --gold:#d9b56a;
+  --gold-light:#f3d99c;
+  --cream:#f3ead9;
+  --line:rgba(217,181,106,.45);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--black);color:var(--cream);font-family:Manrope,sans-serif;overflow-x:hidden}
+h1,h2{font-family:'Cormorant Garamond',serif;letter-spacing:.08em;margin:.2rem 0 .6rem}
+#app{max-width:480px;margin:0 auto;padding:16px 16px 92px;min-height:100dvh}
+.tg-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.tg-kicker{letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-size:.68rem;margin:0}
+.tg-icon{position:relative;min-width:44px;min-height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);color:var(--gold-light)}
+#cartBadge{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#241608;border-radius:99px;font-size:.65rem;padding:1px 6px;font-weight:700}
+.screen{display:none;animation:in .35s ease}
+.screen.is-on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tg-lead{color:var(--gold-light);margin:0 0 16px}
+.tg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.tg-tile,.tg-card{
+  border:1px solid var(--line);border-radius:16px;background:rgba(28,20,13,.45);
+  min-height:72px;padding:14px;color:inherit;text-align:left;font:inherit;
+}
+.tg-tile{min-height:88px}
+.tg-tile:active,.btn:active,.tg-card:active{transform:scale(.98)}
+.tg-cards{display:flex;flex-direction:column;gap:10px}
+.tg-card img{width:100%;height:140px;object-fit:cover;border-radius:12px;margin-bottom:8px}
+.btn{
+  display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;
+  border-radius:999px;margin:8px 0;font-weight:700;border:1px solid var(--line);cursor:pointer
+}
+.btn-gold{background:linear-gradient(100deg,#8a5a2c,var(--gold-light) 45%,var(--gold));color:#241608;border:0}
+.btn-ghost{background:transparent;color:var(--gold-light)}
+.back{background:none;border:0;color:var(--gold-light);min-height:44px;padding:0}
+.qty{display:flex;align-items:center;gap:12px;margin:12px 0}
+.qty button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--gold-light);font-size:1.2rem}
+.tg-form label{display:block;margin:10px 0;font-size:.82rem;color:var(--gold-light)}
+.tg-form input,.tg-form textarea{
+  width:100%;margin-top:6px;padding:12px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);color:var(--cream);font:inherit;min-height:44px
+}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.chip{flex:1;min-width:140px;border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;gap:8px;align-items:center;min-height:44px}
+.tg-nav{
+  position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;
+  background:rgba(10,8,6,.92);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom))
+}
+.tg-nav button{background:none;border:0;color:var(--gold-light);min-width:44px;min-height:44px;font-size:1.2rem}
+.hint,.err{font-size:.85rem}
+.err{color:#e8a090}
+.win{color:var(--gold-light);font-size:1.1rem}
+.wheel-wrap{display:flex;justify-content:center;margin:16px 0}
+.wheel{width:220px;height:220px;border-radius:50%;border:8px solid var(--gold);background:conic-gradient(#8a5a2c,#d9b56a,#241608,#f3d99c,#8a5a2c);transition:transform 2.4s cubic-bezier(.15,.8,.15,1)}
+.skel{height:88px;border-radius:16px;background:linear-gradient(90deg,#1a140e,#2a2016,#1a140e);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+#toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);background:#241608;border:1px solid var(--gold);color:var(--gold-light);padding:10px 16px;border-radius:999px;z-index:20}
+.line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(217,181,106,.2)}
+@media (max-width:360px){.tg-grid{grid-template-columns:1fr}}

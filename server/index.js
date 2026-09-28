@@ -6,13 +6,17 @@ const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { createStore } = require('./store');
-const { sendWelcomeEmail } = require('./email');
+const { sendWelcomeEmail, sendOtpEmail } = require('./email');
 const {
   MIN_ORDER_AMOUNT,
   selectReward,
   publicPrizes,
   publicClaim
 } = require('./reward-config');
+const { startBot } = require('./telegram-bot');
+const { mountTelegramRoutes } = require('./telegram-routes');
+const { botLink, miniAppUrl } = require('./telegram-auth');
+const statusLib = require('./order-status');
 const crypto = require('node:crypto');
 const {
   verifyPassword,
@@ -68,6 +72,7 @@ function publicSiteUrl() {
 async function main() {
   loadEnv();
   const store = await createStore();
+  const bot = await startBot(store);
   const PORT = Number(process.env.PORT) || 3000;
   const ROOT = path.join(__dirname, '..');
   const app = express();
@@ -108,7 +113,9 @@ async function main() {
     res.json({
       supabaseUrl: process.env.SUPABASE_URL || '',
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
-      siteUrl: publicSiteUrl()
+      siteUrl: publicSiteUrl(),
+      telegramBotUrl: botLink(),
+      telegramMiniAppUrl: miniAppUrl()
     });
   });
 
@@ -121,6 +128,7 @@ async function main() {
         resend: Boolean(process.env.RESEND_API_KEY),
         supabase: Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY)
       },
+      telegram: Boolean(process.env.TELEGRAM_BOT_TOKEN),
       time: new Date().toISOString()
     });
   });
@@ -136,6 +144,67 @@ async function main() {
       return;
     }
     res.json(row);
+  });
+
+  app.post('/api/auth/send-code', loginLimit, async (req, res) => {
+    const name = clampText(req.body?.name, 80);
+    const email = clampText(req.body?.email, 120).toLowerCase();
+    if (!isName(name) || !isEmail(email)) {
+      res.status(400).json({ error: 'Укажите имя и корректный email' });
+      return;
+    }
+    const code = String(crypto.randomInt(0, 1_000_000)).padStart(6, '0');
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+    const codeHash = crypto.createHash('sha256').update(`${email}:${code}`).digest('hex');
+    try {
+      await store.saveEmailCode(email, name, codeHash, expiresAt);
+      const mail = await sendOtpEmail(name, email, code);
+      res.json({ ok: true, emailSent: mail.sent, emailVia: mail.via });
+    } catch (err) {
+      console.warn('send-code:', err.message || err);
+      res.status(500).json({ error: 'Не удалось отправить код' });
+    }
+  });
+
+  app.post('/api/auth/verify-code', loginLimit, async (req, res) => {
+    const email = clampText(req.body?.email, 120).toLowerCase();
+    const code = String(req.body?.code || '').replace(/\D/g, '');
+    if (!isEmail(email) || code.length !== 6) {
+      res.status(400).json({ error: 'Введите email и 6-значный код' });
+      return;
+    }
+    try {
+      const row = await store.getEmailCode(email);
+      if (!row) {
+        res.status(400).json({ error: 'Сначала запросите код' });
+        return;
+      }
+      if (Number(row.attempts) >= 5) {
+        await store.deleteEmailCode(email);
+        res.status(429).json({ error: 'Слишком много попыток. Запросите код снова.' });
+        return;
+      }
+      const exp = new Date(row.expires_at).getTime();
+      if (!Number.isFinite(exp) || exp < Date.now()) {
+        await store.deleteEmailCode(email);
+        res.status(400).json({ error: 'Код истёк. Запросите новый.' });
+        return;
+      }
+      const expected = crypto.createHash('sha256').update(`${email}:${code}`).digest('hex');
+      const a = Buffer.from(expected);
+      const b = Buffer.from(String(row.code_hash));
+      if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+        await store.bumpEmailCodeAttempts(email);
+        res.status(400).json({ error: 'Неверный код' });
+        return;
+      }
+      const guest = await store.markGuestVerified(email, row.name);
+      await store.deleteEmailCode(email);
+      res.json({ ok: true, guest: { id: guest.id, name: guest.name, email: guest.email } });
+    } catch (err) {
+      console.warn('verify-code:', err.message || err);
+      res.status(500).json({ error: 'Не удалось подтвердить код' });
+    }
   });
 
   app.post('/api/guests', writeLimit, async (req, res) => {
@@ -195,6 +264,12 @@ async function main() {
 
     if (!isName(name) || !isPhone(phone) || !isEmail(email) || address.length < 4) {
       res.status(400).json({ error: 'Проверьте имя, телефон, email и адрес доставки' });
+      return;
+    }
+    const guest = await store.findGuest(email);
+    const verified = guest && (guest.email_verified === true || guest.email_verified === 1);
+    if (!verified) {
+      res.status(403).json({ error: 'Подтвердите email, чтобы оформить заказ' });
       return;
     }
     if (!isFutureDate(date) || !isTime(time)) {
@@ -428,9 +503,8 @@ async function main() {
   });
 
   app.patch('/api/admin/orders/:id', admin, async (req, res) => {
-    const allowed = ['new', 'preparing', 'delivering', 'done', 'cancelled'];
-    const status = clampText(req.body?.status, 20);
-    if (!allowed.includes(status)) {
+    const status = clampText(req.body?.status, 40);
+    if (!statusLib.ALLOWED.includes(status)) {
       res.status(400).json({ error: 'Недопустимый статус заказа' });
       return;
     }
@@ -438,6 +512,10 @@ async function main() {
     if (!changes) {
       res.status(404).json({ error: 'Заказ не найден' });
       return;
+    }
+    const order = await store.getOrder(Number(req.params.id));
+    if (order?.telegram_user_id && bot?.notifyCustomer) {
+      await bot.notifyCustomer(order);
     }
     res.json({ ok: true, status });
   });
@@ -511,6 +589,8 @@ async function main() {
   app.get('/favicon.ico', (_req, res) => {
     res.redirect(301, '/favicon.svg');
   });
+
+  mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, clampText });
 
   app.use(express.static(ROOT, {
     index: 'index.html',

@@ -42,7 +42,7 @@ async function sendWithResend(name, email) {
   if (!key || !Resend) return false;
   const resend = new Resend(key);
   const { error } = await resend.emails.send({
-    from: process.env.RESEND_FROM || 'PLOV TG <onboarding@resend.dev>',
+        from: process.env.RESEND_FROM || 'PLOV TG <noreply@karate.pp.ua>',
     to: [email],
     subject: `${name || 'Меҳмон'}, хуш омадед в PLOV TG`,
     html: welcomeHtml(name),
@@ -96,6 +96,63 @@ async function sendWithSupabaseOtp(name, email) {
   return true;
 }
 
+async function sendOtpEmail(name, email, code) {
+  const guest = String(name || 'меҳмон').replace(/[<>&]/g, '');
+  const html = `<!doctype html>
+<html><body style="margin:0;background:#0a0806;font-family:Georgia,serif;color:#f3ead9;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0806;padding:32px 12px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#14100a;border:1px solid #d9b56a;border-radius:16px;padding:36px;">
+        <tr><td>
+          <p style="letter-spacing:.2em;color:#d9b56a;font-size:12px;margin:0 0 12px;">PLOV TG</p>
+          <h1 style="margin:0 0 16px;font-size:26px;color:#f3d99c;">Код подтверждения</h1>
+          <p style="line-height:1.6;margin:0 0 18px;">${guest}, ваш код для входа на дастархан:</p>
+          <p style="font-size:32px;letter-spacing:.28em;color:#f3d99c;margin:0 0 18px;font-weight:700;">${code}</p>
+          <p style="line-height:1.6;margin:0;color:#cbbfa6;font-size:14px;">Код действует 10 минут. Если вы не регистрировались, просто проигнорируйте письмо.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+  const text = `${guest}, ваш код PLOV TG: ${code}. Действует 10 минут.`;
+
+  const key = process.env.RESEND_API_KEY;
+  const Resend = getResend();
+  if (key && Resend) {
+    const resend = new Resend(key);
+    const { error } = await resend.emails.send(
+      {
+        from: process.env.RESEND_FROM || 'PLOV TG <noreply@karate.pp.ua>',
+        to: [email],
+        subject: 'Код подтверждения PLOV TG',
+        html,
+        text
+      },
+      { idempotencyKey: `otp/${email}/${code}` }
+    );
+    if (!error) return { sent: true, via: 'resend' };
+    console.warn('Resend OTP:', error.message || error);
+  }
+
+  const url = process.env.SUPABASE_URL;
+  const anon = process.env.SUPABASE_ANON_KEY;
+  if (url && anon) {
+    const res = await fetch(`${url}/functions/v1/send-welcome`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${anon}`,
+        apikey: anon,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, code })
+    });
+    if (res.ok) return { sent: true, via: 'supabase-resend' };
+    const textBody = await res.text().catch(() => '');
+    console.warn('Supabase OTP function:', res.status, textBody);
+  }
+  return { sent: false, via: null };
+}
+
 async function sendWelcomeEmail(name, email) {
   if (await sendWithResend(name, email)) return { sent: true, via: 'resend' };
   if (await sendWithSupabaseFunction(name, email)) return { sent: true, via: 'supabase-resend' };
@@ -103,4 +160,4 @@ async function sendWelcomeEmail(name, email) {
   return { sent: false, via: null };
 }
 
-module.exports = { sendWelcomeEmail };
+module.exports = { sendWelcomeEmail, sendOtpEmail };

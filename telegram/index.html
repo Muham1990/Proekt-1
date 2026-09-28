@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>PLOV TG</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/telegram/app.css">
+</head>
+<body>
+<div id="app">
+  <header class="tg-top">
+    <div>
+      <p class="tg-kicker">Таджикская кухня</p>
+      <h1>PLOV TG</h1>
+    </div>
+    <button class="tg-icon" data-go="cart" aria-label="Корзина">🛒<span id="cartBadge">0</span></button>
+  </header>
+
+  <main id="screen-home" class="screen is-on">
+    <p class="tg-lead">Дастархан с доставкой в Душанбе</p>
+    <div class="tg-grid" id="homeGrid"></div>
+    <button class="btn btn-gold" data-go="cart">🛒 Корзина</button>
+  </main>
+
+  <main id="screen-list" class="screen">
+    <button class="back" data-go="home">← Назад</button>
+    <h2 id="listTitle">Меню</h2>
+    <div id="dishList" class="tg-cards"></div>
+  </main>
+
+  <main id="screen-dish" class="screen">
+    <button class="back" data-go="list">← Назад</button>
+    <div id="dishCard"></div>
+  </main>
+
+  <main id="screen-cart" class="screen">
+    <button class="back" data-go="home">← Назад</button>
+    <h2>Ваш заказ</h2>
+    <div id="cartBox"></div>
+    <p id="giftHint" class="hint"></p>
+    <button class="btn btn-ghost" id="giftBtn" hidden>🎁 Открыть подарок</button>
+    <button class="btn btn-gold" data-go="checkout">Оформить заказ</button>
+  </main>
+
+  <main id="screen-checkout" class="screen">
+    <button class="back" data-go="cart">← Назад</button>
+    <h2>Оформление</h2>
+    <form id="checkoutForm" class="tg-form">
+      <label>Имя<input name="name" required minlength="2" autocomplete="name"></label>
+      <label>Телефон<input name="phone" required autocomplete="tel" placeholder="+992..."></label>
+      <p class="tg-label">Получение</p>
+      <div class="row">
+        <label class="chip"><input type="radio" name="fulfillment" value="delivery" checked> 🚚 Доставка</label>
+        <label class="chip"><input type="radio" name="fulfillment" value="pickup"> 🏠 Самовывоз</label>
+      </div>
+      <label id="addrWrap">Адрес<input name="address" autocomplete="street-address"></label>
+      <label>Квартира / офис<input name="apartment"></label>
+      <label>Комментарий<textarea name="comment" rows="2"></textarea></label>
+      <button type="button" class="btn btn-ghost" id="geoBtn">📍 Отправить геолокацию</button>
+      <p class="tg-label">Оплата</p>
+      <div class="row">
+        <label class="chip"><input type="radio" name="payment" value="cash" checked> 💵 При получении</label>
+        <label class="chip"><input type="radio" name="payment" value="card"> 💳 Картой / Alif</label>
+      </div>
+      <button class="btn btn-gold" type="submit">Подтвердить заказ</button>
+      <p class="err" id="checkoutErr"></p>
+    </form>
+  </main>
+
+  <main id="screen-orders" class="screen">
+    <button class="back" data-go="home">← Назад</button>
+    <h2>Мои заказы</h2>
+    <div id="ordersBox"></div>
+  </main>
+
+  <main id="screen-gifts" class="screen">
+    <button class="back" data-go="home">← Назад</button>
+    <h2>Мои подарки</h2>
+    <div id="giftsBox"></div>
+  </main>
+
+  <main id="screen-gift" class="screen">
+    <button class="back" data-go="cart">← Назад</button>
+    <h2>Бонусный барабан</h2>
+    <p class="hint">Один заказ — один spin. Результат считает сервер.</p>
+    <div class="wheel-wrap">
+      <div class="wheel" id="miniWheel"></div>
+    </div>
+    <button class="btn btn-gold" id="spinBtn">Крутить барабан</button>
+    <p id="spinResult" class="win" hidden></p>
+  </main>
+
+  <main id="screen-contact" class="screen">
+    <button class="back" data-go="home">← Назад</button>
+    <h2>Связаться с нами</h2>
+    <p>Телефон: <a href="tel:+992301155445">+992 30 11 55 45</a></p>
+    <p>Адрес: Душанбе, проспект Рудаки, 25</p>
+    <p>10:00 — 24:00, ежедневно</p>
+    <a class="btn btn-gold" href="tel:+992301155445">📞 Позвонить</a>
+  </main>
+
+  <nav class="tg-nav">
+    <button data-go="home">🍽</button>
+    <button data-go="cart">🛒</button>
+    <button data-go="orders">📦</button>
+    <button data-go="gifts">🎁</button>
+    <button data-go="contact">📞</button>
+  </nav>
+</div>
+<div id="toast" hidden></div>
+<script src="/telegram/app.js"></script>
+</body>
+</html>

@@ -151,7 +151,13 @@ const I18N = {
     welcome_title:'ДОБРО ПОЖАЛОВАТЬ<br>В МИР НАСТОЯЩЕЙ<br><span>ТАДЖИКСКОЙ КУХНИ</span>',
     reg_title:'Начните своё путешествие', reg_subtitle:'Узнайте, что значит настоящее таджикское гостеприимство',
     reg_name:'Ваше имя', reg_email:'Email', reg_btn:'Начать путешествие',
+    reg_code_sub:'Введите 6-значный код из письма.',
+    reg_verify:'Подтвердить код', reg_resend:'Отправить код ещё раз',
+    reg_need:'Сначала подтвердите email, чтобы оформить заказ.',
+    reg_sent:'Код отправлен на {email}',
+    reg_verified:'Email подтверждён. Можно оформлять заказ.',
     err_name:'Введите имя (мин. 2 символа)', err_email:'Введите корректный email', err_phone:'Введите корректный номер телефона',
+    err_code:'Введите 6-значный код из письма',
     err_guests:'От 1 до 50 гостей', err_date:'Выберите дату не в прошлом', err_time:'Укажите время', err_address:'Укажите адрес доставки',
     nav_home:'Главная', nav_dastarkhan:'Дастархан', nav_menu:'Меню', nav_about:'О нас', nav_chefs:'Повара', nav_gallery:'Галерея', nav_reviews:'Отзывы', nav_news:'Новости', nav_contacts:'Контакты',
     skip_menu:'Перейти к меню', skip_content:'Перейти к основному содержимому', table_cta:'Смотреть меню', hero_place:'Душанбе, проспект Рудаки, 25', search_label:'Поиск по меню',
@@ -159,7 +165,7 @@ const I18N = {
     hero_eyebrow:'Ресторан таджикской кухни · Душанбе', hero_title1:'Вкус,', hero_title2:'достойный дастархана',
     hero_usp:'Ресторан в Душанбе — бронирование столов и доставка',
     hero_desc:'Плов, манты и курутоб, приготовленные так, как их готовили в домах Самарканда и Душанбе поколениями — в атмосфере тёплого золотого света и настоящего дерева.',
-    hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик',
+    hero_btn_menu:'Посмотреть меню', hero_btn_order:'Заказать', hero_btn_book:'Забронировать столик', hero_btn_telegram:'✈️ Заказать в Telegram',
     c_years:'лет традиций', c_dishes:'блюд в меню', c_guests:'гостей в год', c_chefs:'поваров',
     table_eyebrow:'Наш дастархан', table_title:'Блюда таджикской кухни',
     table_hint:'Стрелки переключают блюда. Нажмите фото, чтобы узнать историю.',
@@ -231,7 +237,13 @@ const I18N = {
     welcome_title:'WELCOME TO THE WORLD<br>OF AUTHENTIC<br><span>TAJIK CUISINE</span>',
     reg_title:'Begin your journey', reg_subtitle:'Discover what real Tajik hospitality feels like',
     reg_name:'Your name', reg_email:'Email', reg_btn:'Start the journey',
+    reg_code_sub:'Enter the 6-digit code from the email.',
+    reg_verify:'Confirm code', reg_resend:'Send the code again',
+    reg_need:'Confirm your email before placing an order.',
+    reg_sent:'A code was sent to {email}',
+    reg_verified:'Email confirmed. You can place an order.',
     err_name:'Enter a name (min. 2 characters)', err_email:'Enter a valid email', err_phone:'Enter a valid phone number',
+    err_code:'Enter the 6-digit code from the email',
     err_guests:'From 1 to 50 guests', err_date:'Choose a date not in the past', err_time:'Choose a time', err_address:'Enter a delivery address',
     nav_home:'Home', nav_dastarkhan:'Dastarkhan', nav_menu:'Menu', nav_about:'About', nav_chefs:'Chefs', nav_gallery:'Gallery', nav_reviews:'Reviews', nav_news:'News', nav_contacts:'Contacts',
     skip_menu:'Skip to menu', skip_content:'Skip to main content', table_cta:'View menu', hero_place:'25 Rudaki Avenue, Dushanbe', search_label:'Search the menu',
@@ -239,7 +251,7 @@ const I18N = {
     hero_eyebrow:'Tajik cuisine restaurant · Dushanbe', hero_title1:'A taste', hero_title2:'worthy of the dastarkhan',
     hero_usp:'Restaurant in Dushanbe — table booking and delivery',
     hero_desc:'Plov, manti and qurutob, prepared the way they were made in the homes of Samarkand and Dushanbe for generations — in an atmosphere of warm golden light and real wood.',
-    hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table',
+    hero_btn_menu:'View menu', hero_btn_order:'Order now', hero_btn_book:'Book a table', hero_btn_telegram:'✈️ Order in Telegram',
     c_years:'years of tradition', c_dishes:'dishes on the menu', c_guests:'guests a year', c_chefs:'chefs',
     table_eyebrow:'Our dastarkhan', table_title:'Dishes of Tajik cuisine',
     table_hint:'Use the arrows to switch dishes. Tap a photo to read its story.',
@@ -311,7 +323,13 @@ const I18N = {
     welcome_title:'БА ҶАҲОНИ ОШПАЗИИ<br>АСИЛИ ТОҶИКӢ<br><span>ХУШ ОМАДЕД</span>',
     reg_title:'Сафари худро оғоз кунед', reg_subtitle:'Меҳмоннавозии асили тоҷикиро эҳсос кунед',
     reg_name:'Номи шумо', reg_email:'Почтаи электронӣ', reg_btn:'Сафарро оғоз кунед',
+    reg_code_sub:'Рамзи 6-рақамаро аз почта ворид кунед.',
+    reg_verify:'Рамзро тасдиқ кунед', reg_resend:'Бори дигар фиристед',
+    reg_need:'Пеш аз фармоиш почтаро тасдиқ кунед.',
+    reg_sent:'Рамз ба {email} фиристода шуд',
+    reg_verified:'Почта тасдиқ шуд. Фармоиш додан мумкин аст.',
     err_name:'Номро ворид кунед (ҳадди ақал 2 ҳарф)', err_email:'Почтаи электронии дурустро ворид кунед', err_phone:'Рақами телефони дурустро ворид кунед',
+    err_code:'Рамзи 6-рақамаро аз почта ворид кунед',
     err_guests:'Аз 1 то 50 меҳмон', err_date:'Санаи гузаштаро интихоб накунед', err_time:'Вақтро нишон диҳед', err_address:'Суроғаи расониданро ворид кунед',
     nav_home:'Асосӣ', nav_dastarkhan:'Дастархон', nav_menu:'Меню', nav_about:'Дар бораи мо', nav_chefs:'Ошпазон', nav_gallery:'Галерея', nav_reviews:'Тақризҳо', nav_news:'Ахбор', nav_contacts:'Тамос',
     skip_menu:'Ба меню гузаред', skip_content:'Ба қисми асосӣ гузаред', table_cta:'Дидани меню', hero_place:'ш. Душанбе, хиёбони Рӯдакӣ, 25', search_label:'Ҷустуҷӯи меню',
@@ -319,7 +337,7 @@ const I18N = {
     hero_eyebrow:'Тарабхонаи таомҳои тоҷикӣ · Душанбе', hero_title1:'Таъме,', hero_title2:'сазовори дастархон',
     hero_usp:'Тарабхона дар Душанбе — брон кардани ҷой ва расонидан',
     hero_desc:'Оши палов, манту ва қурутоб — тавре ки дар хонаҳои Самарқанду Душанбе наслҳо пухта мешуданд, дар фазои нури тиллоӣ ва чӯби асил.',
-    hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан',
+    hero_btn_menu:'Дидани меню', hero_btn_order:'Фармоиш додан', hero_btn_book:'Ҷой брон кардан', hero_btn_telegram:'✈️ Фармоиш дар Telegram',
     c_years:'соли анъана', c_dishes:'таом дар меню', c_guests:'меҳмон дар сол', c_chefs:'ошпаз',
     table_eyebrow:'Дастархони мо', table_title:'Таомҳои тоҷикӣ',
     table_hint:'Тирчаҳо таомро иваз мекунанд. Барои ҳикоя аксро пахш кунед.',
@@ -472,9 +490,60 @@ function showWelcome(){
   }, 1000);
 }
 
+function getSavedUser(){
+  try { return JSON.parse(localStorage.getItem('plovtg_user') || 'null'); } catch { return null; }
+}
+
+function isVerifiedUser(){
+  const user = getSavedUser();
+  return Boolean(user && user.verified && user.email);
+}
+
+function saveVerifiedUser(name, email){
+  localStorage.setItem('plovtg_user', JSON.stringify({ name, email, verified: true }));
+}
+
+function showRegStep(step){
+  const form = document.getElementById('regForm');
+  const codeForm = document.getElementById('regCodeForm');
+  if (form) form.hidden = step !== 'form';
+  if (codeForm) codeForm.hidden = step !== 'code';
+}
+
+function otpValue(){
+  return [...document.querySelectorAll('#otpRow input')].map((el) => el.value.replace(/\D/g, '')).join('');
+}
+
+function bindOtpInputs(){
+  const inputs = [...document.querySelectorAll('#otpRow input')];
+  if (!inputs.length || inputs[0].dataset.bound) return;
+  inputs[0].dataset.bound = '1';
+  inputs.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/g, '').slice(-1);
+      if (input.value && inputs[i + 1]) inputs[i + 1].focus();
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && inputs[i - 1]) {
+        inputs[i - 1].focus();
+        inputs[i - 1].value = '';
+      }
+    });
+    input.addEventListener('paste', (e) => {
+      const text = (e.clipboardData?.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+      if (!text) return;
+      e.preventDefault();
+      text.split('').forEach((ch, idx) => { if (inputs[idx]) inputs[idx].value = ch; });
+      inputs[Math.min(text.length, inputs.length) - 1]?.focus();
+    });
+  });
+}
+
 function openRegModal(){
   const modal = document.getElementById('regModal');
   if(!modal) return;
+  showRegStep(isVerifiedUser() ? 'form' : (sessionStorage.getItem('plovtg_pending_email') ? 'code' : 'form'));
+  bindOtpInputs();
   modal.classList.add('open');
   document.body.classList.add('no-scroll');
 }
@@ -487,11 +556,26 @@ function closeRegModal(){
 }
 
 function openRegistrationOrGreet(){
-  const saved = localStorage.getItem('plovtg_user');
-  if(saved){
+  if(isVerifiedUser()){
     return;
   }
   openRegModal();
+}
+
+function initTelegramLinks(){
+  fetch('/api/config').then((res) => res.json()).then((cfg) => {
+    const url = cfg.telegramBotUrl;
+    document.querySelectorAll('.js-telegram-link').forEach((el) => {
+      if (!url) {
+        el.hidden = true;
+        return;
+      }
+      el.href = url;
+      el.hidden = false;
+    });
+  }).catch(() => {
+    document.querySelectorAll('.js-telegram-link').forEach((el) => { el.hidden = true; });
+  });
 }
 
 function initRegistration(){
@@ -500,9 +584,11 @@ function initRegistration(){
   document.getElementById('regModal')?.addEventListener('click', (e)=>{
     if(e.target.id === 'regModal') closeRegModal();
   });
+  bindOtpInputs();
   const form = document.getElementById('regForm');
-  if(!form) return;
-  form.addEventListener('submit', async e=>{
+  const codeForm = document.getElementById('regCodeForm');
+  const dictOf = () => I18N[currentLang] || I18N.ru;
+  if(form) form.addEventListener('submit', async e=>{
     e.preventDefault();
     const nameField = form.querySelector('#regName').closest('.field');
     const emailField = form.querySelector('#regEmail').closest('.field');
@@ -515,21 +601,59 @@ function initRegistration(){
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ emailField.classList.add('invalid'); ok = false; } else emailField.classList.remove('invalid');
     if(!ok) return;
     try{
-      const result = await apiPost('/api/guests', { name, email });
-      localStorage.setItem('plovtg_user', JSON.stringify({ name, email }));
-      if (result?.emailSent) {
-        err.textContent = 'Письмо отправлено на почту. Проверьте inbox.';
-        err.classList.add('show', 'form-ok');
-        await new Promise((resolve) => setTimeout(resolve, 900));
-      } else {
-        err.textContent = 'Регистрация прошла. Письмо не отправилось — нужен RESEND_API_KEY.';
-        err.classList.add('show');
-        await new Promise((resolve) => setTimeout(resolve, 1200));
+      const result = await apiPost('/api/auth/send-code', { name, email });
+      sessionStorage.setItem('plovtg_pending_email', email);
+      sessionStorage.setItem('plovtg_pending_name', name);
+      const hint = document.getElementById('regCodeHint');
+      if (hint) hint.textContent = (dictOf().reg_sent || '').replace('{email}', email);
+      showRegStep('code');
+      document.querySelector('#otpRow input')?.focus();
+      if (result?.emailSent === false) {
+        const codeErr = document.getElementById('regCodeError');
+        codeErr.textContent = 'Код сохранён, но письмо не ушло. Проверьте RESEND_API_KEY.';
+        codeErr.classList.add('show');
       }
-      closeRegModal();
     }catch(ex){
       err.textContent = ex.message;
       err.classList.add('show');
+    }
+  });
+  if(codeForm) codeForm.addEventListener('submit', async e=>{
+    e.preventDefault();
+    const codeErr = document.getElementById('regCodeError');
+    codeErr.classList.remove('show', 'form-ok');
+    const code = otpValue();
+    const email = sessionStorage.getItem('plovtg_pending_email') || document.getElementById('regEmail').value.trim();
+    if (code.length !== 6) {
+      codeErr.textContent = dictOf().err_code;
+      codeErr.classList.add('show');
+      return;
+    }
+    try{
+      const result = await apiPost('/api/auth/verify-code', { email, code });
+      saveVerifiedUser(result?.guest?.name || sessionStorage.getItem('plovtg_pending_name') || '', email);
+      sessionStorage.removeItem('plovtg_pending_email');
+      sessionStorage.removeItem('plovtg_pending_name');
+      codeErr.textContent = dictOf().reg_verified;
+      codeErr.classList.add('show', 'form-ok');
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      closeRegModal();
+    }catch(ex){
+      codeErr.textContent = ex.message;
+      codeErr.classList.add('show');
+    }
+  });
+  document.getElementById('regResendBtn')?.addEventListener('click', async ()=>{
+    const email = sessionStorage.getItem('plovtg_pending_email') || document.getElementById('regEmail').value.trim();
+    const name = sessionStorage.getItem('plovtg_pending_name') || document.getElementById('regName').value.trim();
+    const codeErr = document.getElementById('regCodeError');
+    try{
+      await apiPost('/api/auth/send-code', { name, email });
+      codeErr.textContent = (dictOf().reg_sent || '').replace('{email}', email);
+      codeErr.classList.add('show', 'form-ok');
+    }catch(ex){
+      codeErr.textContent = ex.message;
+      codeErr.classList.add('show');
     }
   });
 }
@@ -1146,9 +1270,23 @@ function initCart(){
 
   document.getElementById('checkoutBtn').addEventListener('click', ()=>{
     if(cart.length===0) return;
+    if(!isVerifiedUser()){
+      const dict = I18N[currentLang] || I18N.ru;
+      closeCart();
+      openRegModal();
+      const err = document.getElementById('regError');
+      if (err) {
+        err.textContent = dict.reg_need;
+        err.classList.add('show');
+      }
+      return;
+    }
     window.plovTrack?.('checkout_start', { count: cart.length });
     closeCart();
     renderOrderSummary();
+    const user = getSavedUser();
+    const emailInput = document.getElementById('orderEmail');
+    if (emailInput && user?.email && !emailInput.value) emailInput.value = user.email;
     document.getElementById('orderModal').classList.add('open');
   });
   const clearBtn = document.getElementById('cartClearBtn');
@@ -1647,6 +1785,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     renderMenu();
   }
   await loadReviewsFromApi();
+  initTelegramLinks();
   initRegistration();
   initHeroCanvas();
   initCart();

@@ -50,6 +50,16 @@ function migrate(db) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
+      email_verified INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS email_codes (
+      email TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      code_hash TEXT NOT NULL,
+      expires_at TEXT NOT NULL,
+      attempts INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
@@ -121,10 +131,35 @@ function migrate(db) {
       cart_total INTEGER NOT NULL,
       cart_hash TEXT NOT NULL,
       status TEXT NOT NULL DEFAULT 'won',
+      telegram_user_id TEXT,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (order_id) REFERENCES orders(id)
     );
+
+    CREATE TABLE IF NOT EXISTS telegram_customers (
+      telegram_user_id TEXT PRIMARY KEY,
+      chat_id TEXT,
+      name TEXT,
+      username TEXT,
+      phone TEXT,
+      session_id TEXT NOT NULL UNIQUE,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
   `);
+  try { db.exec('ALTER TABLE guests ADD COLUMN email_verified INTEGER NOT NULL DEFAULT 0'); } catch { /* already exists */ }
+  const extraCols = [
+    "ALTER TABLE orders ADD COLUMN channel TEXT NOT NULL DEFAULT 'web'",
+    "ALTER TABLE orders ADD COLUMN fulfillment TEXT NOT NULL DEFAULT 'delivery'",
+    "ALTER TABLE orders ADD COLUMN payment_method TEXT NOT NULL DEFAULT 'cash'",
+    'ALTER TABLE orders ADD COLUMN telegram_user_id TEXT',
+    'ALTER TABLE orders ADD COLUMN lat TEXT',
+    'ALTER TABLE orders ADD COLUMN lng TEXT',
+    'ALTER TABLE orders ADD COLUMN apartment TEXT',
+    'ALTER TABLE reward_claims ADD COLUMN telegram_user_id TEXT'
+  ];
+  for (const stmt of extraCols) {
+    try { db.exec(stmt); } catch { /* already exists */ }
+  }
 }
 
 function seedIfEmpty(db) {

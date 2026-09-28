@@ -132,7 +132,7 @@ function renderOrders(rows) {
     ['Адрес / время', (r) => `${esc(r.address)}<br><span class="muted">${esc(r.date)} ${esc(r.time)}</span>`],
     ['Состав', (r) => (r.items || []).map((i) => `${esc(i.name_snapshot)} × ${i.qty}`).join('<br>')],
     ['Сумма', (r) => `${r.total} с.`],
-    ['Статус', (r) => select('order', r.id, r.status, ['new', 'preparing', 'delivering', 'done', 'cancelled'])]
+    ['Статус', (r) => select('order', r.id, r.status, ['PENDING_CONFIRMATION', 'PENDING_PAYMENT', 'PAID', 'ACCEPTED', 'COOKING', 'READY', 'DELIVERING', 'COMPLETED', 'CANCELLED', 'new', 'preparing', 'delivering', 'done', 'cancelled'])]
   ]);
 }
 

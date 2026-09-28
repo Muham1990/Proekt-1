@@ -93,7 +93,7 @@ p{ line-height:1.7; color:var(--ink-soft); }
 section{ position:relative; padding:clamp(70px,10vw,120px) 0; }
 section[id]{ scroll-margin-top:88px; }
 #home{ scroll-margin-top:0; padding:0; }
-#dastarkhan{ scroll-margin-top:72px; padding:0; }
+#dastarkhan{ scroll-margin-top:72px; padding:0; margin:0; border:0; box-shadow:none; }
 
 /* ============================================================
    HOME HERO — photoreal dastarkhan (not the 3D table)
@@ -107,16 +107,32 @@ section[id]{ scroll-margin-top:88px; }
   align-items:center;
   justify-content:flex-start;
   overflow:hidden;
+  margin:0;
+  border:0;
+  box-shadow:none;
+  background:var(--black);
 }
 .home-hero__photo{
   position:absolute; inset:0; width:100%; height:100%;
+  max-width:none; z-index:0;
   object-fit:cover; object-position:center 82%;
   transform:scale(1.04);
 }
 .home-hero__veil{
-  position:absolute; inset:0; pointer-events:none;
+  position:absolute; inset:0; z-index:1; pointer-events:none;
   background:
-    linear-gradient(180deg, rgba(8,6,4,.55) 0%, rgba(8,6,4,.18) 28%, rgba(8,6,4,.08) 48%, rgba(8,6,4,.45) 100%);
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--black) 55%, transparent) 0%,
+      color-mix(in srgb, var(--black) 18%, transparent) 26%,
+      color-mix(in srgb, var(--black) 6%, transparent) 50%,
+      color-mix(in srgb, var(--black) 14%, transparent) 68%,
+      color-mix(in srgb, var(--black) 42%, transparent) 78%,
+      color-mix(in srgb, var(--black) 74%, transparent) 86%,
+      color-mix(in srgb, var(--black) 94%, transparent) 91%,
+      var(--black) 95%,
+      var(--black) 100%
+    );
 }
 .home-hero__content{
   position:relative; z-index:2; text-align:center;
@@ -263,6 +279,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .reg-modal__title{ font-size:1.7rem; margin-bottom:.4rem; }
 .reg-modal__subtitle{ font-size:.9rem; margin-bottom:1.6rem; }
+.otp-row{
+  display:flex; justify-content:center; gap:8px; margin:8px 0 18px;
+}
+.otp-row input{
+  width:44px; height:52px; padding:0; text-align:center;
+  font-size:1.35rem; font-weight:600; letter-spacing:0;
+  border:1px solid var(--line); border-radius:10px;
+  background:rgba(255,255,255,.06); color:var(--gold-light);
+  caret-color:var(--gold);
+}
+.otp-row input:focus{
+  border-color:var(--gold); box-shadow:0 0 0 3px rgba(217,181,106,.16); outline:none;
+}
+.reg-code-hint{ font-size:.86rem; color:var(--ink-faint); margin:0 0 8px; }
+.reg-resend{
+  margin-top:10px; background:none; border:none; color:var(--gold-light);
+  cursor:pointer; font-size:.82rem; text-decoration:underline; text-underline-offset:3px;
+}
+.reg-resend:disabled{ opacity:.45; cursor:not-allowed; }
+@media (max-width:430px){
+  .otp-row{ gap:6px; }
+  .otp-row input{ width:40px; height:48px; font-size:1.2rem; }
+}
 
 /* floating label fields */
 .field{ position:relative; margin-bottom:22px; text-align:left; }
@@ -404,6 +443,9 @@ html.gsap-on [data-reveal]{ opacity:1; transform:none; filter:none; }
   position:relative;
   background:var(--black);
   min-height:100vh;
+  margin:0;
+  border:0;
+  box-shadow:none;
   padding:108px 0 40px;
 }
 .table-scroll{ height:auto; min-height:0; position:relative; }
