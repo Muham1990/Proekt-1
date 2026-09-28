@@ -1043,9 +1043,18 @@ html.theme-light .dish-card__desc{ color:#3d2c18; }
 .cart-item__qty button{ width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:none; color:var(--gold); cursor:pointer; }
 .cart-item__sum{ font-size:.82rem; color:var(--gold-light); white-space:nowrap; }
 .cart-item__remove{ background:none; border:none; color:#ff8a7a; cursor:pointer; font-size:1.2rem; min-width:44px; min-height:44px; }
-.cart-drawer__foot{ padding:20px 24px; border-top:1px solid var(--line); }
-.cart-total{ display:flex; justify-content:space-between; margin-bottom:16px; font-size:1rem; }
-.cart-total strong{ color:var(--gold-light); }
+.cart-drawer__foot{
+  padding:18px 22px 22px; border-top:1px solid rgba(217,181,106,.28);
+  background:
+    radial-gradient(90% 80% at 100% 0%, rgba(217,181,106,.12), transparent 50%),
+    linear-gradient(180deg, rgba(28,18,12,.35), transparent);
+}
+.cart-total{
+  display:flex; justify-content:space-between; align-items:baseline;
+  margin:4px 0 16px; font-size:1rem; padding-top:4px;
+  border-top:1px dashed rgba(217,181,106,.35);
+}
+.cart-total strong{ color:var(--gold-light); font-family:var(--font-display); font-size:1.35rem; }
 
 /* ============================================================
    FOOTER

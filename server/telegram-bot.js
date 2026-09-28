@@ -34,6 +34,10 @@ async function api(method, body) {
   return data.result;
 }
 
+function esc(s) {
+  return String(s || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+}
+
 function mainKeyboard() {
   return {
     keyboard: [
@@ -68,23 +72,20 @@ function resetRewardSession(chatId) {
 }
 
 function formatCart(items, dishes) {
-  if (!items.length) return 'Корзина пуста.';
+  if (!items.length) return 'Корзина пуста. Откройте меню и соберите дастархан.';
   let total = 0;
   const lines = items.map((row) => {
     const dish = dishes.find((d) => d.id === row.id);
     const name = dish?.name?.ru || row.id;
     const price = dish ? dish.price * row.qty : 0;
     total += price;
-    return `${name} × ${row.qty} ........ ${price} TJS`;
+    return `${esc(name)} × ${row.qty}  ·  ${price} TJS`;
   });
-  lines.push('────────────────');
-  lines.push(`Итого ............ ${total} TJS`);
-  if (total < MIN_ORDER_AMOUNT) {
-    lines.push(`\nДобавьте ещё ${MIN_ORDER_AMOUNT - total} TJS, чтобы получить подарок 🎁`);
-  } else {
-    lines.push('\n🎁 Вам доступен подарок!');
-  }
-  return { text: `ВАШ ЗАКАЗ\n\n${lines.join('\n')}`, total };
+  let extra = total < MIN_ORDER_AMOUNT
+    ? `\n🎁 Добавьте ещё ${MIN_ORDER_AMOUNT - total} TJS — и откроется подарок.`
+    : '\n🎁 Вам доступен подарок!';
+  const text = `<b>Ваш заказ · PLOV TG</b>\n\n${lines.join('\n')}\n————————————\n<b>Итого  ${total} TJS</b>${extra}`;
+  return { text, total };
 }
 
 function dishByQuery(dishes, q) {
@@ -98,7 +99,8 @@ async function notifyCustomer(order) {
   try {
     await api('sendMessage', {
       chat_id: chatId,
-      text: statusLib.customerMessage(order)
+      text: statusLib.customerMessage(order),
+      parse_mode: 'HTML'
     });
   } catch (err) {
     console.warn('Telegram customer notify:', err.message);
@@ -106,10 +108,10 @@ async function notifyCustomer(order) {
 }
 
 function orderSummaryText(order, title) {
-  const items = (order.items || []).map((i) => `${i.name_snapshot} × ${i.qty}`).join('\n');
+  const items = (order.items || []).map((i) => `• ${esc(i.name_snapshot)} × ${i.qty}`).join('\n');
   const pay = order.payment_method === 'card' ? '💳 Карта / Alif' : '💵 При получении';
   const type = order.fulfillment === 'pickup' ? '🏠 Самовывоз' : '📍 Доставка';
-  return `${title}\n\n№${order.order_number}\n\n👤 ${order.name}\n📞 ${order.phone}\n\n${items}\n\n💰 ${order.total} TJS\n${pay}\n${type}\n${order.address || ''}\n\n${statusLib.label(order.status)}`;
+  return `<b>${esc(title)}</b>\n\n№${esc(order.order_number)}\n\n👤 ${esc(order.name)}\n📞 ${esc(order.phone)}\n\n${items}\n\n💰 <b>${order.total} TJS</b>\n${pay}\n${type}\n${esc(order.address || '')}\n\n${statusLib.label(order.status)}`;
 }
 
 async function notifyAdmin(order) {
@@ -119,6 +121,7 @@ async function notifyAdmin(order) {
     await api('sendMessage', {
       chat_id: chatId,
       text: orderSummaryText(order, '🔔 НОВЫЙ ЗАКАЗ'),
+      parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: statusLib.withOrderId(statusLib.adminButtons(order.status), order.id)
       }
@@ -177,6 +180,30 @@ async function startBot(store) {
     console.warn('Telegram deleteWebhook:', err.message);
   }
 
+  try {
+    await api('setMyName', { name: 'PLOV TG' });
+    await api('setMyDescription', { description: 'PLOV TG — таджикская кухня в Душанбе. Меню, доставка, бонусный барабан.' });
+    await api('setMyShortDescription', { description: 'Заказ плова, мантов и курутоба внутри Telegram.' });
+    await api('setMyCommands', {
+      commands: [
+        { command: 'start', description: 'Приветствие и меню' },
+        { command: 'menu', description: 'Блюда' },
+        { command: 'cart', description: 'Корзина' },
+        { command: 'orders', description: 'Мои заказы' },
+        { command: 'rewards', description: 'Подарки' },
+        { command: 'help', description: 'Связаться с нами' }
+      ]
+    });
+    const appUrl = miniAppUrl();
+    if (/^https:\/\//i.test(appUrl)) {
+      await api('setChatMenuButton', {
+        menu_button: { type: 'web_app', text: 'Открыть меню', web_app: { url: appUrl } }
+      });
+    }
+  } catch (err) {
+    console.warn('Telegram profile:', err.message);
+  }
+
   let offset = 0;
   let running = true;
 
@@ -209,7 +236,8 @@ async function startBot(store) {
       checkout.delete(chatId);
       await api('sendMessage', {
         chat_id: chatId,
-        text: '🇹🇯 Добро пожаловать в Plov TG!\n\nТаджикская кухня с доставкой.',
+        text: '<b>🇹🇯 Добро пожаловать в PLOV TG</b>\n\nТаджикская кухня с доставкой по Душанбе.\nПлов, манты, курутоб — как на домашнем дастархане.',
+        parse_mode: 'HTML',
         reply_markup: mainKeyboard()
       });
       const web = webAppKeyboard();
@@ -333,7 +361,7 @@ async function startBot(store) {
     if (view.total >= MIN_ORDER_AMOUNT) {
       buttons.unshift([{ text: '🎁 ОТКРЫТЬ ПОДАРОК', callback_data: 'gift' }]);
     }
-    await api('sendMessage', { chat_id: chatId, text: view.text, reply_markup: { inline_keyboard: buttons } });
+    await api('sendMessage', { chat_id: chatId, text: view.text, parse_mode: 'HTML', reply_markup: { inline_keyboard: buttons } });
   }
 
   async function handleCheckoutStep(chatId, text, flow, from, dishes) {
@@ -479,12 +507,13 @@ async function startBot(store) {
       if (flow.payment === 'card') {
         const pay = paymentUrl(orderNumber, total);
         extra = pay
-          ? `\n\nОплатите через Alif: ${pay}`
-          : '\n\nСтраница Alif ещё не подключена. Задайте PAYMENT_PROVIDER_URL — заказ создан и ждёт оплату.';
+          ? `\n\nОплатите через Alif:\n${esc(pay)}`
+          : '\n\nСтраница Alif ещё не подключена. Заказ создан и ждёт оплату.';
       }
       await api('sendMessage', {
         chat_id: chatId,
-        text: `Заказ №${orderNumber}\n\nКлиент: ${flow.name}\nТелефон: ${flow.phone}\nТип: ${flow.fulfillment === 'pickup' ? 'Самовывоз' : 'Доставка'}\n\n${prepared.map((i) => `${i.name_snapshot} × ${i.qty}`).join('\n')}\n\nСумма: ${total} TJS\nСтатус: ${statusLib.label(status)}${extra}`,
+        text: `Заказ <b>№${esc(orderNumber)}</b>\n\n👤 ${esc(flow.name)}\n📞 ${esc(flow.phone)}\n${flow.fulfillment === 'pickup' ? '🏠 Самовывоз' : '📍 Доставка'}\n\n${prepared.map((i) => `• ${esc(i.name_snapshot)} × ${i.qty}`).join('\n')}\n\n💰 <b>${total} TJS</b>\n${statusLib.label(status)}${extra}`,
+        parse_mode: 'HTML',
         reply_markup: mainKeyboard()
       });
       await notifyAdmin(order);
@@ -602,7 +631,7 @@ async function startBot(store) {
         await api('sendMessage', { chat_id: chatId, text: 'Заказ не найден.' });
         return;
       }
-      await api('sendMessage', { chat_id: chatId, text: orderSummaryText(order, `Заказ №${order.order_number}`) });
+      await api('sendMessage', { chat_id: chatId, text: orderSummaryText(order, `Заказ №${order.order_number}`), parse_mode: 'HTML' });
       return;
     }
 

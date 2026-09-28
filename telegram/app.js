@@ -70,8 +70,21 @@ function go(name) {
   state.screen = name;
   document.querySelectorAll('.screen').forEach((el) => el.classList.toggle('is-on', el.id === `screen-${name}`));
   if (name === 'cart') renderCart();
+  if (name === 'checkout') renderCheckoutSummary();
   if (name === 'orders') loadOrders();
   if (name === 'gifts') loadGifts();
+}
+
+function receiptRows() {
+  return state.cart.map((row) => {
+    const d = dishById(row.id);
+    const sum = (d?.price || 0) * row.qty;
+    return `<div class="receipt-row">
+      <img src="${d?.img || ''}" alt="">
+      <div><strong>${d?.name.ru || row.id}</strong><p>× ${row.qty} · ${d?.price || 0} TJS</p></div>
+      <span>${sum} TJS</span>
+    </div>`;
+  }).join('');
 }
 
 function dishById(id) {
@@ -143,16 +156,13 @@ function renderDish(id) {
 function renderCart() {
   const box = document.getElementById('cartBox');
   if (!state.cart.length) {
-    box.innerHTML = '<p>Корзина пуста</p>';
+    box.innerHTML = '<p class="hint">Корзина пуста. Выберите плов, манты или шашлык — и соберите дастархан.</p>';
     document.getElementById('giftHint').textContent = '';
     document.getElementById('giftBtn').hidden = true;
     return;
   }
   const sum = total();
-  box.innerHTML = state.cart.map((row) => {
-    const d = dishById(row.id);
-    return `<div class="line"><span>${d?.name.ru || row.id} × ${row.qty}</span><span>${(d?.price || 0) * row.qty} TJS</span></div>`;
-  }).join('') + `<div class="line"><strong>Итого</strong><strong>${sum} TJS</strong></div>`;
+  box.innerHTML = `${receiptRows()}<div class="receipt-total"><span>Итого</span><strong>${sum} TJS</strong></div>`;
   const hint = document.getElementById('giftHint');
   const giftBtn = document.getElementById('giftBtn');
   if (sum < 100) {
@@ -162,6 +172,19 @@ function renderCart() {
     hint.textContent = '🎁 Вам доступен подарок!';
     giftBtn.hidden = false;
   }
+}
+
+function renderCheckoutSummary() {
+  const sum = total();
+  const box = document.getElementById('checkSummary');
+  const totalEl = document.getElementById('checkTotal');
+  if (totalEl) totalEl.textContent = `${sum} TJS`;
+  if (!box) return;
+  if (!state.cart.length) {
+    box.innerHTML = '<p class="hint">Сначала добавьте блюда в корзину.</p>';
+    return;
+  }
+  box.innerHTML = `${receiptRows()}<div class="receipt-total"><span>Итого</span><strong>${sum} TJS</strong></div>`;
 }
 
 async function loadOrders() {
@@ -268,6 +291,13 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
       lat: state.geo?.lat,
       lng: state.geo?.lng
     }, 'POST');
+    const rows = receiptRows();
+    const sum = data.total || total();
+    document.getElementById('doneTitle').textContent = `Заказ №${data.orderNumber}`;
+    document.getElementById('doneLead').textContent = data.paymentUrl
+      ? 'Откроется страница Alif. Статус заказа станет «оплачен» после подтверждения платежа.'
+      : 'Ресторан получил заказ. Мы напишем в Telegram, когда начнём готовить.';
+    document.getElementById('doneBox').innerHTML = `${rows}<div class="receipt-total"><span>Сумма</span><strong>${sum} TJS</strong></div>`;
     toast(`Заказ №${data.orderNumber}`);
     state.cart = [];
     saveCart();
@@ -277,8 +307,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
     if (data.paymentUrl) {
       tg?.openLink?.(data.paymentUrl) || window.open(data.paymentUrl, '_blank');
     }
-    go('orders');
-    loadOrders();
+    go('done');
   } catch (ex) {
     err.textContent = ex.message || 'Не удалось оформить заказ. Попробуйте ещё раз.';
   }

@@ -8,7 +8,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--black);color:var(--cream);font-family:Manrope,sans-serif;overflow-x:hidden}
 h1,h2{font-family:'Cormorant Garamond',serif;letter-spacing:.08em;margin:.2rem 0 .6rem}
-#app{max-width:480px;margin:0 auto;padding:16px 16px 92px;min-height:100dvh}
+#app{max-width:480px;margin:0 auto;padding:16px 16px 108px;min-height:100dvh}
 .tg-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
 .tg-kicker{letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-size:.68rem;margin:0}
 .tg-icon{position:relative;min-width:44px;min-height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);color:var(--gold-light)}
@@ -56,4 +56,58 @@ h1,h2{font-family:'Cormorant Garamond',serif;letter-spacing:.08em;margin:.2rem 0
 @keyframes sk{to{background-position:-200% 0}}
 #toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);background:#241608;border:1px solid var(--gold);color:var(--gold-light);padding:10px 16px;border-radius:999px;z-index:20}
 .line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(217,181,106,.2)}
-@media (max-width:360px){.tg-grid{grid-template-columns:1fr}}
+.receipt{
+  border:1px solid var(--line);border-radius:20px;padding:14px;
+  background:
+    radial-gradient(120% 80% at 10% 0%, rgba(217,181,106,.16), transparent 50%),
+    linear-gradient(180deg, rgba(42,28,17,.92), rgba(16,11,8,.96));
+  margin-bottom:14px
+}
+.receipt--compact{padding:12px}
+.receipt-row{
+  display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;
+  padding:10px 0;border-bottom:1px solid rgba(217,181,106,.18)
+}
+.receipt-row:last-of-type{border-bottom:0}
+.receipt-row img{width:56px;height:56px;border-radius:12px;object-fit:cover}
+.receipt-row p{margin:2px 0 0;font-size:.78rem;color:var(--gold)}
+.receipt-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:10px;padding-top:10px;border-top:1px dashed rgba(217,181,106,.4)
+}
+.receipt-total strong{color:var(--gold-light);font-size:1.15rem}
+.check-card{
+  border:1px solid var(--line);border-radius:18px;padding:14px 14px 6px;margin:0 0 14px;
+  background:rgba(28,20,13,.4)
+}
+.check-card legend{
+  font-family:'Cormorant Garamond',serif;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);font-size:.78rem;padding:0 6px
+}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 12px}
+.choice-card{
+  position:relative;display:flex;flex-direction:column;gap:2px;min-height:88px;padding:12px;
+  border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);cursor:pointer
+}
+.choice-card input{position:absolute;opacity:0;pointer-events:none}
+.choice-card span{font-size:1.2rem}
+.choice-card strong{font-size:.92rem}
+.choice-card em{font-style:normal;font-size:.72rem;color:var(--gold);opacity:.85}
+.choice-card:has(input:checked){
+  border-color:var(--gold);background:rgba(217,181,106,.12);
+  box-shadow:0 0 0 1px rgba(217,181,106,.35)
+}
+.opt{font-size:.7rem;color:var(--gold);opacity:.7;font-weight:400}
+.check-bar{
+  position:sticky;bottom:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px;border-radius:18px;border:1px solid var(--line);
+  background:rgba(10,8,6,.92);backdrop-filter:blur(10px)
+}
+.check-bar .btn{width:auto;min-width:160px;margin:0}
+.done-card{text-align:center;padding-top:24px}
+.done-card .receipt{text-align:left}
+@media (max-width:360px){
+  .tg-grid,.choice{grid-template-columns:1fr}
+  .check-bar{flex-direction:column;align-items:stretch}
+  .check-bar .btn{width:100%}
+}

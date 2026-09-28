@@ -563,19 +563,18 @@ function openRegistrationOrGreet(){
 }
 
 function initTelegramLinks(){
+  const fallback = 'https://t.me/resstaurantbot';
+  document.querySelectorAll('.js-telegram-link').forEach((el) => {
+    el.href = fallback;
+    el.hidden = false;
+  });
   fetch('/api/config').then((res) => res.json()).then((cfg) => {
-    const url = cfg.telegramBotUrl;
+    const url = cfg.telegramBotUrl || fallback;
     document.querySelectorAll('.js-telegram-link').forEach((el) => {
-      if (!url) {
-        el.hidden = true;
-        return;
-      }
       el.href = url;
       el.hidden = false;
     });
-  }).catch(() => {
-    document.querySelectorAll('.js-telegram-link').forEach((el) => { el.hidden = true; });
-  });
+  }).catch(() => {});
 }
 
 function initRegistration(){

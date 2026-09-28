@@ -6,7 +6,7 @@
 <title>PLOV TG</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/telegram/app.css">
+<link rel="stylesheet" href="/telegram/app.css?v=checkout2">
 </head>
 <body>
 <div id="app">
@@ -37,8 +37,9 @@
 
   <main id="screen-cart" class="screen">
     <button class="back" data-go="home">← Назад</button>
+    <p class="tg-kicker">Дастархан</p>
     <h2>Ваш заказ</h2>
-    <div id="cartBox"></div>
+    <div id="cartBox" class="receipt"></div>
     <p id="giftHint" class="hint"></p>
     <button class="btn btn-ghost" id="giftBtn" hidden>🎁 Открыть подарок</button>
     <button class="btn btn-gold" data-go="checkout">Оформить заказ</button>
@@ -46,27 +47,54 @@
 
   <main id="screen-checkout" class="screen">
     <button class="back" data-go="cart">← Назад</button>
-    <h2>Оформление</h2>
+    <p class="tg-kicker">PLOV TG</p>
+    <h2>Оформление заказа</h2>
+    <p class="tg-lead">Тёплый дастархан — доставка или самовывоз в Душанбе.</p>
+    <div id="checkSummary" class="receipt receipt--compact"></div>
     <form id="checkoutForm" class="tg-form">
-      <label>Имя<input name="name" required minlength="2" autocomplete="name"></label>
-      <label>Телефон<input name="phone" required autocomplete="tel" placeholder="+992..."></label>
-      <p class="tg-label">Получение</p>
-      <div class="row">
-        <label class="chip"><input type="radio" name="fulfillment" value="delivery" checked> 🚚 Доставка</label>
-        <label class="chip"><input type="radio" name="fulfillment" value="pickup"> 🏠 Самовывоз</label>
+      <fieldset class="check-card">
+        <legend>Контакты</legend>
+        <label>Имя<input name="name" required minlength="2" autocomplete="name" placeholder="Мухаммад"></label>
+        <label>Телефон<input name="phone" required autocomplete="tel" placeholder="+992 90 000 0000"></label>
+      </fieldset>
+      <fieldset class="check-card">
+        <legend>Как получить</legend>
+        <div class="choice">
+          <label class="choice-card"><input type="radio" name="fulfillment" value="delivery" checked><span>🚚</span><strong>Доставка</strong><em>По Душанбе</em></label>
+          <label class="choice-card"><input type="radio" name="fulfillment" value="pickup"><span>🏠</span><strong>Самовывоз</strong><em>Рудаки, 25</em></label>
+        </div>
+        <label id="addrWrap">Адрес<input name="address" autocomplete="street-address" placeholder="Улица, дом"></label>
+        <label>Квартира / офис <span class="opt">необязательно</span><input name="apartment" placeholder="кв. 12"></label>
+        <label>Комментарий <span class="opt">необязательно</span><textarea name="comment" rows="2" placeholder="Домофон, без лука…"></textarea></label>
+        <button type="button" class="btn btn-ghost" id="geoBtn">📍 Отправить геолокацию</button>
+      </fieldset>
+      <fieldset class="check-card">
+        <legend>Оплата</legend>
+        <div class="choice">
+          <label class="choice-card"><input type="radio" name="payment" value="cash" checked><span>💵</span><strong>При получении</strong><em>Наличные</em></label>
+          <label class="choice-card"><input type="radio" name="payment" value="card"><span>💳</span><strong>Картой</strong><em>Alif Paylink</em></label>
+        </div>
+      </fieldset>
+      <div class="check-bar">
+        <div>
+          <p class="tg-kicker">К оплате</p>
+          <strong id="checkTotal">0 TJS</strong>
+        </div>
+        <button class="btn btn-gold" type="submit">Подтвердить заказ</button>
       </div>
-      <label id="addrWrap">Адрес<input name="address" autocomplete="street-address"></label>
-      <label>Квартира / офис<input name="apartment"></label>
-      <label>Комментарий<textarea name="comment" rows="2"></textarea></label>
-      <button type="button" class="btn btn-ghost" id="geoBtn">📍 Отправить геолокацию</button>
-      <p class="tg-label">Оплата</p>
-      <div class="row">
-        <label class="chip"><input type="radio" name="payment" value="cash" checked> 💵 При получении</label>
-        <label class="chip"><input type="radio" name="payment" value="card"> 💳 Картой / Alif</label>
-      </div>
-      <button class="btn btn-gold" type="submit">Подтвердить заказ</button>
       <p class="err" id="checkoutErr"></p>
     </form>
+  </main>
+
+  <main id="screen-done" class="screen">
+    <div class="done-card">
+      <p class="tg-kicker">Спасибо</p>
+      <h2 id="doneTitle">Заказ принят</h2>
+      <p id="doneLead" class="tg-lead"></p>
+      <div id="doneBox" class="receipt"></div>
+      <button class="btn btn-gold" data-go="orders">Мои заказы</button>
+      <button class="btn btn-ghost" data-go="home">На главную</button>
+    </div>
   </main>
 
   <main id="screen-orders" class="screen">
