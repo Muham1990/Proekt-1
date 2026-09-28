@@ -208,8 +208,6 @@ function mountTelegramRoutes(app, store, bot, { writeLimit, isName, isPhone, cla
     }
   });
 
-  });
-
   app.post('/api/telegram/receipt', express.json({ limit: '3mb' }), writeLimit, async (req, res) => {
     try {
       const user = readInitUser(req);
