@@ -2017,7 +2017,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   applyI18n();
   initDastarkhanShowcase();
   try {
-    const animMod = await import('./animations.js?v=rosette2');
+    const animMod = await import('./animations.js?v=rosette3');
     animMod.initGsapAnimations();
   } catch (err) {
     console.warn('GSAP не загрузился', err);

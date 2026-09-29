@@ -777,6 +777,30 @@ html.theme-light .table-caption{
 }
 .table-caption.show{ opacity:1; transform:none; }
 
+@media (max-width:700px){
+  .table-perspective{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    justify-items:center;
+    align-items:center;
+    row-gap:14px;
+    width:min(1120px, 100%);
+  }
+  .dish-medallion{
+    grid-column:1 / -1;
+    width:min(92vw, 380px);
+    flex:none;
+  }
+  .dastarkhan-frame{ width:82%; }
+  .dish-nav{
+    position:static; transform:none; top:auto; left:auto; right:auto;
+    width:46px; height:46px;
+  }
+  .dish-nav svg{ width:18px; height:18px; }
+  .dish-nav:hover{ transform:scale(1.05); }
+  .dish-nav:active{ transform:scale(.96); }
+}
+
 .table-wheel{
   position:relative; width:min(820px,88vw); height:min(820px,88vw); transform-style:preserve-3d; will-change:transform;
   transition:transform .05s linear;
