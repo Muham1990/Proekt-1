@@ -20,8 +20,8 @@ export function initGsapAnimations() {
       .from('.home-hero__actions', { y: 14, opacity: 0, duration: 0.45 }, '<0.08')
       .from('.home-hero__next', { y: 10, opacity: 0, duration: 0.4 }, '<0.12');
 
-    gsap.fromTo('.home-hero__photo', { scale: 1.12, y: 18 }, {
-      scale: 1.04, y: 0, duration: 1.8, ease: 'power3.out'
+    gsap.fromTo('.home-hero__photo', { scale: 1.03 }, {
+      scale: 1, duration: 1.4, ease: 'power2.out'
     });
 
     gsap.from('.table-hero .eyebrow, .table-hero h2, .table-hero__lead', {

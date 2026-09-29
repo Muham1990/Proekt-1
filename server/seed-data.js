@@ -81,7 +81,7 @@ const DISHES = [
       en: 'The secret is a marinade of onion, cumin and pomegranate juice, grilled on walnut or cherry coals.',
       tj: 'Сирри шашлик дар маринад аз пиёз, зира ва шарбати анор аст.'
     },
-    img: IMG('resto-navruz.jpg')
+    img: IMG('dishes/shashlik.png')
   },
   {
     id: 'kabob', cat: 'grill', angle: -32, price: 110, cal: 470,
@@ -101,7 +101,7 @@ const DISHES = [
       en: 'Kabob was born in the Tajik mountains: minced meat grilled quickly for 10–15 minutes.',
       tj: 'Кабоб дар кӯҳҳои Тоҷикистон таваллуд шудааст ва тез дар ангишт пухта мешавад.'
     },
-    img: IMG('resto-vip.jpg')
+    img: IMG('dishes/kabob.png')
   },
   {
     id: 'samsa', cat: 'bakery', angle: 0, price: 25, cal: 310,
@@ -141,7 +141,7 @@ const DISHES = [
       en: 'Oshi tugrama is a northern Tajik soup. In Khujand a pinch of saffron is added.',
       tj: 'Оши туграма шӯрбои шимоли Тоҷикистон аст. Дар Хуҷанд заъфарон мегузоранд.'
     },
-    img: IMG('resto-interior.jpg')
+    img: IMG('dishes/oshi-tugrama.png')
   },
   {
     id: 'fatir', cat: 'bakery', angle: 64, price: 20, cal: 260,
@@ -161,7 +161,7 @@ const DISHES = [
       en: 'Nomadic tribes baked fatir because it stayed fresh. In the old days it was made on Fridays.',
       tj: 'Фатирро қабоилаи кӯчманчӣ мепухт — он дер хушк намешуд.'
     },
-    img: IMG('rewards/sambusa.png')
+    img: IMG('dishes/fatir.png')
   },
   {
     id: 'halisa', cat: 'dessert', angle: 96, price: 35, cal: 410, icon: 'dessert',
@@ -181,7 +181,7 @@ const DISHES = [
       en: 'Halisa is cooked on the night before Navruz and stands for the sweetness of the new year.',
       tj: 'Ҳалисаро шаб пеш аз Наврӯз омода мекунанд — рамзи ширинии соли нав.'
     },
-    img: IMG('rewards/dessert.png')
+    img: IMG('dishes/halisa.png')
   },
   {
     id: 'chakka', cat: 'drink', angle: 128, price: 18, cal: 90,
@@ -201,7 +201,7 @@ const DISHES = [
       en: 'Chakka is Pamir heritage. In GBAO it is made from yak milk. Elders say daily chakka brings a hundred years of life.',
       tj: 'Чакка мероси Помир аст. Дар ВМКБ онро аз шири як месозанд.'
     },
-    img: IMG('rewards/dugob.png')
+    img: IMG('dishes/chakka.png')
   },
   {
     id: 'shirchoy', cat: 'drink', angle: 160, price: 22, cal: 140, icon: 'tea',
@@ -261,7 +261,7 @@ const DISHES = [
       en: 'Shurpa simmers for hours in a kazan and is served first so the guest warms up before plov.',
       tj: 'Шӯрбо дар дег соатҳо ҷӯшонида мешавад ва аввал пешкаш мегардад.'
     },
-    img: IMG('resto-dastarkhan.jpg')
+    img: IMG('dishes/shurpa.png')
   },
   {
     id: 'lagman', cat: 'soup', angle: 256, price: 68, cal: 360,
@@ -281,7 +281,7 @@ const DISHES = [
       en: 'Lagman travelled the Silk Road. In Khujand the dough is pulled by hand — that is the soul of the dish.',
       tj: 'Лағмон тавассути Роҳи Абрешим омадааст. Дар Хуҷанд хамирро бо даст мекашанд.'
     },
-    img: IMG('resto-interior.jpg')
+    img: IMG('dishes/lagman.png')
   },
   {
     id: 'mastava', cat: 'soup', angle: 288, price: 58, cal: 310,
@@ -301,7 +301,7 @@ const DISHES = [
       en: 'Mastava is “plov that became soup”, cooked when rice was scarce and guests were many.',
       tj: 'Мастоба — оши палове, ки шӯрбо шуд. Вақте биринҷ кам ва меҳмон зиёд буд, мепухтанд.'
     },
-    img: IMG('resto-ceiling.jpg')
+    img: IMG('dishes/mastava.png')
   },
   {
     id: 'dimlama', cat: 'main', angle: 320, price: 95, cal: 430,
@@ -321,7 +321,7 @@ const DISHES = [
       en: 'Dimlama is never stirred: each layer feeds the next. Village cooks left it for the whole day.',
       tj: 'Димламаро намеомезанд: ҳар қабат ба қабати баъдӣ таъм медиҳад.'
     },
-    img: IMG('resto-vip.jpg')
+    img: IMG('dishes/dimlama.png')
   },
   {
     id: 'jiz', cat: 'grill', angle: 352, price: 155, cal: 560,
@@ -341,7 +341,7 @@ const DISHES = [
       en: 'Jiz is mountain shepherds’ food. It is eaten hot with onion and fresh non — no sauces.',
       tj: 'Ҷиз хӯроки кӯҳистон ва чӯпонон аст. Онро гарм бо пиёз ва нони тару тоза мехӯранд.'
     },
-    img: IMG('resto-navruz.jpg')
+    img: IMG('dishes/jiz.png')
   },
   {
     id: 'naryn', cat: 'main', angle: 384, price: 80, cal: 390,
@@ -361,7 +361,7 @@ const DISHES = [
       en: 'Naryn is sliced very thin — the cook’s skill shows in the ribbon. A northern feast dish.',
       tj: 'Норинро хеле тунук мебуранд — ҳунари ошпаз аз паҳнои лента дида мешавад.'
     },
-    img: IMG('resto-dastarkhan.jpg')
+    img: IMG('dishes/naryn.png')
   },
   {
     id: 'nisholda', cat: 'dessert', angle: 416, price: 28, cal: 220, icon: 'dessert',
@@ -381,7 +381,7 @@ const DISHES = [
       en: 'Nisholda is whisked for hours before Navruz. The white peak on the table wishes a bright year.',
       tj: 'Нишолдаро пеш аз Наврӯз соатҳо мезананд. Куллаи сафед орзуи соли равшан аст.'
     },
-    img: IMG('rewards/dessert.png')
+    img: IMG('dishes/nisholda.png')
   },
   {
     id: 'sumalak', cat: 'dessert', angle: 448, price: 32, cal: 240, icon: 'dessert',
@@ -401,7 +401,7 @@ const DISHES = [
       en: 'Sumalak is cooked all night together, with songs. Whoever stirs the pot is promised a sweet year.',
       tj: 'Сумалакро шаб то субҳ бо суруд мепазанд. Касе дегро омезад, солаш ширин мешавад.'
     },
-    img: IMG('resto-navruz.jpg')
+    img: IMG('dishes/sumalak.png')
   },
   {
     id: 'non', cat: 'bakery', angle: 480, price: 12, cal: 210,
@@ -421,7 +421,7 @@ const DISHES = [
       en: 'Non is not cut with a knife and never laid face-down — bread is treated with respect.',
       tj: 'Нони тоҷикиро бо корд намебуранд ва рӯйро поён намегузоранд — эҳтироми нон бузург аст.'
     },
-    img: IMG('rewards/sambusa.png')
+    img: IMG('dishes/non.png')
   },
   {
     id: 'kompot', cat: 'drink', angle: 512, price: 16, cal: 90,
@@ -441,7 +441,7 @@ const DISHES = [
       en: 'Kompot is served instead of soda. Pamir and Khujand dried fruit give sweetness without sharpness.',
       tj: 'Компотро ба ҷои нӯшокии газдор мегузоранд. Меваи хушки Помиру Хуҷанд ширинии нарм медиҳад.'
     },
-    img: IMG('rewards/tea.png')
+    img: IMG('dishes/kompot.png')
   }
 ];
 
