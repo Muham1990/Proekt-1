@@ -6,7 +6,7 @@
 <title>PLOV TG</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/telegram/app.css?v=design-fix1">
+<link rel="stylesheet" href="/telegram/app.css?v=contact2">
 </head>
 <body>
 <div id="app">
@@ -136,15 +136,16 @@
     <h2>Связаться с нами</h2>
     <div class="contact-card">
       <p class="tg-kicker">Телефон</p>
-      <a class="contact-phone" href="tel:+992301155445">+992 30 11 55 45</a>
+      <button type="button" class="contact-phone" id="tgPhoneBtn">+992 30 11 55 45</button>
       <p class="tg-kicker">Адрес</p>
       <p>Душанбе, проспект Рудаки, 25</p>
       <p class="tg-kicker">Часы</p>
       <p>10:00 — 24:00, ежедневно</p>
     </div>
-    <a class="btn btn-gold" id="tgWriteBtn" href="https://t.me/resstaurantbot" target="_blank" rel="noopener">✍️ Написать в Telegram</a>
-    <a class="btn btn-ghost" id="tgMapBtn" href="https://maps.google.com/?q=Dushanbe,+Rudaki+Avenue+25" target="_blank" rel="noopener">📍 Открыть карту</a>
-    <a class="btn btn-ghost" href="tel:+992301155445">📞 Позвонить</a>
+    <button type="button" class="btn btn-gold" id="tgWriteBtn">Написать нам</button>
+    <button type="button" class="btn btn-ghost" id="tgMapBtn">Открыть карту</button>
+    <button type="button" class="btn btn-ghost" id="tgCallBtn">Скопировать телефон</button>
+    <button type="button" class="btn btn-ghost" id="tgSiteBtn">Сайт и контакты</button>
   </main>
 
   <nav class="tg-nav">
@@ -156,6 +157,6 @@
   </nav>
 </div>
 <div id="toast" hidden></div>
-<script src="/telegram/app.js?v=design-fix1"></script>
+<script src="/telegram/app.js?v=contact2"></script>
 </body>
 </html>

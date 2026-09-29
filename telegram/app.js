@@ -378,14 +378,38 @@ function openHttp(url) {
   else window.open(url, '_blank', 'noopener');
 }
 
+async function copyPhone() {
+  const num = '+992301155445';
+  try {
+    await navigator.clipboard.writeText(num);
+    toast('Номер скопирован: +992 30 11 55 45');
+  } catch {
+    toast('+992 30 11 55 45');
+  }
+}
+
 document.getElementById('tgWriteBtn')?.addEventListener('click', (e) => {
   e.preventDefault();
-  const href = e.currentTarget.getAttribute('href');
-  if (window.Telegram?.WebApp?.openTelegramLink) window.Telegram.WebApp.openTelegramLink(href);
-  else openHttp(href);
+  if (tg?.close) tg.close();
+  else openHttp('https://t.me/resstaurantbot');
 });
 
 document.getElementById('tgMapBtn')?.addEventListener('click', (e) => {
   e.preventDefault();
-  openHttp(e.currentTarget.getAttribute('href'));
+  openHttp('https://maps.google.com/?q=Dushanbe,+Rudaki+Avenue+25');
+});
+
+document.getElementById('tgPhoneBtn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  copyPhone();
+});
+
+document.getElementById('tgCallBtn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  copyPhone();
+});
+
+document.getElementById('tgSiteBtn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  openHttp('https://resstaurant.pp.ua/#contacts');
 });

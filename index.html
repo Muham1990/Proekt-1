@@ -20,7 +20,7 @@
 {"@context":"https://schema.org","@type":"Restaurant","name":"PLOV TG","address":{"@type":"PostalAddress","streetAddress":"проспект Рудаки, 25","addressLocality":"Душанбе","addressCountry":"TJ"},"telephone":"+992301155445","servesCuisine":"Tajik","url":"https://web-production-d58c8.up.railway.app/"}
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=nav-dishes1">
+<link rel="stylesheet" href="style.css?v=rosette2">
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="skip_content">Перейти к основному содержимому</a>
@@ -174,14 +174,119 @@
     <div class="table-stage__intro table-hero">
       <p class="eyebrow" data-i18n="table_eyebrow">Наш дастархан</p>
       <h2 data-i18n="table_title">Блюда таджикской кухни</h2>
+      <span class="table-hero__divider" aria-hidden="true">
+        <svg viewBox="0 0 220 18" width="220" height="18" fill="none">
+          <path d="M8 9h78" stroke="currentColor" stroke-width=".7" opacity=".7"/>
+          <path d="M110 3.2l4.2 4.8-4.2 4.8-4.2-4.8z" stroke="currentColor" stroke-width=".75"/>
+          <circle cx="110" cy="8" r="1.15" fill="currentColor"/>
+          <path d="M134 9h78" stroke="currentColor" stroke-width=".7" opacity=".7"/>
+        </svg>
+      </span>
+      <p class="dish-indicator" id="dishIndicator" aria-live="polite">01 / 12</p>
       <p class="table-hero__lead" data-i18n="table_hint">Стрелки переключают блюда. Нажмите фото, чтобы узнать историю.</p>
     </div>
     <div class="table-perspective dastarkhan-photo" id="tablePerspective" tabindex="0" role="region" aria-roledescription="carousel" data-i18n-aria="table_title">
-      <figure class="dastarkhan-frame">
-        <img id="dastarkhanPhoto" class="dastarkhan-frame__img is-front" src="/images/rewards/plov.png" alt="Плов" width="720" height="720">
-        <img id="dastarkhanPhotoB" class="dastarkhan-frame__img" src="/images/rewards/manti.png" alt="" width="720" height="720" aria-hidden="true">
-        <span class="dastarkhan-frame__ring" aria-hidden="true"></span>
-      </figure>
+      <div class="dish-medallion" id="dishMedallion">
+        <span class="dish-medallion__glow" aria-hidden="true"></span>
+        <svg class="dish-rosette" id="dishRosette" viewBox="0 0 400 400" fill="none" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="dishRosetteGold" x1="70" y1="36" x2="330" y2="364" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#5a4322"/>
+              <stop offset=".34" stop-color="#c4a36a"/>
+              <stop offset=".52" stop-color="#e4d2aa"/>
+              <stop offset="1" stop-color="#5a4322"/>
+            </linearGradient>
+          </defs>
+          <circle cx="200" cy="200" r="197.2" stroke="url(#dishRosetteGold)" stroke-width=".7" opacity=".62"/>
+          <circle cx="200" cy="200" r="191.6" stroke="currentColor" stroke-width=".35" opacity=".38"/>
+          <g stroke="url(#dishRosetteGold)" stroke-linecap="round" stroke-linejoin="round">
+            <g>
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#3a1418" stroke="none" opacity=".42"/>
+            </g>
+            <g transform="rotate(45 200 200)">
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#15241c" stroke="none" opacity=".4"/>
+            </g>
+            <g transform="rotate(90 200 200)">
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#3a1418" stroke="none" opacity=".42"/>
+            </g>
+            <g transform="rotate(135 200 200)">
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#15241c" stroke="none" opacity=".4"/>
+            </g>
+            <g transform="rotate(180 200 200)">
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#3a1418" stroke="none" opacity=".42"/>
+            </g>
+            <g transform="rotate(225 200 200)">
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#15241c" stroke="none" opacity=".4"/>
+            </g>
+            <g transform="rotate(270 200 200)">
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#3a1418" stroke="none" opacity=".42"/>
+            </g>
+            <g transform="rotate(315 200 200)">
+              <path d="M200 5.8v6.2" stroke-width=".65" opacity=".8"/>
+              <path d="M200 13.2l7.2 10.2-7.2 10.2-7.2-10.2z" stroke-width=".85"/>
+              <path d="M200 18.4l3.4 5-3.4 5-3.4-5z" stroke-width=".5" opacity=".72"/>
+              <path d="M189.5 26.2q10.5-9.2 21 0" stroke-width=".45" opacity=".5"/>
+              <circle cx="200" cy="23.4" r="1.15" fill="#15241c" stroke="none" opacity=".4"/>
+            </g>
+          </g>
+          <g fill="url(#dishRosetteGold)" stroke="none">
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(22.5 200 200)"/>
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(67.5 200 200)"/>
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(112.5 200 200)"/>
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(157.5 200 200)"/>
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(202.5 200 200)"/>
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(247.5 200 200)"/>
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(292.5 200 200)"/>
+            <circle cx="200" cy="9.4" r="1.15" transform="rotate(337.5 200 200)"/>
+          </g>
+          <g stroke="url(#dishRosetteGold)" fill="none" stroke-width=".55" opacity=".72">
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(22.5 200 200)"/>
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(67.5 200 200)"/>
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(112.5 200 200)"/>
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(157.5 200 200)"/>
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(202.5 200 200)"/>
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(247.5 200 200)"/>
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(292.5 200 200)"/>
+            <path d="M200 16.2l1.35 3.5 3.7.4-2.85 2.45.9 3.6L200 24.4l-3.1 1.75.9-3.6-2.85-2.45 3.7-.4z" transform="rotate(337.5 200 200)"/>
+          </g>
+          <circle cx="200" cy="200" r="167.2" stroke="url(#dishRosetteGold)" stroke-width="1.15" opacity=".82"/>
+          <circle cx="200" cy="200" r="163.6" stroke="currentColor" stroke-width=".4" opacity=".34"/>
+        </svg>
+        <figure class="dastarkhan-frame">
+          <img id="dastarkhanPhoto" class="dastarkhan-frame__img is-front" src="/images/rewards/plov.png" alt="Плов" width="720" height="720">
+          <img id="dastarkhanPhotoB" class="dastarkhan-frame__img" src="/images/rewards/manti.png" alt="" width="720" height="720" aria-hidden="true">
+          <span class="dastarkhan-frame__ring" aria-hidden="true"></span>
+          <span class="dastarkhan-frame__hint" aria-hidden="true">Узнать историю</span>
+        </figure>
+      </div>
       <button type="button" class="dish-nav dish-nav--prev" id="dishPrev" data-i18n-aria="dish_prev" aria-label="Предыдущее блюдо">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
       </button>
@@ -190,7 +295,6 @@
       </button>
     </div>
     <div class="dish-meta">
-      <p class="dish-indicator" id="dishIndicator" aria-live="polite">01 / 12</p>
       <div class="table-caption show" id="tableCaption" aria-live="polite"></div>
       <button type="button" class="btn btn--gold" id="dastarkhanAddBtn" data-i18n="add_cart">В корзину</button>
     </div>
@@ -688,7 +792,7 @@
 }
 </script>
 <script src="api.js"></script>
-<script src="script.js?v=nav-dishes1"></script>
+<script src="script.js?v=rosette2"></script>
 <script type="module" src="rewards.js?v=bonus-wheel1"></script>
 </body>
 </html>

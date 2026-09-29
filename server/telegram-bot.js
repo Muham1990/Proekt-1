@@ -3,7 +3,7 @@
 const { MIN_ORDER_AMOUNT, selectReward } = require('./reward-config');
 const { prepareItems, todayStamp } = require('./place-order');
 const statusLib = require('./order-status');
-const { miniAppUrl, publicSiteUrl, botLink } = require('./telegram-auth');
+const { miniAppUrl, publicSiteUrl } = require('./telegram-auth');
 const crypto = require('node:crypto');
 
 const PHONE = '+992301155445';
@@ -38,26 +38,40 @@ function esc(s) {
   return String(s || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 }
 
+function isAdminChat(chatId) {
+  const id = adminChatId();
+  return Boolean(id) && String(chatId) === id;
+}
+
+function isContactRequest(text) {
+  const raw = String(text || '').replace(/[\uFE0F\uFE0E]/g, '');
+  if (raw === '/help') return true;
+  const folded = raw.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+  return folded.includes('связаться') || folded === 'help' || folded.includes('contact us');
+}
+
 function contactKeyboard() {
-  const write = botLink() || 'https://t.me/resstaurantbot';
   const site = publicSiteUrl();
   return {
     inline_keyboard: [
-      [{ text: '✍️ Написать нам', url: write }],
-      [{ text: '🌐 Сайт ресторана', url: site }],
+      [{ text: '🌐 Сайт и контакты', url: `${site}/#contacts` }],
       [{ text: '📍 Открыть карту', url: 'https://maps.google.com/?q=Dushanbe,+Rudaki+Avenue+25' }]
     ]
   };
 }
 
-function mainKeyboard() {
+function mainKeyboard(chatId) {
+  const rows = [
+    [{ text: '🍽 Меню' }, { text: '🛒 Моя корзина' }],
+    [{ text: '📦 Мои заказы' }, { text: '🎁 Мои подарки' }],
+    [{ text: '📍 Доставка' }, { text: '📞 Связаться с нами' }],
+    [{ text: '🖥 Открыть приложение' }]
+  ];
+  if (isAdminChat(chatId)) {
+    rows.push([{ text: '📋 Админка' }]);
+  }
   return {
-    keyboard: [
-      [{ text: '🍽 Меню' }, { text: '🛒 Моя корзина' }],
-      [{ text: '📦 Мои заказы' }, { text: '🎁 Мои подарки' }],
-      [{ text: '📍 Доставка' }, { text: '📞 Связаться с нами' }],
-      [{ text: '🖥 Открыть приложение' }]
-    ],
+    keyboard: rows,
     resize_keyboard: true
   };
 }
@@ -281,7 +295,7 @@ async function startBot(store) {
           await api('sendMessage', {
             chat_id: chatId,
             text: `Чек по заказу №${pending.order_number} отправлен. Ресторан проверит оплату.`,
-            reply_markup: mainKeyboard()
+            reply_markup: mainKeyboard(chatId)
           });
         } else {
           await api('sendMessage', { chat_id: chatId, text: 'Не удалось отправить чек. Попробуйте ещё раз.' });
@@ -307,7 +321,7 @@ async function startBot(store) {
         chat_id: chatId,
         text: '<b>PLOV TG</b>\n<i>Дастархан в Душанбе</i>\n\nПлов · манты · курутоб\nДоставка и самовывоз · 10:00–24:00\n\nСоберите стол ниже или откройте приложение.',
         parse_mode: 'HTML',
-        reply_markup: mainKeyboard()
+        reply_markup: mainKeyboard(chatId)
       });
       const web = webAppKeyboard();
       if (web) {
@@ -320,13 +334,54 @@ async function startBot(store) {
       return;
     }
 
-    if (text === '/help' || text === '📞 Связаться с нами') {
+    if (text === '/admin' || text === '📋 Админка') {
+      if (!isAdminChat(chatId)) {
+        await api('sendMessage', { chat_id: chatId, text: 'Эта команда только для персонала.' });
+        return;
+      }
+      const site = publicSiteUrl();
+      const adminUrl = `${site}/admin.html`;
+      let lines = `<b>Панель персонала PLOV TG</b>\n\nЗаказы, брони и гости:\n${esc(adminUrl)}`;
+      try {
+        const orders = await store.listOrders();
+        const recent = (orders || []).slice(0, 6);
+        if (recent.length) {
+          lines += '\n\n<b>Последние заказы</b>';
+          for (const o of recent) {
+            lines += `\n• №${esc(o.order_number)} · ${esc(o.name || 'Гость')} · ${esc(o.phone || '—')} · ${o.total} TJS · ${esc(statusLib.label(o.status))}`;
+          }
+        } else {
+          lines += '\n\nЗаказов пока нет.';
+        }
+      } catch (err) {
+        console.warn('admin orders:', err.message);
+      }
       await api('sendMessage', {
         chat_id: chatId,
         parse_mode: 'HTML',
-        text: `<b>Связаться с нами</b>\n\n📞 ${PHONE}\n📍 ${esc(ADDRESS)}\n🕰 ${esc(HOURS)}\n\nНажмите номер, чтобы позвонить. Написать или открыть карту — кнопки ниже.`,
+        text: lines,
+        reply_markup: { inline_keyboard: [[{ text: '📋 Открыть админку', url: adminUrl }]] }
+      });
+      return;
+    }
+
+    if (text === '/help' || isContactRequest(text)) {
+      await api('sendMessage', {
+        chat_id: chatId,
+        parse_mode: 'HTML',
+        text: `<b>Связаться с нами</b>\n\n📞 ${PHONE}\n📍 ${esc(ADDRESS)}\n🕰 ${esc(HOURS)}\n\nНапишите сообщение в этот чат — мы ответим. Чтобы позвонить, нажмите карточку контакта ниже.`,
         reply_markup: contactKeyboard()
       });
+      try {
+        await api('sendContact', {
+          chat_id: chatId,
+          phone_number: PHONE,
+          first_name: 'PLOV TG',
+          last_name: 'Ресторан'
+        });
+      } catch (err) {
+        console.warn('sendContact:', err.message);
+      }
       return;
     }
 
@@ -416,7 +471,7 @@ async function startBot(store) {
     await api('sendMessage', {
       chat_id: chatId,
       text: 'Напишите название блюда или откройте меню кнопками.',
-      reply_markup: mainKeyboard()
+      reply_markup: mainKeyboard(chatId)
     });
   }
 
@@ -424,7 +479,7 @@ async function startBot(store) {
     const cart = cartOf(chatId);
     const view = formatCart(cart.items, dishes);
     if (typeof view === 'string') {
-      await api('sendMessage', { chat_id: chatId, text: view, reply_markup: mainKeyboard() });
+      await api('sendMessage', { chat_id: chatId, text: view, reply_markup: mainKeyboard(chatId) });
       return;
     }
     const buttons = [[{ text: 'ОФОРМИТЬ ЗАКАЗ', callback_data: 'checkout' }]];
@@ -437,7 +492,7 @@ async function startBot(store) {
   async function handleCheckoutStep(chatId, text, flow, from, dishes) {
     if (text === 'Отмена') {
       checkout.delete(chatId);
-      await api('sendMessage', { chat_id: chatId, text: 'Оформление отменено.', reply_markup: mainKeyboard() });
+      await api('sendMessage', { chat_id: chatId, text: 'Оформление отменено.', reply_markup: mainKeyboard(chatId) });
       return;
     }
     if (flow.step === 'name') {
@@ -581,14 +636,14 @@ async function startBot(store) {
         chat_id: chatId,
         text: `Заказ <b>№${esc(orderNumber)}</b>\n\n👤 ${esc(flow.name)}\n📞 ${esc(flow.phone)}\n${flow.fulfillment === 'pickup' ? '🏠 Самовывоз' : '📍 Доставка'}\n\n${prepared.map((i) => `• ${esc(i.name_snapshot)} × ${i.qty}`).join('\n')}\n\n💰 <b>${total} TJS</b>\n${statusLib.label(status)}${extra}`,
         parse_mode: 'HTML',
-        reply_markup: mainKeyboard()
+        reply_markup: mainKeyboard(chatId)
       });
       await notifyAdmin(order);
     } catch (err) {
       await api('sendMessage', {
         chat_id: chatId,
         text: err.message || 'Не удалось оформить заказ. Попробуйте ещё раз.',
-        reply_markup: mainKeyboard()
+        reply_markup: mainKeyboard(chatId)
       });
     }
   }

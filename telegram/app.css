@@ -123,8 +123,9 @@ h1,h2{font-family:'Cormorant Garamond',serif;letter-spacing:.08em;margin:.2rem 0
 }
 .contact-card .tg-kicker{margin:10px 0 4px}
 .contact-phone{
-  display:block;font-family:'Cormorant Garamond',serif;font-size:1.45rem;
-  color:var(--gold-light);letter-spacing:.04em;margin:0 0 8px
+  display:block;width:100%;margin:0 0 8px;padding:0;border:0;background:none;
+  font-family:'Cormorant Garamond',serif;font-size:1.45rem;text-align:left;
+  color:var(--gold-light);letter-spacing:.04em;cursor:pointer;
 }
 .tg-tile{
   background:

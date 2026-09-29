@@ -24,16 +24,16 @@ export function initGsapAnimations() {
       scale: 1, duration: 1.4, ease: 'power2.out'
     });
 
-    gsap.from('.table-hero .eyebrow, .table-hero h2, .table-hero__lead', {
+    gsap.from('.table-hero .eyebrow, .table-hero h2, .table-hero__divider, .table-hero .dish-indicator, .table-hero__lead', {
       y: 18, opacity: 0, stagger: 0.08, duration: 0.55, ease: 'power3.out',
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 78%' }
     });
-    gsap.from('.dastarkhan-frame', {
-      scale: 0.96, duration: 0.7, ease: 'power3.out',
+    gsap.from('.dish-medallion', {
+      scale: 0.98, duration: 0.7, ease: 'power3.out',
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 78%' }
     });
     gsap.from('.dish-nav', {
-      scale: 0.88, duration: 0.45, stagger: 0.08, ease: 'back.out(1.6)',
+      scale: 0.88, duration: 0.45, stagger: 0.08, ease: 'power2.out',
       scrollTrigger: { trigger: '#dastarkhan', start: 'top 70%' }
     });
     gsap.from('.dish-meta', {

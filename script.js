@@ -1084,7 +1084,6 @@ function initDastarkhanShowcase(){
     if (indicator) indicator.textContent = `${pad(index + 1)} / ${pad(list.length)}`;
     if (caption) {
       caption.innerHTML = `
-        <p class="table-caption__num">${pad(index + 1)}</p>
         <strong>${escapeHtml(name)}</strong>
         <span class="table-caption__desc">${escapeHtml(desc)}</span>
         <span class="table-caption__price">${d.price} ${dict.unit}</span>
@@ -1138,9 +1137,23 @@ function initDastarkhanShowcase(){
     show(slides()[index], true);
   }
 
+  function spinRosette(dir){
+    const medal = document.getElementById('dishMedallion');
+    if (!medal || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    medal.classList.remove('is-turn-next', 'is-turn-prev');
+    void medal.offsetWidth;
+    medal.classList.add(dir > 0 ? 'is-turn-next' : 'is-turn-prev');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        medal.classList.remove('is-turn-next', 'is-turn-prev');
+      });
+    });
+  }
+
   function go(dir){
     const list = slides();
     if (!list.length) return;
+    spinRosette(dir);
     index = (index + dir + list.length) % list.length;
     show(list[index], false);
   }
@@ -1153,6 +1166,7 @@ function initDastarkhanShowcase(){
   });
   wrap.addEventListener('click', (e) => {
     if (e.target.closest('.dish-nav')) return;
+    if (!e.target.closest('.dastarkhan-frame')) return;
     const d = slides()[index];
     if (d) openDishHistoryModal(d.id);
   });
@@ -2003,7 +2017,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   applyI18n();
   initDastarkhanShowcase();
   try {
-    const animMod = await import('./animations.js?v=nav-dishes1');
+    const animMod = await import('./animations.js?v=rosette2');
     animMod.initGsapAnimations();
   } catch (err) {
     console.warn('GSAP не загрузился', err);
